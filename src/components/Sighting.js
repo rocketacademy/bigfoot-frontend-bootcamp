@@ -1,31 +1,53 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 
-const Sighting = ({ sightingIndex }) => {
-  const [sighting, setSighting] = useState({});
+import { BACKEND_URL } from "../constants.js";
+
+const Sighting = () => {
+  const [sightingIndex, setSightingIndex] = useState();
+  const [sighting, setSighting] = useState();
 
   useEffect(() => {
-    console.log(sightingIndex);
-    axios.get(`http://localhost:3000/${sightingIndex}`).then((response) => {
-      setSighting(response.data);
-    });
-  }, [sighting, sightingIndex]);
+    // If there is a sightingIndex, retrieve the sighting data
+    if (sightingIndex) {
+      axios.get(`${BACKEND_URL}/${sightingIndex}`).then((response) => {
+        setSighting(response.data);
+      });
+    }
+    // Only run this effect on change to sightingIndex
+  }, [sightingIndex]);
 
+  // Update sighting index in state if needed to trigger data retrieval
+  const params = useParams();
+  if (sightingIndex !== params.sightingIndex) {
+    setSightingIndex(params.sightingIndex);
+  }
+
+  // Store a new JSX element for each property in sighting details
   const sightingDetails = [];
-  for (const key in sighting) {
-    sightingDetails.push(<p>{`${key}: ${sighting[key]}`}</p>);
+  if (sighting) {
+    for (const key in sighting) {
+      sightingDetails.push(
+        <Card.Text key={key}>{`${key}: ${sighting[key]}`}</Card.Text>
+      );
+    }
   }
 
   return (
-    <Card bg="dark">
-      <Card.Body>
-        <Card.Title>
-          {`${this.props.data.YEAR} ${this.props.data.SEASON} ${this.props.data.MONTH}`}
-        </Card.Title>
-        <Card.Text>{sightingDetails}</Card.Text>
-      </Card.Body>
-    </Card>
+    <div>
+      <Link to="/">Home</Link>
+      <Card bg="dark">
+        <Card.Body>
+          <Card.Title>
+            {sighting &&
+              `${sighting.YEAR} ${sighting.SEASON} ${sighting.MONTH}`}
+          </Card.Title>
+          {sightingDetails}
+        </Card.Body>
+      </Card>
+    </div>
   );
 };
 
