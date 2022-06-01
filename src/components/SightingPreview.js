@@ -9,7 +9,6 @@ class SightingPreview extends React.Component {
           <Card.Title>
             {`${this.props.data.YEAR} ${this.props.data.SEASON} ${this.props.data.MONTH}`}
           </Card.Title>
-          <Card.Text>{this.props.data.OBSERVED}</Card.Text>
         </Card.Body>
       </Card>
     );
