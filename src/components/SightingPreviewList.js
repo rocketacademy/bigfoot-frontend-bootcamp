@@ -15,8 +15,8 @@ const SightingPreviewList = () => {
     // Only run this effect on component mount
   }, []);
 
-  const sightingPreviews = sightings.map((sighting, index) => (
-    <Link to={`/${index}`} key={index}>
+  const sightingPreviews = sightings.map((sighting) => (
+    <Link to={`/${sighting.id}`} key={sighting.id}>
       <SightingPreview data={sighting} />
     </Link>
   ));

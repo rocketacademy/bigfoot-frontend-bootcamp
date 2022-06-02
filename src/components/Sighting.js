@@ -39,13 +39,7 @@ const Sighting = () => {
     <div>
       <Link to="/">Home</Link>
       <Card bg="dark">
-        <Card.Body>
-          <Card.Title>
-            {sighting &&
-              `${sighting.YEAR} ${sighting.SEASON} ${sighting.MONTH}`}
-          </Card.Title>
-          {sightingDetails}
-        </Card.Body>
+        <Card.Body>{sightingDetails}</Card.Body>
       </Card>
     </div>
   );

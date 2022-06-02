@@ -6,9 +6,9 @@ class SightingPreview extends React.Component {
     return (
       <Card bg="dark">
         <Card.Body>
-          <Card.Title>
-            {`${this.props.data.YEAR} ${this.props.data.SEASON} ${this.props.data.MONTH}`}
-          </Card.Title>
+          <Card.Title>{`${new Date(this.props.data.date).toDateString()} | ${
+            this.props.data.location
+          }`}</Card.Title>
         </Card.Body>
       </Card>
     );
