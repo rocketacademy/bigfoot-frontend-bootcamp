@@ -38,14 +38,14 @@ const NewSightingForm = () => {
         location,
         notes,
       })
-      .then(() => {
+      .then((res) => {
         // Clear form state
         setDate("");
         setLocation("");
         setNotes("");
 
         // Navigate to homepage after submitting form
-        navigate("/");
+        navigate(`/${res.data.id}`);
       });
   };
 
