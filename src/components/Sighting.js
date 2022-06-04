@@ -1,19 +1,27 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import ListGroup from "react-bootstrap/ListGroup";
 
 import { BACKEND_URL } from "../constants.js";
 
 const Sighting = () => {
   const [sightingIndex, setSightingIndex] = useState();
   const [sighting, setSighting] = useState();
+  const [comments, setComments] = useState();
+  const [commentContent, setCommentContent] = useState("");
 
   useEffect(() => {
     // If there is a sightingIndex, retrieve the sighting data
     if (sightingIndex) {
       axios.get(`${BACKEND_URL}/${sightingIndex}`).then((response) => {
         setSighting(response.data);
+      });
+      axios.get(`${BACKEND_URL}/${sightingIndex}/comments`).then((response) => {
+        setComments(response.data);
       });
     }
     // Only run this effect on change to sightingIndex
@@ -35,12 +43,66 @@ const Sighting = () => {
     }
   }
 
+  const handleChange = (event) => {
+    setCommentContent(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    // Prevent default form redirect on submission
+    event.preventDefault();
+
+    // Send request to create new comment in backend
+    axios
+      .post(`${BACKEND_URL}/${sightingIndex}/comment`, {
+        content: commentContent,
+      })
+      .then((res) => {
+        // Clear form state
+        setCommentContent("");
+
+        // Refresh local comment list
+        return axios.get(`${BACKEND_URL}/${sightingIndex}/comments`);
+      })
+      .then((response) => {
+        setComments(response.data);
+      });
+  };
+
+  // Store a new JSX element for each comment
+  const commentElements = comments
+    ? comments.map((comment) => (
+        <ListGroup.Item key={comment.id}>
+          {comment.createdAt} | {comment.content}
+        </ListGroup.Item>
+      ))
+    : [];
+
   return (
     <div>
       <Link to="/">Home</Link>
       <Card bg="dark">
         <Card.Body>{sightingDetails}</Card.Body>
       </Card>
+      <br />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>Leave a comment</Form.Label>
+          <Form.Control
+            // Use textarea to give user more space to type
+            as="textarea"
+            name="content"
+            value={commentContent}
+            onChange={handleChange}
+            placeholder="What a big bear!"
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+      <br />
+      <ListGroup>{commentElements}</ListGroup>
+      <br />
     </div>
   );
 };
