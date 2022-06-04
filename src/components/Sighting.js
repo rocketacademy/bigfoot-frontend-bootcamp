@@ -20,7 +20,7 @@ const Sighting = () => {
       axios.get(`${BACKEND_URL}/${sightingId}`).then((response) => {
         setSighting(response.data);
       });
-      axios.get(`${BACKEND_URL}/${sightingIndex}/comments`).then((response) => {
+      axios.get(`${BACKEND_URL}/${sightingId}/comments`).then((response) => {
         setComments(response.data);
       });
     }
@@ -53,7 +53,7 @@ const Sighting = () => {
 
     // Send request to create new comment in backend
     axios
-      .post(`${BACKEND_URL}/${sightingIndex}/comment`, {
+      .post(`${BACKEND_URL}/${sightingId}/comment`, {
         content: commentContent,
       })
       .then((res) => {
@@ -61,7 +61,7 @@ const Sighting = () => {
         setCommentContent("");
 
         // Refresh local comment list
-        return axios.get(`${BACKEND_URL}/${sightingIndex}/comments`);
+        return axios.get(`${BACKEND_URL}/${sightingId}/comments`);
       })
       .then((response) => {
         setComments(response.data);
