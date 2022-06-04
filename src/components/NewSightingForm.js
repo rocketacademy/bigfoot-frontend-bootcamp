@@ -44,7 +44,7 @@ const NewSightingForm = () => {
         setLocation("");
         setNotes("");
 
-        // Navigate to homepage after submitting form
+        // Navigate to sighting-specific page after submitting form
         navigate(`/${res.data.id}`);
       });
   };
