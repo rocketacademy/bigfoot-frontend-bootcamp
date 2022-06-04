@@ -6,23 +6,23 @@ import Card from "react-bootstrap/Card";
 import { BACKEND_URL } from "../constants.js";
 
 const Sighting = () => {
-  const [sightingIndex, setSightingIndex] = useState();
+  const [sightingId, setSightingId] = useState();
   const [sighting, setSighting] = useState();
 
   useEffect(() => {
-    // If there is a sightingIndex, retrieve the sighting data
-    if (sightingIndex) {
-      axios.get(`${BACKEND_URL}/${sightingIndex}`).then((response) => {
+    // If there is a sightingId, retrieve the sighting data
+    if (sightingId) {
+      axios.get(`${BACKEND_URL}/${sightingId}`).then((response) => {
         setSighting(response.data);
       });
     }
-    // Only run this effect on change to sightingIndex
-  }, [sightingIndex]);
+    // Only run this effect on change to sightingId
+  }, [sightingId]);
 
-  // Update sighting index in state if needed to trigger data retrieval
+  // Update sighting ID in state if needed to trigger data retrieval
   const params = useParams();
-  if (sightingIndex !== params.sightingIndex) {
-    setSightingIndex(params.sightingIndex);
+  if (sightingId !== params.sightingId) {
+    setSightingId(params.sightingId);
   }
 
   // Store a new JSX element for each property in sighting details
