@@ -9,14 +9,14 @@ const SightingPreviewList = () => {
   const [sightings, setSightings] = useState([]);
 
   useEffect(() => {
-    axios.get(BACKEND_URL).then((response) => {
+    axios.get(`${BACKEND_URL}/sightings`).then((response) => {
       setSightings(response.data);
     });
     // Only run this effect on component mount
   }, []);
 
   const sightingPreviews = sightings.map((sighting) => (
-    <Link to={`/${sighting.id}`} key={sighting.id}>
+    <Link to={`/sightings/${sighting.id}`} key={sighting.id}>
       <SightingPreview data={sighting} />
     </Link>
   ));
