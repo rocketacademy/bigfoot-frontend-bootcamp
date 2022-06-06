@@ -33,7 +33,7 @@ const NewSightingForm = () => {
 
     // Send request to create new sighting in backend
     axios
-      .post(`${BACKEND_URL}`, {
+      .post(`${BACKEND_URL}/sightings`, {
         date,
         location,
         notes,
