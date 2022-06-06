@@ -16,7 +16,7 @@ root.render(
         {/* Route that renders all sightings */}
         <Route index element={<SightingPreviewList />} />
         {/* Route that renders individual sightings */}
-        <Route path="/sightings/:sightingIndex" element={<Sighting />} />
+        <Route path="sightings/:sightingIndex" element={<Sighting />} />
         {/* Route that matches all other paths */}
         <Route path="*" element={"Nothing here!"} />
       </Route>
