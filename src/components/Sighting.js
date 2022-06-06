@@ -12,7 +12,7 @@ const Sighting = () => {
   useEffect(() => {
     // If there is a sightingId, retrieve the sighting data
     if (sightingId) {
-      axios.get(`${BACKEND_URL}/${sightingId}`).then((response) => {
+      axios.get(`${BACKEND_URL}/sightings/${sightingId}`).then((response) => {
         setSighting(response.data);
       });
     }

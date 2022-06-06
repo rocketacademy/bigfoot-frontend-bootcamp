@@ -9,7 +9,7 @@ const SightingPreviewList = () => {
   const [sightings, setSightings] = useState([]);
 
   useEffect(() => {
-    axios.get(BACKEND_URL).then((response) => {
+    axios.get(`${BACKEND_URL}/sightings`).then((response) => {
       setSightings(response.data);
     });
     // Only run this effect on component mount
