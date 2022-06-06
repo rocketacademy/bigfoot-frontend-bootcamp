@@ -16,7 +16,7 @@ const SightingPreviewList = () => {
   }, []);
 
   const sightingPreviews = sightings.map((sighting, index) => (
-    <Link to={`/${index}`} key={index}>
+    <Link to={`/sightings/${index}`} key={index}>
       <SightingPreview data={sighting} />
     </Link>
   ));
