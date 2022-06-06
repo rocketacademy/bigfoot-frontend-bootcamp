@@ -12,9 +12,11 @@ const Sighting = () => {
   useEffect(() => {
     // If there is a sightingIndex, retrieve the sighting data
     if (sightingIndex) {
-      axios.get(`${BACKEND_URL}/${sightingIndex}`).then((response) => {
-        setSighting(response.data);
-      });
+      axios
+        .get(`${BACKEND_URL}/sightings/${sightingIndex}`)
+        .then((response) => {
+          setSighting(response.data);
+        });
     }
     // Only run this effect on change to sightingIndex
   }, [sightingIndex]);
