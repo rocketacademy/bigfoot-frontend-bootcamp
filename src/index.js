@@ -20,7 +20,7 @@ root.render(
         {/* Route that renders new sighting form */}
         <Route path="/new" element={<NewSightingForm />} />
         {/* Route that renders individual sightings */}
-        <Route path=":sightingId" element={<Sighting />} />
+        <Route path="/sightings/:sightingId" element={<Sighting />} />
         {/* Route that matches all other paths */}
         <Route path="*" element={"Nothing here!"} />
       </Route>
