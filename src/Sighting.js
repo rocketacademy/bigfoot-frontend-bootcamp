@@ -19,8 +19,7 @@ export default function Sighting() {
     const data = await axios.get(
       "http://localhost:3000/sightings/" + `${index}`
     );
-    console.log("DATA::::::::", data);
-    console.log(data.data);
+
     setSighting(data.data);
   }
 
@@ -53,7 +52,6 @@ export default function Sighting() {
             <p>
               {sighting.OTHER_STORIES} - {sighting.OTHER_WITNESSES}
             </p>
-            {/*  Implemented nested routing?  */}
           </div>
         ) : null}
       </div>

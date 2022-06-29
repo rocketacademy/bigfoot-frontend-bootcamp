@@ -36,17 +36,19 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="sightings" element={<Sightings sightings={sightings} />}>
-          <Route path=":sightingIndex" element={<Sighting />} />
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
-        </Route>
+        <Route
+          path="/sightings"
+          element={<Sightings sightings={sightings} />}
+        />
+        <Route path="/sightings/:sightingIndex" element={<Sighting />} />
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: "1rem" }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
       </Routes>
     </div>
   );
