@@ -9,22 +9,34 @@ import { useNavigate } from "react-router-dom";
 
 export default function App() {
   const [sightings, setSightings] = useState([]);
-
-  // fix the call axios request so that the state is visible on the react app
+  const [search, setSearch] = useState("");
 
   async function callData() {
-    let sightingsData = await axios.get("http://localhost:3000/sightings");
-    console.log(sightingsData.data);
-    setSightings({
-      sightings: sightingsData.data,
-    });
+    if (search.length > 0) {
+      console.log("searching for data");
+      let sightingsData = await axios.get(
+        `http://localhost:3000/sightings/search/${search}`
+      );
+      console.log(sightingsData.data);
+      setSightings({
+        sightings: sightingsData.data,
+      });
 
-    console.log("okay");
+      console.log("okay");
+    } else {
+      let sightingsData = await axios.get(`http://localhost:3000/sightings/`);
+      console.log(sightingsData.data);
+      setSightings({
+        sightings: sightingsData.data,
+      });
+
+      console.log("okay");
+    }
   }
   useEffect(() => {
     callData();
     console.log("Yes");
-  }, []);
+  }, [search]);
 
   const navigate = useNavigate();
 
@@ -38,7 +50,7 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route
           path="/sightings"
-          element={<Sightings sightings={sightings} />}
+          element={<Sightings sightings={sightings} search={setSearch} />}
         />
         <Route path="/sightings/:sightingIndex" element={<Sighting />} />
         <Route
@@ -53,3 +65,5 @@ export default function App() {
     </div>
   );
 }
+
+// With the search func the single sighting is a little buggy

@@ -1,10 +1,15 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 export default function Sightings(props) {
   const display = (props) => {
     return (
       <div>
-        <Outlet />
         <h1>Sightings</h1>
+        <input
+          type="text"
+          placeholder="Insert Search Year Here"
+          onChange={(e) => props.search(e.target.value)}
+        />
         {props.sightings.sightings && props.sightings.sightings.length > 0
           ? props.sightings.sightings.map((data, index) => (
               <div
