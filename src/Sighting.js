@@ -11,14 +11,11 @@ export default function Sighting() {
   async function callAPI() {
     console.log("Calling API");
     console.log(params.sightingIndex);
-    if (params.sightingIndex == 0) {
-      index = 1;
-    } else {
-      index = params.sightingIndex + 1;
-    }
+    index = params.sightingIndex;
     const data = await axios.get(
-      "http://localhost:3000/sightings/" + `${index}`
+      "http://localhost:3000/sighting/" + `${index}`
     );
+    console.log(data);
 
     setSighting(data.data);
   }
@@ -34,24 +31,16 @@ export default function Sighting() {
         <h1>Sightings Single</h1>
         {sighting ? (
           <div
-            key={sighting.REPORT_NUMBER}
+            key={sighting.id}
             style={{
               borderRadis: "25%",
               border: "solid 3px black",
               margin: "10px",
             }}
           >
-            <h4>
-              {sighting.YEAR} - {sighting.MONTH} -- {sighting.STATE} -{" "}
-              {sighting.COUNTY}{" "}
-            </h4>
-            <h5>
-              {sighting.LOCATION_DETAILS} - {sighting.TIME_AND_CONDITIONS}
-            </h5>
-            <h6>{sighting.OBSERVED}</h6>
-            <p>
-              {sighting.OTHER_STORIES} - {sighting.OTHER_WITNESSES}
-            </p>
+            <h4>{new Date(sighting.date).toLocaleDateString()}</h4>
+            <h5>{sighting.location}</h5>
+            <h6>{sighting.notes}</h6>
           </div>
         ) : null}
       </div>
