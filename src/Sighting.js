@@ -6,6 +6,7 @@ export default function Sighting() {
   let params = useParams();
 
   const [sighting, setSighting] = useState({});
+  const [comment, setComment] = useState({});
   let index;
 
   async function callAPI() {
@@ -13,11 +14,18 @@ export default function Sighting() {
     console.log(params.sightingIndex);
     index = params.sightingIndex;
     const data = await axios.get(
-      "http://localhost:3000/sighting/" + `${index}`
+      `${process.env.REACT_APP_API_SERVER}/sighting/${index}`
     );
     console.log(data);
 
     setSighting(data.data);
+
+    const commentData = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/sightings/${index}/comments`
+    );
+    console.log(commentData.data);
+
+    setComment(commentData.data);
   }
 
   useEffect(() => {
@@ -43,6 +51,13 @@ export default function Sighting() {
             <h6>{sighting.notes}</h6>
           </div>
         ) : null}
+
+        {comment ? (
+          <div>
+            <h6>Comments:</h6>
+            <p> {comment.content}</p>
+          </div>
+        ) : <p>No comments</p>>}
       </div>
     );
   };
