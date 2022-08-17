@@ -1,11 +1,12 @@
 import React from "react";
 import { Route, Routes, Link } from "react-router-dom";
-import Landing from "./Landing";
-import Sightings from "./Sightings";
-import NewSighting from "./NewSighting";
-import Sighting from "./Sighting";
+import Landing from "./Components/Landing";
+import Sightings from "./Components/Sightings";
+import NewSighting from "./Components/NewSighting";
+import Sighting from "./Components/Sighting";
 import { useNavigate } from "react-router-dom";
-import EditSighting from "./EditSighting";
+import EditSighting from "./Components/EditSighting";
+import NewCat from "./Components/NewCat.js";
 
 export default function App() {
   const navigate = useNavigate();
@@ -15,11 +16,14 @@ export default function App() {
       <Link to="/">Home </Link>
       <Link to="/sightings">Sightings </Link>
       <Link to="/new">New Sighting</Link>
+      <Link to="/newCat">New Cat</Link>
+
       <button onClick={() => navigate(-1)}> Back</button>
 
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/new" element={<NewSighting />} />
+        <Route path="/newCat" element={<NewCat />} />
 
         <Route path="/sightings" element={<Sightings />} />
         <Route path="/sightings/:sightingIndex" element={<Sighting />} />
