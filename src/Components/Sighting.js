@@ -8,32 +8,32 @@ export default function Sighting() {
   const [sighting, setSighting] = useState({});
   const [comment, setComment] = useState({});
   const [newComment, setNewComment] = useState("");
-  let index;
-
-  async function callAPI() {
-    console.log("Calling API");
-    console.log(params.sightingIndex);
-    index = params.sightingIndex;
-    const data = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/sightings/${index}`
-    );
-    console.log(data);
-
-    setSighting(data.data);
-
-    const commentData = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/sightings/${index}/comments`
-    );
-    console.log(commentData.data);
-
-    setComment(commentData.data);
-  }
 
   useEffect(() => {
     callAPI();
+    let index;
     console.log(sighting);
     console.log(comment.content);
-  }, []);
+
+    async function callAPI() {
+      console.log("Calling API");
+      console.log(params.sightingIndex);
+      index = params.sightingIndex;
+      const data = await axios.get(
+        `${process.env.REACT_APP_API_SERVER}/sightings/${index}`
+      );
+      console.log(data);
+
+      setSighting(data.data);
+
+      const commentData = await axios.get(
+        `${process.env.REACT_APP_API_SERVER}/sightings/${index}/comments`
+      );
+      console.log(commentData.data);
+
+      setComment(commentData.data);
+    }
+  }, [comment.content, sighting, params.sightingIndex]);
 
   const deleteComment = async (id) => {
     const deleteSucces = await axios.delete(

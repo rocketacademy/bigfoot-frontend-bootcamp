@@ -9,26 +9,26 @@ export default function EditSighting() {
   const [id, setId] = useState("");
   const params = useParams();
 
-  const getData = async () => {
-    let data = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/sightings/${params.id}`
-    );
-
-    setDate(
-      new Date(data.data.date)
-        .toLocaleDateString("en-GB")
-        .split("/")
-        .reverse()
-        .join("-")
-    );
-    setLocation(data.data.location);
-    setNote(data.data.notes);
-    setId(data.data.id);
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      let data = await axios.get(
+        `${process.env.REACT_APP_API_SERVER}/sightings/${params.id}`
+      );
+
+      setDate(
+        new Date(data.data.date)
+          .toLocaleDateString("en-GB")
+          .split("/")
+          .reverse()
+          .join("-")
+      );
+      setLocation(data.data.location);
+      setNote(data.data.notes);
+      setId(data.data.id);
+    };
+
     getData();
-  }, []);
+  }, [params.id]);
 
   return (
     <div>
