@@ -9,7 +9,9 @@ export default function Sightings(props) {
   const [selectedWeather, setSelectedWeather] = useState("");
 
   async function callData() {
-    let sightingsData = await axios.get(`http://localhost:3000/sightings/`);
+    let sightingsData = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/sightings/`
+    );
     console.log(sightingsData.data);
     setSightings({
       sightings: sightingsData.data,
