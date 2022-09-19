@@ -2,7 +2,8 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 
 const SightingPreview = (props) => {
-  const categoryNames = props.data.Categories.map((category) => category.name);
+  console.log(props.data);
+  const categoryNames = props.data.categories.map((category) => category.name);
   return (
     <Card bg="dark">
       <Card.Body>

@@ -5,5 +5,5 @@
  */
 export const BACKEND_URL =
   process.env.NODE_ENV === "production"
-    ? "https://bigfoot-sql-backend-bootcamp.herokuapp.com/"
+    ? "<replace_with_deployed _backend_url>"
     : "http://localhost:3000";

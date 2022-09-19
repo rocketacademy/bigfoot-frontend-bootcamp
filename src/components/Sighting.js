@@ -40,10 +40,13 @@ const Sighting = () => {
   if (sighting) {
     for (const key in sighting) {
       // Special logic for rendering categories
-      if (key === "Categories") {
+      if (key === "categories") {
         // Only show categories label if there are any
         if (sighting[key].length > 0) {
-          const categoryNames = sighting[key].map((category) => category.name);
+          const categoryNames = sighting[key].map((category) => {
+            console.log(category);
+            return category.name;
+          });
           sightingDetails.push(
             <Card.Text key={key}>{`${key}: ${categoryNames.join(
               ", "
