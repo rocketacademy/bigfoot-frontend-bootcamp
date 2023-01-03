@@ -1,20 +1,19 @@
 import React from "react";
-import logo from "./logo.png";
-import "./App.css";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import SightingAll from "./components/SightingAll";
+import SightingDetail from "./pages/SightingDetail";
+import NavBar from "./pages/NavBar";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<SightingAll />} />
+        <Route path="/SightingDetail/:id" element={<SightingDetail />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
