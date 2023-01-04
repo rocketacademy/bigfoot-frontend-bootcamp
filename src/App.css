@@ -1,19 +1,37 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 30vmin;
   pointer-events: none;
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 10vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-body {
+  display: flex;
+}
+
+.sightings-list {
+  list-style: none;
+}
+
+.Sighting-info {
+  padding: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.Sighting-details {
+  margin: 20px;
 }
