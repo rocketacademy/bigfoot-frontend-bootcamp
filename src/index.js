@@ -12,7 +12,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />}>
         <Route index element={<SightingPreviewList />} />
-        <Route path="sightings/:sightingIndex" element={<Sighting />} />
+        <Route path="/sightings/:sightingIndex" element={<Sighting />} />
       </Route>
     </Routes>
   </BrowserRouter>

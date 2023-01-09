@@ -14,7 +14,7 @@ const Sighting = () => {
       axios
         .get(`${BACKEND_URL}/sightings/${sightingIndex}`)
         .then((response) => {
-          setSighting(response.data);
+          setSighting(response.data[0]);
         });
     }
     // Only run this effect on change to sightingIndex
