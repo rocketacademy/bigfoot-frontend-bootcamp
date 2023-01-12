@@ -12,26 +12,21 @@ const SightingPreview = () => {
     axios.get(serverURL).then((response) => setSightings(response.data));
   }, []);
 
-  const sighting = sightings.map((sighting, index) => (
-    <Link to={`/sightings/${index}`}>
+  const sighting = sightings.map((sighting) => (
+    <Link to={`/sightings/${sighting.id}`}>
       <div className="site-card-wrapper">
         <Row gutter={15}>
           <Col span={8}>
             <Card
-              title={`Sighting No.: ${index}`}
+              title={`Sighting No.: ${sighting.id}`}
               style={{
                 width: 300,
-                margin: 30, 
-              }} 
+                margin: 30,
+                underline: false,
+              }}
             >
-              <p>Year: {sighting.YEAR}</p>
-              <p>Season: {sighting.SEASON}</p>
-              <p>
-                Date: {sighting.DATE} {sighting.MONTH}
-              </p>
-              <p>
-                Location: {sighting.STATE} {sighting.COUNTY}
-              </p>
+              <p>Date: {sighting.date}</p>
+              <p>Location: {sighting.location}</p>
             </Card>
           </Col>
         </Row>

@@ -6,23 +6,21 @@ import { Card } from "antd";
 
 const Sighting = () => {
   const [sightings, setSightings] = useState([]);
-  const [sightingIndex, setSightingIndex] = useState(0);
+  const [sightingID, setSightingID] = useState(0);
   const params = useParams();
-  console.log(params.sightingIndex);
 
   useEffect(() => {
     axios
-      .get(`${serverURL}/${sightingIndex}`)
+      .get(`${serverURL}/${sightingID}`)
       .then((response) => setSightings(response.data));
-  }, [sightingIndex]);
+  }, [sightingID]);
 
-  if (sightingIndex != params.sightingIndex)
-    setSightingIndex(params.sightingIndex);
+  if (sightingID != params.sightingID) setSightingID(params.sightingID);
 
   return (
     <div>
       <Card
-        title={`Sighting No.: ${sightingIndex}`}
+        title={`Sighting No.: ${sightingID}`}
         extra={<Link to="/">Back</Link>}
         style={{
           width: 300,
@@ -30,16 +28,9 @@ const Sighting = () => {
           margin: 50,
         }}
       >
-        <p>Year: {sightings.YEAR}</p>
-        <p>Season: {sightings.SEASON}</p>
-        <p>
-          Date: {sightings.DATE} {sightings.MONTH}
-        </p>
-        <p>
-          Location: {sightings.STATE} {sightings.COUNTY}
-        </p>
-        <p>Directions: {sightings.LOCATION_DETAILS}</p>
-        <p>Observation: {sightings.OBSERVED}</p>
+        <p>Date: {sightings.date}</p>
+        <p>Location: {sightings.location}</p>
+        <p>Notes: {sightings.notes}</p>
       </Card>
     </div>
   );

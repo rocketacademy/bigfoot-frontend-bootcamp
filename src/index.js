@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <SightingPreview />,
       },
       {
-        path: "sightings/:sightingIndex",
+        path: "sightings/:sightingID",
         element: <Sighting />,
       },
     ],
