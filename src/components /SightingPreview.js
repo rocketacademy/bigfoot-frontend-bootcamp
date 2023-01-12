@@ -34,7 +34,14 @@ const SightingPreview = () => {
     </Link>
   ));
 
-  return <div className="cards">{sighting}</div>;
+  return (
+    <div>
+      <button type="button">
+        <Link to="/new">Record a New Sighting!</Link>
+      </button>
+      <div className="cards">{sighting}</div>
+    </div>
+  );
 };
 
 export default SightingPreview;

@@ -6,6 +6,7 @@ import Sighting from "./components /Sighting";
 import SightingPreview from "./components /SightingPreview";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ErrorPage from "./components /ErrorPage";
+import NewSighting from "./components /NewSighting";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         path: "sightings/:sightingID",
         element: <Sighting />,
       },
+      {
+        path: "/new", 
+        element: <NewSighting />, 
+      }, 
     ],
   },
 ]);
