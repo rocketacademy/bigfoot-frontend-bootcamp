@@ -1,20 +1,23 @@
-import React from "react";
-import logo from "./logo.png";
+import React, { useState, useEffect } from "react";
 import "./App.css";
+import { Routes, Link, Route, useParams } from "react-router-dom";
+import CallSightings from "./Sightings";
+import CallIndividualSighting from "./IndividualSighting";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <Routes>
+          <Route path={`/sightings`} element={<CallSightings />} />
+          <Route
+            path="/sightings/:sightingIndex"
+            element={<CallIndividualSighting />}
+          />
+        </Routes>
+      </header>
+    </div>
+  );
 }
 
 export default App;
