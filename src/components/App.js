@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "./logo.png";
 import "./App.css";
+import { Outlet } from "react-router-dom";
 
 class App extends React.Component {
   render() {
@@ -8,9 +9,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+          <Outlet />
         </header>
       </div>
     );
