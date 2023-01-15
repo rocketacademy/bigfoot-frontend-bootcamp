@@ -65,7 +65,7 @@ const NewSighting = () => {
             name="location"
             required
             minLength="5"
-            maxlength="50"
+            maxLength="50"
             value={newSighting.location}
             placeholder="Where?"
             onChange={handleUserInput}
