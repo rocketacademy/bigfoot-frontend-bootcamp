@@ -19,17 +19,20 @@ export default function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Link to={`/`}>
         <img src={logo} className="App-logo" alt="logo" />
+        </Link>
         <h1>BIGFOOT REPORTS</h1>
       </header>
       <div className="App-body">
         <div>
           <h1>Reported Sightings</h1>
+          <Link to={`/sighting/new`}>Report New Sighting</Link>
           <ul className="sightings-list">
             {allSightings.map((sighting, index) => (
               <li key={index}>
-                <Link to={`/sighting/${index}`}>
-                  {sighting.YEAR}, {sighting.SEASON}, {sighting.STATE}
+                <Link to={`/sighting/${sighting.id}`}>
+                  {sighting.date}, {sighting.location}
                 </Link>
               </li>
             ))}

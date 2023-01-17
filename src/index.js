@@ -3,8 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SightingInfo from "./Sighting";
+import SightingInfo from "./components/Sighting";
+import SightingForm from "./components/SightingForm";
 import ErrorPage from "./error-page";
+import CommentsList from "./components/Comments";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: "sighting/:sightingID",
-        element: <SightingInfo />,
+        element: (
+          <>
+            <SightingInfo /> <CommentsList />
+          </>
+        ),
       },
+      { path: "sighting/new", element: <SightingForm /> },
     ],
   },
 ]);
