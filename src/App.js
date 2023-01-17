@@ -1,21 +1,14 @@
 import React from "react";
 import "./App.css";
 import logo from "./logo.png";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import AllSightings from "./components/AllSightings";
-import DetailSightings from "./components/DetailSightings";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<AllSightings />} />
-            <Route path="/DetailSightings/:id" element={<DetailSightings />} />
-          </Routes>
-        </BrowserRouter>
+        <Outlet />
       </header>
     </div>
   );

@@ -1,9 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "@mui/material";
 import { Backend_URL } from "../Backend_URL";
-import { Card, CardContent, Typography, CardActions } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+} from "@mui/material";
 
 export default function DetailSightings() {
   const params = useParams();
