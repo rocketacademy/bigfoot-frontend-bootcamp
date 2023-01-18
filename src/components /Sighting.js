@@ -45,6 +45,8 @@ const Sighting = () => {
 
   if (sightingID != params.sightingID) setSightingID(params.sightingID);
 
+  console.log(sightings);
+
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -79,6 +81,14 @@ const Sighting = () => {
     </div>
   );
 
+  let categoryList;
+
+  if (sightings.categories) {
+    categoryList = sightings.categories.map((category) => (
+      <p>{category.name}</p>
+    ));
+  }
+
   return (
     <div>
       <Card
@@ -90,6 +100,7 @@ const Sighting = () => {
           margin: 50,
         }}
       >
+        <p>Category: {categoryList}</p>
         <p>Date: {sightings.date}</p>
         <p>Location: {sightings.location}</p>
         <p>Notes: {sightings.notes}</p>

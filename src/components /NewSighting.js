@@ -1,8 +1,9 @@
 import React, { useState, useEffect, startTransition } from "react";
 import axios from "axios";
-import { serverURL } from "../ServerURL";
+import { serverURL, baseServerURL } from "../ServerURL";
 import { useNavigate, Link } from "react-router-dom";
 import { Card } from "antd";
+import Select from "react-select";
 
 const NewSighting = () => {
   const [newSighting, setNewSighting] = useState({
@@ -10,6 +11,31 @@ const NewSighting = () => {
     location: "",
     notes: "",
   });
+
+  const [categories, setCategories] = useState([]);
+
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${baseServerURL}/categories`)
+      .then((response) => setCategories(response.data));
+  }, []);
+
+  // console.log(categories);
+
+  const categoryOptions = categories.map((category) => ({
+    value: `${category.id}`,
+    label: `${category.name}`,
+  }));
+
+  // console.log(categoryOptions);
+
+  const handleSelectChange = (categories) => {
+    setSelectedCategories(categories);
+  };
+
+  // console.log(selectedCategories);
 
   const handleUserInput = (e) => {
     setNewSighting({
@@ -23,14 +49,20 @@ const NewSighting = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const selectedCategoryIds = selectedCategories.map(
+      (category) => category.value,
+    );
+
     axios
       .post(`${serverURL}`, {
         date: newSighting.date,
         location: newSighting.location,
         notes: newSighting.notes,
+        selectedCategoryIds: selectedCategoryIds,
       })
       .then((response) => {
         setNewSighting({});
+        setSelectedCategories([]);
         navigate(`/sightings/${response.data.id}`);
       });
   };
@@ -84,6 +116,12 @@ const NewSighting = () => {
             onChange={handleUserInput}
           />
         </p>
+        <Select
+          isMulti
+          options={categoryOptions}
+          value={selectedCategories}
+          onChange={handleSelectChange}
+        />
         <button type="submit" onClick={handleSubmit}>
           Submit
         </button>

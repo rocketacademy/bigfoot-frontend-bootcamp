@@ -12,6 +12,8 @@ const SightingPreview = () => {
     axios.get(serverURL).then((response) => setSightings(response.data));
   }, []);
 
+  console.log(sightings);
+
   const sighting = sightings.map((sighting) => (
     <Link to={`/sightings/${sighting.id}`}>
       <div className="site-card-wrapper">
@@ -25,6 +27,12 @@ const SightingPreview = () => {
                 underline: false,
               }}
             >
+              <p>
+                Category:{" "}
+                {sighting.categories.map((category) => (
+                  <p>{category.name}</p>
+                ))}
+              </p>
               <p>Date: {sighting.date}</p>
               <p>Location: {sighting.location}</p>
             </Card>
