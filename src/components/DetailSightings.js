@@ -11,10 +11,9 @@ import {
 } from "@mui/material";
 
 export default function DetailSightings() {
+  const [sighting, setSighting] = useState([]);
   const params = useParams();
   const navigate = useNavigate();
-
-  const [sighting, setSighting] = useState({});
 
   useEffect(() => {
     axios.get(`${Backend_URL}/sightings/${params.id}`).then((response) => {
@@ -23,17 +22,17 @@ export default function DetailSightings() {
     });
   }, [params.id]);
 
-  const items = Object.entries(sighting).map(([key, value]) => (
+  const sightingDetails = sighting.map(([sightings, value]) => (
     <div>
       <Typography>
-        {key}: {value}
+        {sightings}: {value}
       </Typography>
     </div>
   ));
 
   return (
     <Card>
-      <CardContent>{items}</CardContent>
+      <CardContent>{sightingDetails}</CardContent>
       <CardActions>
         <Button onClick={() => navigate(-1)}>Back</Button>
       </CardActions>

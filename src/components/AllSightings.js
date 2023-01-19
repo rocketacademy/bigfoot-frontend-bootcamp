@@ -17,27 +17,28 @@ export default function AllSightings() {
 
   useEffect(() => {
     axios.get(`${Backend_URL}/sightings`).then((response) => {
-      console.log(response.data);
       setSightings(response.data);
     });
   }, []);
 
+  const sightingPreview = sightings.map((sightings) => (
+    <div>
+      <Typography>Date: {sightings.date}</Typography>
+      <Typography>Location: {sightings.location}</Typography>
+      <Typography>Notes: {sightings.notes}</Typography>
+      <CardActions>
+        <Button onClick={() => navigate(`/sightings/${sightings.id}`)}>
+          Details
+        </Button>
+      </CardActions>
+    </div>
+  ));
+
   return (
     <div>
-      {sightings.map((item, index) => (
-        <Card>
-          <CardContent>
-            <Typography>YEAR: {item.YEAR}</Typography>
-            <Typography>STATE: {item.STATE}</Typography>
-            <Typography>COUNTY: {item.COUNTY}</Typography>
-          </CardContent>
-          <CardActions>
-            <Button onClick={() => navigate(`/DetailSightings/${index}`)}>
-              Details
-            </Button>
-          </CardActions>
-        </Card>
-      ))}
+      <Card>
+        <CardContent>{sightingPreview}</CardContent>
+      </Card>
     </div>
   );
 }

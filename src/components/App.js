@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
-import logo from "./logo.png";
+import logo from "../logo.png";
 import { Outlet } from "react-router-dom";
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <header className="App-header">
@@ -13,5 +13,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
