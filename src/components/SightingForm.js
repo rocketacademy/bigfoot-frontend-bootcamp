@@ -4,14 +4,17 @@ import { BACKEND_URL } from "../constants";
 
 export default function SightingForm() {
   const [sightingInputs, setSightingsInput] = useState({
-    date: "2017-06-01T08:30",
+    date: "",
     location: "",
     notes: "",
   });
 
   const handleInput = (event) => {
     console.log(sightingInputs);
-    setSightingsInput({ [event.target.name]: event.target.value });
+    setSightingsInput({
+      ...sightingInputs,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleSubmit = (event) => {

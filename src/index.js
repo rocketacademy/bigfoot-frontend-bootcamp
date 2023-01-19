@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SightingInfo from "./components/Sighting";
 import SightingForm from "./components/SightingForm";
 import ErrorPage from "./error-page";
-import CommentsList from "./components/Comments";
+import CommentList from "./components/Comments";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,8 @@ const router = createBrowserRouter([
         path: "sighting/:sightingID",
         element: (
           <>
-            <SightingInfo /> <CommentsList />
+            <SightingInfo />
+            <CommentList />
           </>
         ),
       },

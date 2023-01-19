@@ -11,7 +11,6 @@ export default function App() {
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/sightings`).then((response) => {
-      console.log(response.data);
       setAllSightings(response.data);
     });
   }, []);
@@ -20,7 +19,7 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <Link to={`/`}>
-        <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} className="App-logo" alt="logo" />
         </Link>
         <h1>BIGFOOT REPORTS</h1>
       </header>

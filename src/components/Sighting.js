@@ -10,11 +10,10 @@ export default function SightingInfo() {
   useEffect(() => {
     axios.get(`${BACKEND_URL}/sightings/${sightingID}`).then((response) => {
       setSelectedSighting(response.data);
-      console.log(response.data);
     });
   }, [sightingID]);
 
-  const { date, location, notes, created_at, updated_at } = selectedSighting;
+  const { date, location, notes, createdAt, updatedAt } = selectedSighting;
 
   return (
     <div className="Sighting-details">
@@ -22,6 +21,9 @@ export default function SightingInfo() {
       <p>Date Sighted: {date}</p>
       <p>Location: {location}</p>
       <p>Notes: {notes}</p>
+      <p>
+        Created:{createdAt} Updated: {updatedAt}
+      </p>
     </div>
   );
 }
