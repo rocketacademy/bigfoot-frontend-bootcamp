@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Backend_URL } from "../Backend_URL";
 import { Card, CardContent, CardActions, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const NewSightingForm = () => {
   const [date, setDate] = useState();
   const [location, setLocation] = useState();
   const [notes, setNotes] = useState();
+  const [allCategories, setAllCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const navigate = useNavigate();
 
   const handleUserInput = (e) => {
@@ -23,6 +26,10 @@ const NewSightingForm = () => {
         break;
       default:
     }
+  };
+
+  const handleSelectChange = (categories) => {
+    setSelectedCategories(categories);
   };
 
   const handleSubmit = (e) => {
@@ -42,6 +49,20 @@ const NewSightingForm = () => {
         navigate(`/sightings/${response.data.id}`);
       });
   };
+
+  useEffect(() => {
+    axios.get(`${Backend_URL}/categories`).then((response) => {
+      setAllCategories(response.data);
+    });
+    // Only run this effect on component mount
+  }, []);
+
+  const categoryOptions = allCategories.map((category) => ({
+    // value is what we store
+    value: category.id,
+    // label is what we display
+    label: category.name,
+  }));
 
   return (
     <Card>
@@ -80,6 +101,12 @@ const NewSightingForm = () => {
             onChange={handleUserInput}
           />
         </p>
+        <Select
+          isMulti
+          options={categoryOptions}
+          value={selectedCategories}
+          onChange={handleSelectChange}
+        />
       </CardContent>
       <CardActions>
         <Button onClick={handleSubmit}>Submit</Button>
