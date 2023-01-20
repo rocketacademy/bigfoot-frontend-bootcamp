@@ -1,6 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../constants";
+import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 export default function SightingForm() {
   const [sightingInputs, setSightingsInput] = useState({
@@ -9,20 +11,49 @@ export default function SightingForm() {
     notes: "",
   });
 
-  const handleInput = (event) => {
-    console.log(sightingInputs);
+  const [allCategories, setAllCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/categories`).then((response) => {
+      setAllCategories(response.data);
+    });
+  }, []);
+
+  const categoryOptions = allCategories.map((category) => ({
+    label: category.name,
+    value: category.id,
+  }));
+
+  const handleSightingInput = (event) => {
     setSightingsInput({
       ...sightingInputs,
       [event.target.name]: event.target.value,
     });
   };
 
+  const handleSelectChange = (event) => {
+    setSelectedCategories(event);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const selectedCategoryIds = selectedCategories.map(
+      (category) => category.value
+    );
+
     axios
-      .post(`${BACKEND_URL}/sightings`, sightingInputs)
-      .then((response) => console.log(response))
+      .post(`${BACKEND_URL}/sightings`, {
+        ...sightingInputs,
+        selectedCategoryIds: selectedCategoryIds,
+      })
+      .then((response) => {
+        console.log(response);
+        navigate(`/sighting/${response.data.id}`);
+      })
       .catch((error) => console.log(error));
   };
 
@@ -36,7 +67,7 @@ export default function SightingForm() {
             type="datetime-local"
             name="date"
             value={sightingInputs.date}
-            onChange={handleInput}
+            onChange={handleSightingInput}
           />
         </p>
         <p>
@@ -45,7 +76,7 @@ export default function SightingForm() {
             type="text"
             name="location"
             value={sightingInputs.location}
-            onChange={handleInput}
+            onChange={handleSightingInput}
           />
         </p>
         <p>
@@ -54,9 +85,14 @@ export default function SightingForm() {
             type="text"
             name="notes"
             value={sightingInputs.notes}
-            onChange={handleInput}
+            onChange={handleSightingInput}
           />
         </p>
+        <Select
+          isMulti
+          options={categoryOptions}
+          onChange={handleSelectChange}
+        />
         <button type="submit">Submit</button>
       </form>
     </div>

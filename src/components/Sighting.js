@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../constants";
 export default function SightingInfo() {
   const { sightingID } = useParams();
   const [selectedSighting, setSelectedSighting] = useState({});
+  console.log(selectedSighting);
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/sightings/${sightingID}`).then((response) => {
