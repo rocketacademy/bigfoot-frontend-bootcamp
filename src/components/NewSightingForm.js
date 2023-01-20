@@ -4,32 +4,42 @@ import { Backend_URL } from "../Backend_URL";
 import { Card, CardContent, CardActions, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function NewSighting() {
-  let navigate = useNavigate();
-  const [newSighting, setNewSighting] = useState({
-    date: "",
-    location: "",
-    notes: "",
-  });
+const NewSightingForm = () => {
+  const [date, setDate] = useState();
+  const [location, setLocation] = useState();
+  const [notes, setNotes] = useState();
+  const navigate = useNavigate();
+
   const handleUserInput = (e) => {
-    setNewSighting({
-      ...newSighting,
-      [e.target.name]: e.target.value,
-    });
+    switch (e.target.name) {
+      case "date":
+        setDate(e.target.value);
+        break;
+      case "location":
+        setLocation(e.target.value);
+        break;
+      case "notes":
+        setNotes(e.target.value);
+        break;
+      default:
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post(`${Backend_URL}`, {
-        date: newSighting.date,
-        location: newSighting.location,
-        notes: newSighting.notes,
+      .post(`${Backend_URL}/sightings`, {
+        date,
+        location,
+        notes,
       })
       .then((response) => {
-        setNewSighting({});
-        navigate(`/sightings/${response.date.id}`);
+        setDate("");
+        setLocation("");
+        setNotes("");
+        // navigate to sighting-specific page after submitting form
+        navigate(`/sightings/${response.data.id}`);
       });
   };
 
@@ -37,12 +47,12 @@ export default function NewSighting() {
     <Card>
       <CardContent>
         <p>
-          <label htmlFor="sightingDate">Date: </label>
+          <label htmlFor="sightingDate">Date and time: </label>
           <input
             type="datetime-local"
             id="date"
             name="date"
-            value={newSighting.date}
+            value={date}
             placeholder={new Date()}
             onChange={handleUserInput}
           />
@@ -54,7 +64,7 @@ export default function NewSighting() {
             id="location"
             name="location"
             required
-            value={newSighting.location}
+            value={location}
             placeholder="Location"
             onChange={handleUserInput}
           />
@@ -66,14 +76,17 @@ export default function NewSighting() {
             name="notes"
             required
             placeholder="Information on Sighting"
-            value={newSighting.notes}
+            value={notes}
             onChange={handleUserInput}
           />
         </p>
       </CardContent>
       <CardActions>
         <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={() => navigate(-1)}>Back</Button>
       </CardActions>
     </Card>
   );
-}
+};
+
+export default NewSightingForm;

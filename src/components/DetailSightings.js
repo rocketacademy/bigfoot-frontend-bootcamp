@@ -10,23 +10,38 @@ import {
   Button,
 } from "@mui/material";
 
-export default function DetailSightings() {
+// const DetailSightings = (sightings) => {
+//   return (
+//     <Card>
+//       <CardContent>{`${sightings}`}</CardContent>
+//     </Card>
+//   );
+// };
+
+// export default DetailSightings;
+
+const DetailSightings = () => {
   const [sighting, setSighting] = useState([]);
-  const params = useParams();
+  const [sightingId, setSightingId] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${Backend_URL}/sightings/${params.id}`).then((response) => {
+    axios.get(`${Backend_URL}/sightings/${sightingId}`).then((response) => {
       console.log(response.data);
       setSighting(response.data);
     });
-  }, [params.id]);
+  }, [sightingId]);
 
-  const sightingDetails = sighting.map(([sightings, value]) => (
+  const params = useParams();
+  if (sightingId !== params.sightingId) {
+    setSightingId(params.sightingId);
+  }
+
+  const sightingDetails = Object.entries(sighting).map((sightings) => (
     <div>
-      <Typography>
-        {sightings}: {value}
-      </Typography>
+      <Typography>Date: {sighting.date}</Typography>
+      <Typography>Location: {sighting.location}</Typography>
     </div>
   ));
 
@@ -38,4 +53,6 @@ export default function DetailSightings() {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default DetailSightings;

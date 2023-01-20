@@ -12,7 +12,6 @@ import { Backend_URL } from "../Backend_URL.js";
 
 export default function AllSightings() {
   const navigate = useNavigate();
-
   const [sightings, setSightings] = useState([]);
 
   useEffect(() => {
@@ -25,7 +24,6 @@ export default function AllSightings() {
     <div>
       <Typography>Date: {sightings.date}</Typography>
       <Typography>Location: {sightings.location}</Typography>
-      <Typography>Notes: {sightings.notes}</Typography>
       <CardActions>
         <Button onClick={() => navigate(`/sightings/${sightings.id}`)}>
           Details
@@ -37,6 +35,11 @@ export default function AllSightings() {
   return (
     <div>
       <Card>
+        <CardActions>
+          <Button onClick={() => navigate(`/sightings/new`)}>
+            Enter new sighting
+          </Button>
+        </CardActions>
         <CardContent>{sightingPreview}</CardContent>
       </Card>
     </div>
