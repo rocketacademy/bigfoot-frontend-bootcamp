@@ -8,23 +8,35 @@ import {
   Typography,
   CardActions,
   Button,
+  List,
+  ListItem,
 } from "@mui/material";
-
-// const DetailSightings = (sightings) => {
-//   return (
-//     <Card>
-//       <CardContent>{`${sightings}`}</CardContent>
-//     </Card>
-//   );
-// };
-
-// export default DetailSightings;
 
 const DetailSightings = () => {
   const [sighting, setSighting] = useState([]);
   const [sightingId, setSightingId] = useState();
-
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState({
+    comment: "",
+  });
   const navigate = useNavigate();
+  const handleUserInput = (e) => {
+    setNewComment(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${Backend_URL}/sightings/${sightingId}/comments`, {
+        content: newComment,
+      })
+      .then((res) => {
+        setNewComment("");
+        return axios.get(`${Backend_URL}/sightings/${sightingId}/comments`);
+      })
+      .then((response) => {
+        setComments(response.data);
+      });
+  };
 
   useEffect(() => {
     axios.get(`${Backend_URL}/sightings/${sightingId}`).then((response) => {
@@ -32,6 +44,18 @@ const DetailSightings = () => {
       setSighting(response.data);
     });
   }, [sightingId]);
+
+  useEffect(() => {
+    axios
+      .get(`${Backend_URL}/sightings/${sightingId}/comments`)
+      .then((response) => {
+        setComments(response.data);
+      });
+  }, [sightingId]);
+
+  const commentList = comments.map((comment) => {
+    return comment.content;
+  });
 
   const params = useParams();
   if (sightingId !== params.sightingId) {
@@ -42,12 +66,40 @@ const DetailSightings = () => {
     <div>
       <Typography>Date: {sighting.date}</Typography>
       <Typography>Location: {sighting.location}</Typography>
+      <Typography>Notes: {sighting.notes}</Typography>
     </div>
   ));
+
+  const commentForm = (
+    <div>
+      <p>
+        <label htmlFor="sighting-comment">Add New Comment: </label>
+        <input
+          type="text"
+          id="comment"
+          name="comment"
+          required
+          minLength="5"
+          maxLength="50"
+          value={newComment.content}
+          placeholder="Write your comment here"
+          onChange={handleUserInput}
+        />
+        <button type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
+      </p>
+    </div>
+  );
 
   return (
     <Card>
       <CardContent>{sightingDetails}</CardContent>
+      <CardContent>{commentForm}</CardContent>
+      <List>
+        <ListItem>{commentList}</ListItem>
+      </List>
+
       <CardActions>
         <Button onClick={() => navigate(-1)}>Back</Button>
       </CardActions>
