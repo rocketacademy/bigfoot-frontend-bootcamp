@@ -6,7 +6,6 @@ import { BACKEND_URL } from "../constants";
 export default function SightingInfo() {
   const { sightingID } = useParams();
   const [selectedSighting, setSelectedSighting] = useState({});
-  console.log(selectedSighting);
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/sightings/${sightingID}`).then((response) => {
@@ -14,7 +13,8 @@ export default function SightingInfo() {
     });
   }, [sightingID]);
 
-  const { date, location, notes, createdAt, updatedAt } = selectedSighting;
+  const { date, location, notes, createdAt, updatedAt, categories } =
+    selectedSighting;
 
   return (
     <div className="Sighting-details">
@@ -25,6 +25,7 @@ export default function SightingInfo() {
       <p>
         Created:{createdAt} Updated: {updatedAt}
       </p>
+      <p>Categories: {categories.map((category) => `${category.name} `)}</p>
     </div>
   );
 }
