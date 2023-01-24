@@ -1,20 +1,21 @@
-import React from "react";
-import logo from "./logo.png";
-import "./App.css";
+import React from 'react';
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Sightings } from './components/Sightings';
+import { Sighting } from './components/Sighting';
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <BrowserRouter>
+          <Routes>
+            <Route index path="sightings" element={<Sightings />} />
+            <Route path="/sightings/:sightingIndex" element={<Sighting />} />
+          </Routes>
+        </BrowserRouter>
+      </header>
+    </div>
+  );
 }
-
 export default App;
