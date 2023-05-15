@@ -1,20 +1,16 @@
 import React from "react";
-import logo from "./logo.png";
 import "./App.css";
+import { Link } from "react-router-dom";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="App home-ctn">
+      <h1 className="home-header">Bigfoot Wiki</h1>
+      <Link to="/sightings" className="home-link">
+        <h2>VIEW ALL SIGHTINGS</h2>
+      </Link>
+    </div>
+  );
 }
 
 export default App;
