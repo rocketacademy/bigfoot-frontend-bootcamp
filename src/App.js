@@ -1,20 +1,30 @@
-import React from "react";
-import logo from "./logo.png";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Home from "./pages/Home";
+import Sighting from "./pages/Sighting";
+import { BACKEND_URL } from "./constants";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
-}
+const App = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const getData = await axios.get(BACKEND_URL + "sightings");
+      setData(getData.data);
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<Home data={data} />} />
+        <Route path="/sightings/:id" element={<Sighting data={data} />} />
+      </Routes>
+    </div>
+  );
+};
 
 export default App;
