@@ -1,19 +1,141 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
 .App {
-  text-align: center;
+  background: rgb(238, 174, 202);
+  background: radial-gradient(
+    circle,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
+  color: whitesmoke;
+  font-size: calc(10px + 2vmin);
+  min-height: 100vh;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
+.home-ctn {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 20px;
+}
+
+.home-header {
+  margin-bottom: 50px;
+}
+
+.sightings-list-ctn {
+  max-width: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.sightings-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: whitesmoke;
+  margin: 10px;
+  padding: 5px;
+}
+
+.sightings-list:hover {
+  cursor: pointer;
+  color: midnightblue;
+}
+
+.sighting-ctn {
+  width: 100%;
+  text-align: justify;
+}
+
+.sighting-header {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.sighting-body {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.navbar-ctn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  font-size: 18px;
+  padding: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: whitesmoke;
+  border: 1px solid whitesmoke;
+  padding: 5px;
+}
+
+.nav-link:hover {
+  cursor: pointer;
+  background: whitesmoke;
+  border: 1px solid midnightblue;
+  color: midnightblue;
+}
+
+.home-link {
+  text-decoration: none;
+  color: whitesmoke;
+  padding: 5px;
+}
+
+.home-link:hover {
+  cursor: pointer;
+  color: midnightblue;
+}
+
+.search-form {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-input {
+  font-size: 28px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid whitesmoke;
+  color: whitesmoke;
+  padding: 5px;
+  width: 500px;
+  height: 50px;
+}
+
+.search-btn {
+  font-size: 28px;
+  background: transparent;
+  border: 1px solid whitesmoke;
+  padding: 10px;
+  margin-left: 10px;
+  color: whitesmoke;
+}
+
+.search-btn:hover {
+  cursor: pointer;
+  color: midnightblue;
+  background: whitesmoke;
 }
