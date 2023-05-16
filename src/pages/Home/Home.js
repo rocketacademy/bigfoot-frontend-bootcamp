@@ -10,7 +10,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchLinks = async () => {
-      const getLinks = await axios.get(BACKEND_URL + "links");
+      const getLinks = await axios.get(BACKEND_URL + "sightings");
       setLinks(getLinks.data);
     };
     fetchLinks();
@@ -20,7 +20,7 @@ const Home = () => {
     if (filter) {
       const fetchFilteredLinks = async () => {
         const getLinks = await axios.get(
-          BACKEND_URL + "links?filter=" + filter
+          BACKEND_URL + "sightings?filter=" + filter
         );
         setLinks(getLinks.data);
       };
