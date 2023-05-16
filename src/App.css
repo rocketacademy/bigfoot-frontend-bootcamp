@@ -12,6 +12,10 @@ body #root {
   height: 100%;
 }
 
+h6 {
+  font-size: 12px;
+}
+
 button {
   cursor: pointer;
 }
@@ -74,18 +78,19 @@ button {
   display: none;
 }
 
-#sightings .sightings-info {
+.sightings-info {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-#sightings .sightings-info .sightings-info-right {
+.sightings-info .sightings-info-right {
   text-align: right;
   flex: 1;
 }
 
-#sightings .sightings-info .sightings-info-left {
+.sightings-info .sightings-info-left {
+  text-align: left;
   flex: 1;
 }
 

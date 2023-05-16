@@ -20,50 +20,6 @@
   text-align: left;
 }
 
-#home .filters {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  justify-content: flex-end;
-  padding-right: 20px;
-  margin-bottom: -20px;
-}
-
-#home .filters button {
-  display: flex;
-  justify-content: center;
-  padding-top: 5px;
-  border: none;
-  border-radius: 2px 2px 0 0;
-  width: 60px;
-  height: 45px;
-  color: white;
-  font-weight: 700;
-  z-index: 0;
-  transition: 0.2s;
-}
-
-#home .filters button:hover {
-  translate: 0 -8px;
-  transform: rotate(-4deg);
-}
-
-#home .filters .spring {
-  background-color: rgb(24, 160, 98);
-}
-
-#home .filters .summer {
-  background-color: rgb(255, 174, 0);
-}
-
-#home .filters .fall {
-  background-color: rgb(228, 98, 18);
-}
-
-#home .filters .winter {
-  background-color: rgb(35, 120, 255);
-}
-
 #home .buttons {
   display: flex;
   flex-direction: column;

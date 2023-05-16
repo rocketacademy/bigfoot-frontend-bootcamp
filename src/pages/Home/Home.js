@@ -3,39 +3,48 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../constants";
 import "./Home.css";
+import FileHeader from "../../components/FileHeader/FileHeader";
+import FilterTab from "../../components/filterTab";
 
 const Home = () => {
   const [links, setLinks] = useState(null);
   const [filter, setFilter] = useState(null);
 
+  const fetchLinks = async () => {
+    const getLinks = await axios.get(BACKEND_URL + "sightings");
+    setLinks(getLinks.data);
+  };
+
+  const fetchFilteredLinks = async () => {
+    const getLinks = await axios.get(
+      BACKEND_URL + "sightings?filter=" + filter
+    );
+    setLinks(getLinks.data);
+  };
+
   useEffect(() => {
-    const fetchLinks = async () => {
-      const getLinks = await axios.get(BACKEND_URL + "sightings");
-      setLinks(getLinks.data);
-    };
     fetchLinks();
   }, []);
 
   useEffect(() => {
     if (filter) {
-      const fetchFilteredLinks = async () => {
-        const getLinks = await axios.get(
-          BACKEND_URL + "sightings?filter=" + filter
-        );
-        setLinks(getLinks.data);
-      };
-      fetchFilteredLinks();
+      if (filter === "All") {
+        fetchLinks();
+      } else {
+        fetchFilteredLinks();
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   let buttons;
   const navigate = useNavigate();
   const handleClick = (e) => {
-    if (e.target.id.includes("filter")) {
-      const selectedFilter = e.target.id.split("-")[1];
+    if (e.currentTarget.id.includes("filter")) {
+      const selectedFilter = e.currentTarget.id.split("-")[1];
       setFilter(selectedFilter);
     } else {
-      navigate("/sightings/" + e.target.id);
+      navigate("/sightings/" + e.currentTarget.id);
     }
   };
 
@@ -48,8 +57,7 @@ const Home = () => {
         onClick={handleClick}
         style={{ zIndex: index }}
       >
-        <p>Report No: {element.REPORT_NUMBER}</p>
-        <h3>{element.YEAR}</h3>
+        <FileHeader data={element} />
       </button>
     ));
   }
@@ -60,18 +68,11 @@ const Home = () => {
         <h1>👣</h1>
       </div>
       <div className="filters">
-        <button onClick={handleClick} className="spring" id="filter-Spring">
-          Spring
-        </button>
-        <button onClick={handleClick} className="summer" id="filter-Summer">
-          Summer
-        </button>
-        <button onClick={handleClick} className="fall" id="filter-Fall">
-          Fall
-        </button>
-        <button onClick={handleClick} className="winter" id="filter-Winter">
-          Winter
-        </button>
+        <FilterTab filter="All" handleClick={handleClick} />
+        <FilterTab filter="Spring" handleClick={handleClick} />
+        <FilterTab filter="Summer" handleClick={handleClick} />
+        <FilterTab filter="Fall" handleClick={handleClick} />
+        <FilterTab filter="Winter" handleClick={handleClick} />
       </div>
       <div className="buttons">{buttons}</div>
     </div>
