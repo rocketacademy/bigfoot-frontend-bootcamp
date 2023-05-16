@@ -7,7 +7,7 @@ function App() {
     <div className="App home-ctn">
       <h1 className="home-header">Bigfoot Wiki</h1>
       <Link to="/sightings" className="home-link">
-        <h2>VIEW ALL SIGHTINGS</h2>
+        <h2>VIEW SIGHTINGS</h2>
       </Link>
     </div>
   );

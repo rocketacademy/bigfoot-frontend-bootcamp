@@ -8,11 +8,10 @@
 }
 
 .App {
-  background: rgb(238, 174, 202);
+  background: rgb(148, 187, 233);
   background: radial-gradient(
     circle,
-    rgba(238, 174, 202, 1) 0%,
-    rgba(148, 187, 233, 1) 100%
+    /* rgba(238, 174, 202, 1) 0%, */ rgba(148, 187, 233, 1) 100%
   );
   color: whitesmoke;
   font-size: calc(10px + 2vmin);
@@ -40,17 +39,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  text-decoration: none;
 }
 
 .sightings-list {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
   color: whitesmoke;
-  margin: 10px;
+  margin: 5px;
   padding: 5px;
+  text-decoration: none;
 }
 
 .sightings-list:hover {
@@ -108,10 +108,16 @@
   color: midnightblue;
 }
 
+.filter-header {
+  text-align: center;
+  padding: 10px 0;
+}
+
 .search-form {
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .search-input {
@@ -120,8 +126,8 @@
   border: none;
   border-bottom: 1px solid whitesmoke;
   color: whitesmoke;
-  padding: 5px;
-  width: 500px;
+  padding: 10px;
+  width: 200px;
   height: 50px;
 }
 
