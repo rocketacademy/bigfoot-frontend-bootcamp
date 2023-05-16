@@ -12,6 +12,10 @@ body #root {
   height: 100%;
 }
 
+button {
+  cursor: pointer;
+}
+
 .App {
   width: 100%;
   text-align: center;
@@ -25,61 +29,6 @@ body #root {
   font-size: calc(10px + 2vmin);
   color: white;
   gap: 10px;
-}
-
-#home {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 0;
-  height: 100%;
-  gap: 20px;
-}
-
-#home .home-header {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-#home h1 {
-  font-size: 40px;
-  text-align: left;
-}
-
-#home .buttons {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 1 1 auto;
-  overflow-y: auto;
-  min-height: 0;
-  gap: -10px;
-  background-color: rgb(255, 232, 185);
-  border-radius: 5px 5px 0 0;
-}
-
-#home .buttons::-webkit-scrollbar {
-  display: none;
-}
-
-#home .casefile-link {
-  box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  cursor: pointer;
-  padding: 10px 10px 15px;
-  background-color: rgb(255, 232, 185);
-  border: none;
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px 5px 0 0;
-  transition: translate 0.2s;
-}
-
-#home .casefile-link:hover {
-  translate: 0 -10px;
 }
 
 #sightings {
@@ -150,6 +99,5 @@ body #root {
   background-color: rgba(255, 255, 255, 0);
   border: none;
   color: white;
-  cursor: pointer;
   font-size: 16px;
 }
