@@ -20,6 +20,32 @@
   text-align: left;
 }
 
+#home .options {
+  display: flex;
+  width: 100%;
+  margin-bottom: -10px;
+  padding: 0 10px;
+}
+
+.options button {
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  border: none;
+  border-radius: 3px 3px 0 0;
+  width: 80px;
+  height: 35px;
+  color: white;
+  font-weight: 700;
+  z-index: 0;
+  transition: 0.2s;
+  transform: rotate(-2deg);
+}
+
+.options button:hover {
+  translate: 0 -6px;
+}
+
 #home .buttons {
   display: flex;
   flex-direction: column;
@@ -31,6 +57,7 @@
   background-color: rgb(255, 232, 185);
   border-radius: 5px 5px 0 0;
   box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 #home .buttons::-webkit-scrollbar {
