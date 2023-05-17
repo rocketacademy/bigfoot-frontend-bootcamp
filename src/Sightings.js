@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const App = () => {
+const Sightings = () => {
   const [sightings, setSightings] = useState(null);
   useEffect(() => {
     const getSightingsDataAPI = async () => {
@@ -21,10 +21,10 @@ const App = () => {
     <div className="App">
       <div className="App-header">
         <p>Hello!</p>
-        {sightings}
+        <p>This is the sightings page</p>
       </div>
     </div>
   );
 };
 
-export default App;
+export default Sightings;
