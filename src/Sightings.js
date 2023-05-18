@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BACKEND_URL } from "./constants";
 import axios from "axios";
 import "./App.css";
 import { useParams } from "react-router-dom";
@@ -10,7 +11,7 @@ const Sightings = () => {
     console.log("Sighting Index: ", sightingIndex);
     const getSightingsDataAPI = async () => {
       const sightingsEvent = await axios.get(
-        `http://localhost:3000/sightings/${sightingIndex}`
+        `${BACKEND_URL}/sightings/${sightingIndex}`
       );
       console.log("sightingsEvent: ", sightingsEvent);
       /* sightingsEvent has many keys like data, config, status etc..
