@@ -4,14 +4,16 @@ import "./index.css";
 import App from "./App";
 import Sightings from "./Sightings";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+import SightingsAll from "./SightingsAll";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/sightings",
+    element: <SightingsAll />,
   },
   {
     path: "/sightings/:sightingIndex",

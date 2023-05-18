@@ -17,3 +17,13 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.observed-text {
+  font-size: 0.5em;
+  width: 80%;
+}
+
+.observed-text-container {
+  display: flex;
+  justify-content: center;
+}
