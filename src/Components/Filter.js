@@ -3,8 +3,7 @@ import React from "react";
 function Filter({ filters, onFilterChange, onSubmit }) {
   return (
     <div>
-      <h2 className="filter-header">Filter Sightings</h2>
-
+      <div className="filter-header">Filter Sightings by</div>
       <form onSubmit={onSubmit} className="search-form">
         <label htmlFor="year">Year:</label>
         <input
