@@ -7,21 +7,17 @@ import Filter from "./Filter";
 
 function SightingsList() {
   const [sightings, setSightings] = useState([]);
-  const [filters, setFilters] = useState({
-    year: "",
-    season: "",
-    month: "",
-  });
+  const [filteredSightings, setFilteredSightings] = useState([]);
 
   const navigate = useNavigate();
 
   const fetchSightings = async () => {
-    const urlParams = new URLSearchParams(filters);
-    const url = `${BACKEND_URL}/sightings?${urlParams.toString()}`;
+    const url = `${BACKEND_URL}/sightings`;
 
     try {
       await axios.get(url).then((res) => {
         setSightings(res.data);
+        setFilteredSightings(res.data);
       });
     } catch (error) {
       console.log("Error fetching sightings: ", error);
@@ -30,47 +26,29 @@ function SightingsList() {
 
   useEffect(() => {
     fetchSightings();
+  }, []);
 
-    const hasQueryParams = Object.values(filters).some((value) => value !== "");
-
-    if (!hasQueryParams) {
-      navigate("/sightings");
-    }
-  }, [navigate, filters]);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
-
-    const urlParams = new URLSearchParams(filters);
-    const queryString = urlParams.toString();
-
-    navigate(`?${queryString}`);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    fetchSightings();
+  const filterSightings = (filterValues) => {
+    const { date, location, notes } = filterValues;
+    const filtered = sightings.filter((sighting) => {
+      const matchDate = !date || sighting.date.includes(date);
+      const matchLocation = !location || sighting.location.includes(location);
+      const matchNotes = !notes || sighting.notes.includes(notes);
+      return matchDate && matchLocation && matchNotes;
+    });
+    setFilteredSightings(filtered);
   };
 
   return (
     <div className="App">
       <Navbar />
-      <Filter
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onSubmit={handleSubmit}
-      />
-      {sightings.map((sighting, index) => (
-        <li key={index} className="sightings-list-ctn">
+      <Filter onFilter={filterSightings} />
+      {filteredSightings.map((sighting) => (
+        <li key={sighting.id} className="sightings-list-ctn">
           <div className="sightings-list">
-            <Link to={`/sightings/${index}`} className="sightings-list">
+            <Link to={`/sightings/${sighting.id}`} className="sightings-list">
               {" "}
-              {sighting.YEAR} {sighting.SEASON} {sighting.MONTH}
+              {sighting.date.slice(0, 4)} - {sighting.location}
             </Link>
           </div>
         </li>
