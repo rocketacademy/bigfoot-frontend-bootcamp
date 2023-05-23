@@ -67,26 +67,34 @@
 .sighting-body {
   width: 80%;
   margin: 0 auto;
+  color: #11224d;
 }
 
 .navbar-ctn {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
   font-size: 18px;
   padding: 20px;
 }
 
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
 .nav-link {
   text-decoration: none;
+  border: 1px solid #11224d;
   color: #11224d;
   padding: 5px;
 }
 
 .nav-link:hover {
   cursor: pointer;
-  border-bottom: 1px solid #f98125;
+  border: 1px solid #f98125;
   color: #f98125;
 }
 
@@ -101,13 +109,15 @@
   color: #f98125;
 }
 
-.filter-header {
+.filter-header,
+.new-sighting-header {
   font-size: 18px;
   text-align: center;
   padding: 10px 0;
 }
 
-.search-form {
+.search-form,
+.sighting-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -140,4 +150,36 @@
   cursor: pointer;
   color: white;
   background: #f98125;
+}
+
+.new-sighting-header p {
+  margin-top: 10px;
+}
+
+.sighting-form {
+  padding-top: 20px;
+}
+
+.sighting-form label {
+  font-size: 24px;
+}
+
+.sighting-input {
+  font-size: 18px;
+  padding: 10px;
+  width: 500px;
+}
+
+.new-sighting-btn {
+  font-size: 18px;
+  border: 1px solid #11224d;
+  background: white;
+  padding: 10px;
+  width: 500px;
+}
+
+.new-sighting-btn:hover {
+  cursor: pointer;
+  background: #f98125;
+  color: white;
 }
