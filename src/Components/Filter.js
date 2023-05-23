@@ -8,8 +8,14 @@ function Filter({ onFilter }) {
   const searchParams = new URLSearchParams(location.search);
 
   const [dateFilter, setDateFilter] = useState(searchParams.get("date") || "");
-  const [locationFilter, setLocationFilter] = useState(
-    searchParams.get("location") || ""
+  const [locationDescriptionFilter, setLocationDescriptionFilter] = useState(
+    searchParams.get("locationDescription") || ""
+  );
+  const [countryFilter, setCountryFilter] = useState(
+    searchParams.get("country") || ""
+  );
+  const [cityTownFilter, setCityTownFilter] = useState(
+    searchParams.get("cityTownFilter") || ""
   );
   const [notesFilter, setNotesFilter] = useState(
     searchParams.get("notes") || ""
@@ -22,8 +28,16 @@ function Filter({ onFilter }) {
       newSearchParams.set("date", dateFilter);
     }
 
-    if (locationFilter) {
-      newSearchParams.set("location", locationFilter);
+    if (locationDescriptionFilter) {
+      newSearchParams.set("locationDescription", locationDescriptionFilter);
+    }
+
+    if (countryFilter) {
+      newSearchParams.set("country", countryFilter);
+    }
+
+    if (cityTownFilter) {
+      newSearchParams.set("cityTown", cityTownFilter);
     }
 
     if (notesFilter) {
@@ -37,8 +51,16 @@ function Filter({ onFilter }) {
     setDateFilter(e.target.value);
   };
 
-  const handleLocationFilterChange = (e) => {
-    setLocationFilter(e.target.value);
+  const handleLocationDescriptionFilterChange = (e) => {
+    setLocationDescriptionFilter(e.target.value);
+  };
+
+  const handleCountryFilterChange = (e) => {
+    setCountryFilter(e.target.value);
+  };
+
+  const handleCityTownFilterChange = (e) => {
+    setCityTownFilter(e.target.value);
   };
 
   const handleNotesFilterChange = (e) => {
@@ -50,14 +72,18 @@ function Filter({ onFilter }) {
 
     onFilter({
       date: dateFilter,
-      location: locationFilter,
+      locationDescription: locationDescriptionFilter,
+      country: countryFilter,
+      cityTown: cityTownFilter,
       notes: notesFilter,
     });
 
     navigateWithFilters();
 
     setDateFilter("");
-    setLocationFilter("");
+    setLocationDescriptionFilter("");
+    setCountryFilter("");
+    setCityTownFilter("");
     setNotesFilter("");
   };
 
@@ -75,13 +101,31 @@ function Filter({ onFilter }) {
           onChange={handleDateFilterChange}
           className="search-input"
         />
-        <label htmlFor="locationFilter">Location:</label>
+        <label htmlFor="locationDescriptionFilter">Location Description:</label>
         <input
           type="text"
-          name="locationFilter"
-          id="locationFilter"
-          value={locationFilter}
-          onChange={handleLocationFilterChange}
+          name="locationDescriptionFilter"
+          id="locationDescriptionFilter"
+          value={locationDescriptionFilter}
+          onChange={handleLocationDescriptionFilterChange}
+          className="search-input"
+        />
+        <label htmlFor="countryFilter">Country:</label>
+        <input
+          type="text"
+          name="countryFilter"
+          id="countryFilter"
+          value={countryFilter}
+          onChange={handleCountryFilterChange}
+          className="search-input"
+        />
+        <label htmlFor="cityTownFilter">City/Town:</label>
+        <input
+          type="text"
+          name="cityTownFilter"
+          id="cityTownFilter"
+          value={cityTownFilter}
+          onChange={handleCityTownFilterChange}
           className="search-input"
         />
         <label htmlFor="notesFilter">Notes:</label>

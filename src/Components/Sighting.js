@@ -49,7 +49,10 @@ function Sighting() {
     return (
       <div className="sighting-body">
         <div>Date: {sighting.date}</div>
-        <div>Location: {sighting.location}</div>
+        <div>
+          Location: {sighting.locationDescription}, {sighting.cityTown},{" "}
+          {sighting.country}
+        </div>
         <div>{sighting.notes}</div>
       </div>
     );

@@ -13,6 +13,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/sightings" element={<SightingsList />} />
+      <Route path="/filter" element={<SightingsList />} />
       <Route path="/sightings/:id" element={<Sighting />} />
       <Route path="/sightings/:id/edit" element={<Sighting />} />
       <Route path="/new" element={<SightingForm />} />

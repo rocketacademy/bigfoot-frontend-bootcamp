@@ -18,7 +18,9 @@ function EditSightingForm({ sighting, onUpdateSighting }) {
 
     if (
       updatedSighting.date ||
-      updatedSighting.location ||
+      updatedSighting.locationDescription ||
+      updatedSighting.country ||
+      updatedSighting.cityTown ||
       updatedSighting.notes
     ) {
       try {
@@ -45,12 +47,30 @@ function EditSightingForm({ sighting, onUpdateSighting }) {
         onChange={handleChange}
         className="sighting-input"
       />
-      <label htmlFor="location">Location</label>
+      <label htmlFor="locationDescription">Location Description</label>
       <input
         type="text"
-        id="location"
-        name="location"
-        value={updatedSighting.location}
+        id="locationDescription"
+        name="locationDescription"
+        value={updatedSighting.locationDescription}
+        onChange={handleChange}
+        className="sighting-input"
+      />
+      <label htmlFor="country">Country</label>
+      <input
+        type="text"
+        id="country"
+        name="country"
+        value={updatedSighting.country}
+        onChange={handleChange}
+        className="sighting-input"
+      />
+      <label htmlFor="cityTown">City/Town</label>
+      <input
+        type="text"
+        id="cityTown"
+        name="cityTown"
+        value={updatedSighting.cityTown}
         onChange={handleChange}
         className="sighting-input"
       />

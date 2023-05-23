@@ -6,7 +6,9 @@ import Navbar from "./Navbar";
 
 function SightingForm() {
   const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
+  const [locationDescription, setLocationDescription] = useState("");
+  const [country, setCountry] = useState("");
+  const [cityTown, setCityTown] = useState("");
   const [notes, setNotes] = useState("");
 
   const navigate = useNavigate();
@@ -19,13 +21,17 @@ function SightingForm() {
       await axios
         .post(`${BACKEND_URL}/sightings`, {
           date,
-          location,
+          locationDescription,
+          country,
+          cityTown,
           notes,
         })
         .then((res) => {
           // Reset form
           setDate("");
-          setLocation("");
+          setLocationDescription("");
+          setCountry("");
+          setCityTown("");
           setNotes("");
 
           // Navigate to new sighting page
@@ -55,15 +61,37 @@ function SightingForm() {
           required
           className="sighting-input"
         />
-        <label htmlFor="location">Location</label>
+        <label htmlFor="locationDescription">Location Description</label>
         <input
           type="text"
-          id="location"
-          name="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          id="locationDescription"
+          name="locationDescription"
+          value={locationDescription}
+          onChange={(e) => setLocationDescription(e.target.value)}
           required
-          placeholder="Enter a city, town, or country"
+          placeholder="Describe your location"
+          className="sighting-input"
+        />
+        <label htmlFor="country">Country</label>
+        <input
+          type="text"
+          id="country"
+          name="country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          required
+          placeholder="Enter a country"
+          className="sighting-input"
+        />
+        <label htmlFor="cityOrTown">City/Town</label>
+        <input
+          type="text"
+          id="cityOrTown"
+          name="cityOrTown"
+          value={cityTown}
+          onChange={(e) => setCityTown(e.target.value)}
+          required
+          placeholder="Enter a city or town"
           className="sighting-input"
         />
         <label htmlFor="notes">Notes</label>

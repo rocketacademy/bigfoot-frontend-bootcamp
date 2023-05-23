@@ -29,12 +29,23 @@ function SightingsList() {
   }, []);
 
   const filterSightings = (filterValues) => {
-    const { date, location, notes } = filterValues;
+    const { date, locationDescription, country, cityTown, notes } =
+      filterValues;
     const filtered = sightings.filter((sighting) => {
       const matchDate = !date || sighting.date.includes(date);
-      const matchLocation = !location || sighting.location.includes(location);
+      const matchLocationDescription =
+        !locationDescription ||
+        sighting.locationDescription.includes(locationDescription);
+      const matchCountry = !country || sighting.country.includes(country);
+      const matchCityTown = !cityTown || sighting.cityTown.includes(cityTown);
       const matchNotes = !notes || sighting.notes.includes(notes);
-      return matchDate && matchLocation && matchNotes;
+      return (
+        matchDate &&
+        matchLocationDescription &&
+        matchCountry &&
+        matchCityTown &&
+        matchNotes
+      );
     });
     setFilteredSightings(filtered);
   };
@@ -48,7 +59,8 @@ function SightingsList() {
           <div className="sightings-list">
             <Link to={`/sightings/${sighting.id}`} className="sightings-list">
               {" "}
-              {sighting.date.slice(0, 4)} - {sighting.location}
+              {sighting.date.slice(0, 4)} - {sighting.cityTown},{" "}
+              {sighting.country}
             </Link>
           </div>
         </li>
