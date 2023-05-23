@@ -1,8 +1,8 @@
 .App {
-  text-align: center;
+    min-height: 100vh;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -16,4 +16,4 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
