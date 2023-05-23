@@ -17,13 +17,13 @@ const Home = () => {
   const navigate = useNavigate();
 
   const fetchLinks = async () => {
-    const getLinks = await axios.get(BACKEND_URL + "sightings");
+    const getLinks = await axios.get(BACKEND_URL + "/sightings");
     setLinks(getLinks.data);
   };
 
   const fetchFilteredLinks = async () => {
     const getLinks = await axios.get(
-      BACKEND_URL + "sightings?filter=" + filter
+      BACKEND_URL + "/sightings?filter=" + filter
     );
     setLinks(getLinks.data);
   };
