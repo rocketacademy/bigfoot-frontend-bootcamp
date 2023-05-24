@@ -1,21 +1,32 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BACKEND_URL } from "../constants";
-import FileHeader from "../components/FileHeader/FileHeader";
+import { BACKEND_URL } from "../../constants";
+import FileHeader from "../../components/FileHeader/FileHeader";
+import CommentsDisplay from "../../components/CommentsDisplay/CommentsDisplay";
+import "./Sighting.css";
+import ComposerComment from "../../components/Composer/ComposerComment";
 
 const Sighting = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [data, setData] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [commentComposer, setCommentComposer] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const getData = await axios.get(BACKEND_URL + "sightings/" + id);
+      const getData = await axios.get(BACKEND_URL + "/sightings/" + id);
       setData(getData.data);
     };
+    const fetchComments = async () => {
+      const getComments = await axios.get(
+        BACKEND_URL + "/sightings/" + id + "/comments"
+      );
+      setComments(getComments.data);
+    };
     fetchData();
+    fetchComments();
   }, [id]);
 
   const handleClick = (e) => {
@@ -31,11 +42,16 @@ const Sighting = () => {
     }
   };
 
-  if (data === null) {
-    return <p>Loading</p>;
-  } else {
+  if (data !== null && comments !== null) {
     return (
       <div id="sightings">
+        {commentComposer && (
+          <ComposerComment
+            setCommentComposer={setCommentComposer}
+            setComments={setComments}
+            sightingId={id}
+          />
+        )}
         <div className="sightings-header">
           <h5>Bigfoot Casefiles</h5>
           <button onClick={handleClick} id="back">
@@ -45,13 +61,19 @@ const Sighting = () => {
         <div className="sightings-content">
           <FileHeader data={data} />
           <br />
-          <p>{data.OBSERVED}</p>
+          <p className="sightings-content-notes">{data.notes}</p>
+          <CommentsDisplay
+            comments={comments}
+            setCommentComposer={setCommentComposer}
+          />
         </div>
         <div className="sightings-navigate">
-          {id > 0 && (
+          {id > 1 ? (
             <button onClick={handleClick} id="previous">
               ⇦ Previous Case
             </button>
+          ) : (
+            <div id="previous" />
           )}
           {id < 466 && (
             <button onClick={handleClick} id="next">
@@ -61,6 +83,8 @@ const Sighting = () => {
         </div>
       </div>
     );
+  } else {
+    return <p>Loading</p>;
   }
 };
 

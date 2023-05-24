@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home/Home";
-import Sighting from "./pages/Sighting";
+import Sighting from "./pages/Sighting/Sighting";
 
 const App = () => {
   return (

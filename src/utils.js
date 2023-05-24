@@ -14,4 +14,14 @@ const sortAlphabetically = (array, value) => {
   return arrayCopy;
 };
 
-export { sortAlphabetically };
+const sortNumerically = (array, value) => {
+  let arrayCopy = [...array];
+  arrayCopy.sort((a, b) => {
+    let sortA = a[value];
+    let sortB = b[value];
+    return sortA - sortB;
+  });
+  return arrayCopy;
+};
+
+export { sortAlphabetically, sortNumerically };

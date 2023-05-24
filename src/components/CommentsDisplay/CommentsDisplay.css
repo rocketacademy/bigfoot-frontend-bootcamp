@@ -1,0 +1,49 @@
+#comments-display {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#comments-display h5 {
+  font-size: 15px;
+  background-color: rgb(169, 0, 0);
+  width: fit-content;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 2px;
+  transform: rotate(-2deg);
+}
+
+#comments-display .comment {
+  background-color: rgb(219, 193, 148);
+  width: fit-content;
+  padding: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#comments-display .comment p {
+  font-size: 15px;
+  width: 100%;
+}
+
+#comments-display .comment h6 {
+  color: rgb(160, 136, 94);
+}
+
+#comments-display .comments-add {
+  width: fit-content;
+  padding: 3px 6px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  transition: 0.2s;
+}
+
+#comments-display .comments-add:hover {
+  background-color: rgb(235, 198, 64);
+  color: rgb(0, 0, 0);
+}

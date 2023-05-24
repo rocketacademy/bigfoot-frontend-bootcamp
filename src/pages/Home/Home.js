@@ -5,27 +5,29 @@ import { BACKEND_URL } from "../../constants";
 import "./Home.css";
 import FileHeader from "../../components/FileHeader/FileHeader";
 import FilterTab from "../../components/FilterTab";
-import { sortAlphabetically } from "../../utils";
+import { sortNumerically } from "../../utils";
+import Composer from "../../components/Composer/Composer";
 
 const Home = () => {
-  const [links, setLinks] = useState(null);
+  const [data, setData] = useState(null);
   const [filter, setFilter] = useState(null);
   const [sort, setSort] = useState(null);
   const [buttonList, setButtonList] = useState(<></>);
+  const [composer, setComposer] = useState(false);
   const [searchParams] = useSearchParams();
   const filterQuery = searchParams.get("filter");
   const navigate = useNavigate();
 
   const fetchLinks = async () => {
     const getLinks = await axios.get(BACKEND_URL + "/sightings");
-    setLinks(getLinks.data);
+    setData(getLinks.data);
   };
 
   const fetchFilteredLinks = async () => {
     const getLinks = await axios.get(
       BACKEND_URL + "/sightings?filter=" + filter
     );
-    setLinks(getLinks.data);
+    setData(getLinks.data);
   };
 
   useEffect(() => {
@@ -37,7 +39,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log("useEffect filter");
     if (filter) {
       if (filter === "All") {
         fetchLinks();
@@ -49,8 +50,8 @@ const Home = () => {
   }, [filter]);
 
   useEffect(() => {
-    if (links && sort) {
-      setLinks(sortAlphabetically(links, sort));
+    if (data && sort) {
+      setData(sortNumerically(data, sort));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort]);
@@ -63,11 +64,11 @@ const Home = () => {
   }, [filter, sort]);
 
   useEffect(() => {
-    if (links) {
-      let buttons = links.map((element, index) => (
+    if (data) {
+      let buttons = data.map((element, index) => (
         <button
-          key={element.INDEX}
-          id={element.INDEX}
+          key={element.id}
+          id={element.id}
           className="casefile-link"
           onClick={handleClick}
           style={{ zIndex: index }}
@@ -78,7 +79,7 @@ const Home = () => {
       setButtonList(buttons);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [links]);
+  }, [data]);
 
   const handleClick = (e) => {
     if (e.currentTarget.id.includes("filter")) {
@@ -88,6 +89,8 @@ const Home = () => {
     } else if (e.currentTarget.id.includes("sort")) {
       const sortBy = e.currentTarget.id.split("-")[1];
       setSort(sortBy);
+    } else if (e.currentTarget.id.includes("add")) {
+      setComposer(true);
     } else {
       navigate("/sightings/" + e.currentTarget.id);
     }
@@ -95,17 +98,14 @@ const Home = () => {
 
   return (
     <div id="home">
+      {composer && <Composer setComposer={setComposer} setData={setData} />}
       <div className="home-header">
         <h1>Bigfoot Casefiles</h1>
         <h1>👣</h1>
       </div>
       <div className="options">
-        <button
-          id="sort-REPORT_CLASS"
-          onClick={handleClick}
-          style={{ color: "#000000" }}
-        >
-          Sort:Type
+        <button id="add-sighting" onClick={handleClick}>
+          Add Sighting
         </button>
         <div className="filters">
           <FilterTab filter="All" handleClick={handleClick} />
@@ -113,6 +113,9 @@ const Home = () => {
           <FilterTab filter="Summer" handleClick={handleClick} />
           <FilterTab filter="Fall" handleClick={handleClick} />
           <FilterTab filter="Winter" handleClick={handleClick} />
+          <button id="sort-year" onClick={handleClick}>
+            Sort:Year
+          </button>
         </div>
       </div>
       <div className="buttons">{buttonList}</div>
