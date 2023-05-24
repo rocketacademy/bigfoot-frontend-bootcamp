@@ -8,12 +8,14 @@ import EditSightingForm from "./EditSightingForm";
 function Sighting() {
   const [sighting, setSighting] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios
+  const getSighting = async () => {
+    await axios
       .get(`${BACKEND_URL}/sightings/${id}`)
       .then((res) => {
         setSighting(res.data);
@@ -22,7 +24,50 @@ function Sighting() {
       .catch((error) => {
         console.log("Error fetching sighting:", error);
       });
+  };
+
+  const getComments = async () => {
+    await axios
+      .get(`${BACKEND_URL}/sightings/${id}/comments`)
+      .then((res) => {
+        setComments(res.data);
+        console.log(comments);
+      })
+      .catch((error) => {
+        console.log("Error fetching comments:", error);
+      });
+  };
+
+  useEffect(() => {
+    getSighting();
+    getComments();
   }, [id]);
+
+  // useEffect(() => {
+  //   getComments();
+  // }, [newComment]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${BACKEND_URL}/sightings/${id}`)
+  //     .then((res) => {
+  //       setSighting(res.data);
+  //       console.log(sighting);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error fetching sighting:", error);
+  //     });
+
+  //   axios
+  //     .get(`${BACKEND_URL}/sightings/${id}/comments`)
+  //     .then((res) => {
+  //       setComments(res.data);
+  //       console.log(comments);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error fetching comments:", error);
+  //     });
+  // }, [id]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -58,6 +103,40 @@ function Sighting() {
     );
   };
 
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+
+    if (newComment) {
+      try {
+        await axios.post(`${BACKEND_URL}/sightings/${id}/comments`, {
+          content: newComment,
+          sightingId: id,
+        });
+        setNewComment("");
+
+        await axios
+          .get(`${BACKEND_URL}/sightings/${id}/comments`)
+          .then((res) => {
+            setComments(res.data);
+          });
+      } catch (error) {
+        console.log("Error adding comment:", error);
+      }
+    } else {
+      alert("Please write a comment before submitting");
+    }
+  };
+
+  const renderComments = () => {
+    return comments.map((comment) => (
+      <li key={comment.id}>
+        <div>
+          {comment.createdAt}: {comment.content}
+        </div>
+      </li>
+    ));
+  };
+
   return (
     <div className="sighting-ctn App">
       <Navbar />
@@ -78,6 +157,24 @@ function Sighting() {
           onUpdateSighting={handleUpdateSighting}
         />
       )}
+      <form onSubmit={handleAddComment}>
+        <label htmlFor="newComment">Add a comment</label>
+        <textarea
+          rows="5"
+          cols="50"
+          id="newComment"
+          name="newComment"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <button type="submit">Add Comment</button>
+      </form>
+      <h3>Comments</h3>
+      <div>
+        {comments.length > 0
+          ? renderComments()
+          : `Be the first to leave a comment!`}
+      </div>
     </div>
   );
 }
