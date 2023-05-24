@@ -53,18 +53,23 @@ function SightingsList() {
   return (
     <div className="App">
       <Navbar />
-      <Filter onFilter={filterSightings} />
-      {filteredSightings.map((sighting) => (
-        <li key={sighting.id} className="sightings-list-ctn">
-          <div className="sightings-list">
-            <Link to={`/sightings/${sighting.id}`} className="sightings-list">
-              {" "}
-              {sighting.date.slice(0, 4)} - {sighting.cityTown},{" "}
-              {sighting.country}
-            </Link>
-          </div>
-        </li>
-      ))}
+      <div className="sightings-ctn">
+        <div className="filter-ctn">
+          <Filter onFilter={filterSightings} />
+        </div>
+
+        <div className="filtered-sightings-ctn">
+          {filteredSightings.map((sighting) => (
+            <div key={sighting.id} className="sightings-list-ctn">
+              <Link to={`/sightings/${sighting.id}`} className="sightings-list">
+                {" "}
+                {sighting.date.slice(0, 4)} - {sighting.cityTown},{" "}
+                {sighting.country}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

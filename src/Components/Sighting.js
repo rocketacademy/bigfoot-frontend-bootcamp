@@ -82,14 +82,26 @@ function Sighting() {
   const renderSighting = () => {
     return (
       <div className="sighting-body">
-        <div>Likes: {likesCount}</div>
-        <button onClick={handleLikeClick}>Like</button>
-        <div>Date: {sighting.date}</div>
-        <div>
-          Location: {sighting.locationDescription}, {sighting.cityTown},{" "}
-          {sighting.country}
+        <div className="like-ctn">
+          {likesCount}{" "}
+          <button onClick={handleLikeClick} className="icon-btn">
+            ❤
+          </button>
         </div>
-        <div>{sighting.notes}</div>
+
+        <div className="sighting-details-ctn">
+          <div className="date-location-ctn">
+            <div>Date:</div>
+            <div>{sighting.date}</div>
+            <div>Location:</div>
+            <div>
+              {sighting.locationDescription}, {sighting.cityTown},{" "}
+              {sighting.country}
+            </div>
+          </div>
+
+          <div className="notes-ctn">{sighting.notes}</div>
+        </div>
       </div>
     );
   };
@@ -146,10 +158,18 @@ function Sighting() {
 
   const renderComments = () => {
     return comments.map((comment) => (
-      <li key={comment.id}>
-        <div>
-          {comment.createdAt}: {comment.content}
-          <button onClick={() => handleEditComment(comment)}>Edit</button>
+      <li key={comment.id} className="comments-list-ctn">
+        <div className="comment-ctn">
+          <div className="comment-date">Posted on {comment.createdAt}</div>
+          <div className="comment-row">
+            <div className="comment-content">{comment.content}</div>
+            <button
+              onClick={() => handleEditComment(comment)}
+              className="icon-btn"
+            >
+              ✎
+            </button>
+          </div>
         </div>
         {comment.id === editingCommentId && (
           <EditCommentForm
@@ -176,11 +196,17 @@ function Sighting() {
       <Navbar />
       {!isEditing ? (
         <div className="sighting-header">
-          Sighting Summary <button onClick={handleEditClick}>✎</button>
+          Sighting Information{" "}
+          <button onClick={handleEditClick} className="icon-btn">
+            ✎
+          </button>
         </div>
       ) : (
         <div className="sighting-header">
-          <button onClick={handleCancelEdit}>←</button> Update Sighting
+          <button onClick={handleCancelEdit} className="icon-btn">
+            ←
+          </button>{" "}
+          Update Sighting
         </div>
       )}
       {!isEditing ? (
@@ -191,24 +217,32 @@ function Sighting() {
           onUpdateSighting={handleUpdateSighting}
         />
       )}
-      <form onSubmit={handleAddComment}>
-        <label htmlFor="newComment">Add a comment</label>
-        <textarea
-          rows="5"
-          cols="50"
-          id="newComment"
-          name="newComment"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-        />
-        <button type="submit">Add Comment</button>
-      </form>
-      <h3>Comments</h3>
-      <div>
-        {comments.length > 0
-          ? renderComments()
-          : `Be the first to leave a comment!`}
-      </div>
+      {!isEditing && (
+        <div>
+          <form onSubmit={handleAddComment} className="comment-form-ctn">
+            <label htmlFor="newComment" className="comment-form-header">
+              Add a comment
+            </label>
+            <textarea
+              rows="8"
+              cols="100"
+              id="newComment"
+              name="newComment"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <button type="submit" className="btn">
+              Add Comment
+            </button>
+          </form>
+          <h3 className="comments-header">View Comments</h3>
+          <div className="comments">
+            {comments.length > 0
+              ? renderComments()
+              : `Be the first to leave a comment!`}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -36,17 +36,21 @@ function EditCommentForm({ comment, onUpdateComment, onDeleteComment }) {
 
   return (
     <div>
-      <form onSubmit={handleEditSubmit}>
+      <form onSubmit={handleEditSubmit} className="edit-comment-form">
         <textarea
-          rows="5"
-          cols="50"
+          rows="8"
+          cols="100"
           value={editedComment}
           onChange={(e) => setEditedComment(e.target.value)}
         />
-        <button type="submit">Save</button>
-        <button type="button" onClick={handleDeleteClick}>
-          Delete
-        </button>
+        <div className="button-ctn">
+          <button type="submit" className="btn">
+            Save
+          </button>
+          <button type="button" onClick={handleDeleteClick} className="btn">
+            Delete
+          </button>
+        </div>
       </form>
     </div>
   );

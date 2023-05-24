@@ -88,7 +88,7 @@ function Filter({ onFilter }) {
   };
 
   return (
-    <div>
+    <div className="filter-ctn">
       <h2 className="filter-header">Filter Sightings</h2>
 
       <form onSubmit={handleFilter} className="search-form">
@@ -137,7 +137,7 @@ function Filter({ onFilter }) {
           onChange={handleNotesFilterChange}
           className="search-input"
         />
-        <button type="submit" className="search-btn">
+        <button type="submit" className="btn search-btn">
           Apply
         </button>
       </form>

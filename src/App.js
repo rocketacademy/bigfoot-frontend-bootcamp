@@ -6,11 +6,11 @@ function App() {
   return (
     <div className="App home-ctn">
       <h1 className="home-header">Bigfoot Wiki</h1>
-      <Link to="/new" className="home-link">
-        <button>REPORT A SIGHTING</button>
+      <Link to="/new">
+        <button className="btn">REPORT A SIGHTING</button>
       </Link>
-      <Link to="/sightings" className="home-link">
-        <button>VIEW REPORTED SIGHTINGS</button>
+      <Link to="/sightings">
+        <button className="btn">VIEW REPORTED SIGHTINGS</button>
       </Link>
     </div>
   );
