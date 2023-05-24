@@ -12,6 +12,7 @@ function Sighting() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
+  const [likesCount, setLikesCount] = useState(0);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,9 +41,21 @@ function Sighting() {
       });
   };
 
+  const getLikesCount = async () => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/sightings/${id}/likes/count`
+      );
+      setLikesCount(response.data.count);
+    } catch (error) {
+      console.log("Error fetching likes count:", error);
+    }
+  };
+
   useEffect(() => {
     getSighting();
     getComments();
+    getLikesCount();
   }, [id]);
 
   const handleEditClick = () => {
@@ -69,6 +82,8 @@ function Sighting() {
   const renderSighting = () => {
     return (
       <div className="sighting-body">
+        <div>Likes: {likesCount}</div>
+        <button onClick={handleLikeClick}>Like</button>
         <div>Date: {sighting.date}</div>
         <div>
           Location: {sighting.locationDescription}, {sighting.cityTown},{" "}
@@ -145,6 +160,15 @@ function Sighting() {
         )}
       </li>
     ));
+  };
+
+  const handleLikeClick = async () => {
+    try {
+      await axios.post(`${BACKEND_URL}/sightings/${id}/likes`);
+      getLikesCount();
+    } catch (error) {
+      console.log("Error handling like:", error);
+    }
   };
 
   return (
