@@ -284,3 +284,17 @@
   align-items: center;
   gap: 10px;
 }
+
+.category-ctn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  gap: 10px;
+}
+
+.category {
+  background: lightgray;
+  border-radius: 5%;
+  padding: 5px;
+}

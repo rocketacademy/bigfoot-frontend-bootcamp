@@ -22,7 +22,7 @@ function Sighting() {
       .get(`${BACKEND_URL}/sightings/${id}`)
       .then((res) => {
         setSighting(res.data);
-        console.log(sighting);
+        console.log(res.data);
       })
       .catch((error) => {
         console.log("Error fetching sighting:", error);
@@ -97,6 +97,13 @@ function Sighting() {
             <div>
               {sighting.locationDescription}, {sighting.cityTown},{" "}
               {sighting.country}
+            </div>
+            <div>Category:</div>
+            <div>
+              {sighting.categories &&
+                sighting.categories.map((category) => (
+                  <div key={category.id}>{category.name}</div>
+                ))}
             </div>
           </div>
 

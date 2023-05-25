@@ -18,6 +18,7 @@ function SightingsList() {
       await axios.get(url).then((res) => {
         setSightings(res.data);
         setFilteredSightings(res.data);
+        console.log(res.data);
       });
     } catch (error) {
       console.log("Error fetching sightings: ", error);
@@ -63,6 +64,17 @@ function SightingsList() {
             <div key={sighting.id} className="sightings-list-ctn">
               <Link to={`/sightings/${sighting.id}`} className="sightings-list">
                 {" "}
+                <div className="category-ctn">
+                  {sighting.categories.length > 0
+                    ? `Category:`
+                    : `Category: NA`}
+                  {sighting.categories &&
+                    sighting.categories.map((category) => (
+                      <div key={category.id} className="category">
+                        {category.name}
+                      </div>
+                    ))}{" "}
+                </div>
                 {sighting.date.slice(0, 4)} - {sighting.cityTown},{" "}
                 {sighting.country}
               </Link>
