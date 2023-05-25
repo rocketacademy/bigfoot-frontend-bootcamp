@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../constants";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import Select from "react-select";
 
 function SightingForm() {
   const [date, setDate] = useState("");
@@ -10,11 +11,37 @@ function SightingForm() {
   const [country, setCountry] = useState("");
   const [cityTown, setCityTown] = useState("");
   const [notes, setNotes] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const navigate = useNavigate();
 
+  const getAllCategories = async () => {
+    try {
+      await axios.get(`${BACKEND_URL}/categories`).then((res) => {
+        console.log(res.data);
+        setCategories(res.data);
+      });
+    } catch (error) {
+      console.log("Error fetching categories:", error);
+    }
+  };
+
+  const categoryOptions = categories.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }));
+
+  console.log(categoryOptions);
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
   const handleNewSighting = async (e) => {
     e.preventDefault();
+
+    const categoryIds = selectedCategories.map((category) => category.value);
 
     // Post request to create new sighting
     try {
@@ -25,6 +52,7 @@ function SightingForm() {
           country,
           cityTown,
           notes,
+          categoryIds,
         })
         .then((res) => {
           // Reset form
@@ -33,6 +61,7 @@ function SightingForm() {
           setCountry("");
           setCityTown("");
           setNotes("");
+          setSelectedCategories([]);
 
           // Navigate to new sighting page
           navigate(`/sightings/${res.data.id}`);
@@ -40,6 +69,11 @@ function SightingForm() {
     } catch (error) {
       console.log("Error creating new sighting: ", error);
     }
+  };
+
+  const handleSelected = (selected) => {
+    setSelectedCategories(selected);
+    console.log(selectedCategories);
   };
 
   return (
@@ -60,6 +94,12 @@ function SightingForm() {
           onChange={(e) => setDate(e.target.value)}
           required
           className="sighting-input"
+        />
+        <Select
+          isMulti
+          options={categoryOptions}
+          value={selectedCategories}
+          onChange={handleSelected}
         />
         <label htmlFor="locationDescription">Location Description</label>
         <input
