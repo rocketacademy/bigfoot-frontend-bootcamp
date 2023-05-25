@@ -3,7 +3,7 @@ import { BACKEND_URL } from "../constants";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 function SightingForm() {
   const [date, setDate] = useState("");
@@ -76,6 +76,26 @@ function SightingForm() {
     console.log(selectedCategories);
   };
 
+  const handleCreateOption = async (inputValue) => {
+    try {
+      const res = await axios.post(`${BACKEND_URL}/categories`, {
+        name: inputValue,
+      });
+
+      // Add new category to categoryOptions array
+      const newCategory = {
+        value: res.data.id,
+        label: res.data.name,
+      };
+      setCategories([...categories, newCategory]);
+
+      // Add new category to selected categories
+      setSelectedCategories([...selectedCategories, newCategory]);
+    } catch (error) {
+      console.log("Error creating new category:", error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -95,11 +115,12 @@ function SightingForm() {
           required
           className="sighting-input"
         />
-        <Select
+        <CreatableSelect
           isMulti
           options={categoryOptions}
           value={selectedCategories}
           onChange={handleSelected}
+          onCreateOption={(inputValue) => handleCreateOption(inputValue)}
         />
         <label htmlFor="locationDescription">Location Description</label>
         <input
