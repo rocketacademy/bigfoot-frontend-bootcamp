@@ -1,18 +1,28 @@
+// ———— Utilities ———— //
+
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { sortNumerically } from "../../utils";
 import { BACKEND_URL } from "../../constants";
 import "./Home.css";
+
+// ————— React ————— //
+
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
+// ———— Components ———— //
+
 import FileHeader from "../../components/FileHeader/FileHeader";
 import FilterTab from "../../components/FilterTab";
-import { sortNumerically } from "../../utils";
 import Composer from "../../components/Composer/Composer";
+
+// ———————————————————— //
 
 const Home = () => {
   const [data, setData] = useState(null);
   const [filter, setFilter] = useState(null);
   const [sort, setSort] = useState(null);
-  const [buttonList, setButtonList] = useState(<></>);
+  const [sightingList, setSightingList] = useState(<></>);
   const [composer, setComposer] = useState(false);
   const [searchParams] = useSearchParams();
   const filterQuery = searchParams.get("filter");
@@ -33,8 +43,9 @@ const Home = () => {
   useEffect(() => {
     if (filterQuery) {
       setFilter(filterQuery);
+    } else if (!data) {
+      fetchLinks();
     }
-    fetchLinks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -76,7 +87,7 @@ const Home = () => {
           <FileHeader data={element} />
         </button>
       ));
-      setButtonList(buttons);
+      setSightingList(buttons);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -118,7 +129,7 @@ const Home = () => {
           </button>
         </div>
       </div>
-      <div className="buttons">{buttonList}</div>
+      <div className="buttons">{sightingList}</div>
     </div>
   );
 };

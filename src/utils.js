@@ -24,4 +24,23 @@ const sortNumerically = (array, value) => {
   return arrayCopy;
 };
 
-export { sortAlphabetically, sortNumerically };
+const capitalise = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export { sortAlphabetically, sortNumerically, capitalise, months };

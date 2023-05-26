@@ -2,6 +2,23 @@ import { useEffect, useState } from "react";
 import "./Composer.css";
 import axios from "axios";
 import { BACKEND_URL } from "../../constants";
+import Select from "react-select";
+import { capitalise, months } from "../../utils";
+
+const monthList = [
+  { value: 1, label: months[0] },
+  { value: 2, label: months[1] },
+  { value: 3, label: months[2] },
+  { value: 4, label: months[3] },
+  { value: 5, label: months[4] },
+  { value: 6, label: months[5] },
+  { value: 7, label: months[6] },
+  { value: 8, label: months[7] },
+  { value: 9, label: months[8] },
+  { value: 10, label: months[9] },
+  { value: 11, label: months[10] },
+  { value: 12, label: months[11] },
+];
 
 const Composer = ({ setComposer, setData }) => {
   const [month, setMonth] = useState("");
@@ -9,40 +26,40 @@ const Composer = ({ setComposer, setData }) => {
   const [location, setLocation] = useState("");
   const [season, setSeason] = useState("");
   const [notes, setNotes] = useState("");
+  const [categoriesList, setCategoriesList] = useState("");
+  const [categories, setCategories] = useState("");
 
   useEffect(() => {
-    if (
-      month.toLowerCase() === "march" ||
-      month.toLowerCase() === "april" ||
-      month.toLowerCase() === "may"
-    ) {
+    const fetchCategories = async () => {
+      const categories = [];
+      const fetchedCategories = await axios.get(BACKEND_URL + "/categories");
+      fetchedCategories.data.map((category) => {
+        const categoryObject = {
+          value: category.id,
+          label: capitalise(category.name),
+        };
+        return categories.push(categoryObject);
+      });
+      setCategoriesList(categories);
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    if (month >= 3 && month <= 5) {
       setSeason("Spring");
-    } else if (
-      month.toLowerCase() === "june" ||
-      month.toLowerCase() === "july" ||
-      month.toLowerCase() === "august"
-    ) {
+    } else if (month >= 6 && month <= 8) {
       setSeason("Summer");
-    } else if (
-      month.toLowerCase() === "september" ||
-      month.toLowerCase() === "october" ||
-      month.toLowerCase() === "november"
-    ) {
+    } else if (month >= 9 && month <= 11) {
       setSeason("Fall");
-    } else if (
-      month.toLowerCase() === "december" ||
-      month.toLowerCase() === "january" ||
-      month.toLowerCase() === "february"
-    ) {
+    } else {
       setSeason("Winter");
     }
   }, [month]);
 
   const handleChange = (e) => {
     const id = e.target.id;
-    if (id === "month") {
-      setMonth(e.target.value);
-    } else if (id === "year") {
+    if (id === "year") {
       setYear(e.target.value);
     } else if (id === "location") {
       setLocation(e.target.value);
@@ -57,15 +74,30 @@ const Composer = ({ setComposer, setData }) => {
     setComposer(false);
   };
 
+  const handleCategorySelect = (e) => {
+    const selectedCategories = [];
+    e.forEach((e) => selectedCategories.push(e.value));
+    setCategories(selectedCategories);
+  };
+
+  const handleMonthSelect = (e) => {
+    setMonth(e.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await axios.post(BACKEND_URL + "/sightings", {
-      month: month,
+      month: months[month - 1],
       year: year,
       location: location,
       season: season,
       notes: notes,
     });
+    await axios.post(BACKEND_URL + "/categories", {
+      sightingId: result.data.sighting.id,
+      categoryIds: categories,
+    });
+
     setData((prevData) => [...prevData, result.data.sighting]);
     setComposer(false);
   };
@@ -77,13 +109,11 @@ const Composer = ({ setComposer, setData }) => {
           <h3>Add a Sighting!</h3>
           <button onClick={handleClick}>Cancel</button>
         </div>
-        <input
-          type="text"
-          value={month}
-          id="month"
-          onChange={handleChange}
-          placeholder="Enter month"
-          autoComplete="off"
+        <Select
+          className="select-field"
+          options={monthList}
+          onChange={handleMonthSelect}
+          placeholder="Select month"
         />
         <input
           type="text"
@@ -101,6 +131,15 @@ const Composer = ({ setComposer, setData }) => {
           placeholder="Enter location"
           autoComplete="off"
         />
+        {categoriesList && (
+          <Select
+            isMulti
+            className="select-field"
+            options={categoriesList}
+            onChange={handleCategorySelect}
+            placeholder="Select weather"
+          />
+        )}
         <textarea
           value={notes}
           id="notes"
@@ -108,6 +147,7 @@ const Composer = ({ setComposer, setData }) => {
           placeholder="Enter notes"
           autoComplete="off"
         />
+
         <button onClick={handleSubmit} id="submit">
           Submit
         </button>
