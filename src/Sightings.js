@@ -20,7 +20,7 @@ const Sightings = () => {
            data: JSON
          }
       */
-      const { data } = sightingsEvent.data;
+      const data = sightingsEvent;
       console.log("data: ", data);
       setSingleSighting(data);
     };

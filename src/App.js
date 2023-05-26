@@ -8,20 +8,27 @@ const App = () => {
   useEffect(() => {
     const getSightingsDataAPI = async () => {
       const sightingsData = await axios.get(`${BACKEND_URL}/sightings`);
+      console.log(sightingsData);
       setSightings(sightingsArray(sightingsData.data));
     };
     getSightingsDataAPI();
   }, []);
   const sightingsArray = (data) => {
     const res = data.map((sighting) => {
-      return <div>{sighting.REPORT_NUMBER}</div>;
+      return (
+        <div key={sighting.id}>
+          <h3>Sighting {sighting.id}</h3>
+          <div>{sighting.date}</div>
+          <div>{sighting.location}</div>
+        </div>
+      );
     });
     return res;
   };
   return (
     <div className="App">
       <div className="App-header">
-        <p>Hello!</p>
+        <p>Home Page</p>
         {sightings}
       </div>
     </div>
