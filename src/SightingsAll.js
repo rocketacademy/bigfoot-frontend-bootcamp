@@ -14,11 +14,11 @@ const SightingsAll = () => {
     getSightingsDataAPI();
   }, []);
   const sightingsArray = (data) => {
-    const res = data.map((sighting, index) => {
+    const res = data.map((sighting) => {
       return (
         <div>
           <div>
-            <Link to={index.toString()}>Sighting {index}</Link>
+            <Link to={`${sighting.id}`}>Sighting {sighting.id}</Link>
           </div>
         </div>
       );

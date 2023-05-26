@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "./constants";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 
@@ -17,7 +18,7 @@ const App = () => {
     const res = data.map((sighting) => {
       return (
         <div key={sighting.id}>
-          <h3>Sighting {sighting.id}</h3>
+          <Link to={`sightings/${sighting.id}`}>Sighting {sighting.id}</Link>
           <div>{sighting.date}</div>
           <div>{sighting.location}</div>
         </div>
