@@ -20,7 +20,7 @@ const Sightings = () => {
            data: JSON
          }
       */
-      const data = sightingsEvent;
+      const { data } = sightingsEvent;
       console.log("data: ", data);
       setSingleSighting(data);
     };
@@ -32,12 +32,11 @@ const Sightings = () => {
         {singleSighting && (
           <div>
             <h1>Sighting {sightingIndex} </h1>
-            <p>Year: {singleSighting.YEAR}</p>
-            <p>Date: {singleSighting.DATE}</p>
-            <p>Month: {singleSighting.MONTH}</p>
-            <div>Observed: </div>
+            <p>Date: {singleSighting.date}</p>
+            <p>Location: {singleSighting.location}</p>
+            <div>Notes: </div>
             <div className="observed-text-container">
-              <p className="observed-text">{singleSighting.OBSERVED} </p>
+              <p className="observed-text">{singleSighting.notes} </p>
             </div>
           </div>
         )}
