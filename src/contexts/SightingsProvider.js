@@ -19,6 +19,7 @@ function SightingsProvider({ children }) {
 
   const updateSightingsContext = () => {
     setUpdate((prevUpdate) => !prevUpdate);
+    console.log("Updated!");
   };
 
   const contextObj = {

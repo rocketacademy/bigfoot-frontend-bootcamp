@@ -35,7 +35,7 @@ function SightingComposer() {
 
       console.log(response);
 
-      navigate(`/sightings/${response.data?.id}`);
+      navigate(`/sightings/${response.data?.sighting?.id}`);
       sightingsContext.updateSightingsContext();
     } catch (err) {
       console.log(err);
