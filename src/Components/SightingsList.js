@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constants";
 import Navbar from "./Navbar";
 import Filter from "./Filter";
+import moment from "moment";
 
 function SightingsList() {
   const [sightings, setSightings] = useState([]);
@@ -63,7 +64,12 @@ function SightingsList() {
           {filteredSightings.map((sighting) => (
             <div key={sighting.id} className="sightings-list-ctn">
               <Link to={`/sightings/${sighting.id}`} className="sightings-list">
-                {" "}
+                <div className="date">
+                  {moment(sighting.date).format("d MMMM YYYY")}
+                </div>
+                <div className="sighting-location">
+                  {sighting.cityTown}, {sighting.country}
+                </div>
                 <div className="category-ctn">
                   {sighting.categories.length > 0
                     ? `Category:`
@@ -71,12 +77,10 @@ function SightingsList() {
                   {sighting.categories &&
                     sighting.categories.map((category) => (
                       <div key={category.id} className="category">
-                        {category.name}
+                        #{category.name}
                       </div>
                     ))}{" "}
                 </div>
-                {sighting.date.slice(0, 4)} - {sighting.cityTown},{" "}
-                {sighting.country}
               </Link>
             </div>
           ))}

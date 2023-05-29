@@ -13,6 +13,7 @@ function SightingForm() {
   const [notes, setNotes] = useState("");
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [intensities, setIntensities] = useState({});
 
   const navigate = useNavigate();
 
@@ -42,6 +43,10 @@ function SightingForm() {
     e.preventDefault();
 
     const categoryIds = selectedCategories.map((category) => category.value);
+    const categories = selectedCategories.map((category) => ({
+      categoryId: category.value,
+      intensity: intensities[category.value],
+    }));
 
     // Post request to create new sighting
     try {
@@ -52,7 +57,7 @@ function SightingForm() {
           country,
           cityTown,
           notes,
-          categoryIds,
+          categories,
         })
         .then((res) => {
           // Reset form
@@ -62,6 +67,7 @@ function SightingForm() {
           setCityTown("");
           setNotes("");
           setSelectedCategories([]);
+          setIntensities([]);
 
           // Navigate to new sighting page
           navigate(`/sightings/${res.data.id}`);
@@ -73,7 +79,15 @@ function SightingForm() {
 
   const handleSelected = (selected) => {
     setSelectedCategories(selected);
+    const newIntensities = { ...intensities };
+    selected.forEach((category) => {
+      if (!newIntensities[category.value]) {
+        newIntensities[category.value] = 1;
+      }
+    });
+    setIntensities(newIntensities);
     console.log(selectedCategories);
+    console.log(intensities);
   };
 
   const handleCreateOption = async (inputValue) => {
@@ -94,6 +108,13 @@ function SightingForm() {
     } catch (error) {
       console.log("Error creating new category:", error);
     }
+  };
+
+  const handleIntensityChange = (value, categoryId) => {
+    setIntensities((prevIntensities) => ({
+      ...prevIntensities,
+      [categoryId]: value,
+    }));
   };
 
   return (
@@ -122,6 +143,23 @@ function SightingForm() {
           onChange={handleSelected}
           onCreateOption={(inputValue) => handleCreateOption(inputValue)}
         />
+        {selectedCategories.map((category) => (
+          <div key={category.value}>
+            <label htmlFor={`intensity-${category.value}`}>
+              Intensity of {category.label}
+            </label>
+            <input
+              type="number"
+              id={`intensity-${category.value}`}
+              value={intensities[category.value] || ""}
+              onChange={(e) =>
+                handleIntensityChange(e.target.value, category.value)
+              }
+              min="1"
+              max="5"
+            />
+          </div>
+        ))}
         <label htmlFor="locationDescription">Location Description</label>
         <input
           type="text"

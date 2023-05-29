@@ -18,7 +18,6 @@ root.render(
       <Route path="/sightings/:id/edit" element={<Sighting />} />
       <Route path="/new" element={<SightingForm />} />
       <Route path="*" element={"Oops! Something went wrong."} />
-      {/* </Route> */}
     </Routes>
   </BrowserRouter>
 );

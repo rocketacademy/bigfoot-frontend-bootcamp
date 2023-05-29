@@ -58,7 +58,7 @@
   margin: 5px;
   padding: 5px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .sightings-list:hover {
@@ -289,7 +289,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 12px;
   gap: 10px;
 }
 
@@ -297,4 +297,25 @@
   background: lightgray;
   border-radius: 5%;
   padding: 5px;
+}
+
+.category-intensity {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 14px;
+}
+
+.add-btn {
+  background: #fb3b1e;
+  color: white;
+}
+
+.remove-btn {
+  background: #86dc3d;
+}
+
+.date {
+  font-weight: bold;
 }

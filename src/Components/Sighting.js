@@ -5,6 +5,7 @@ import { BACKEND_URL } from "../constants";
 import Navbar from "./Navbar";
 import EditSightingForm from "./EditSightingForm";
 import EditCommentForm from "./EditCommentForm";
+import moment from "moment";
 
 function Sighting() {
   const [sighting, setSighting] = useState({});
@@ -92,17 +93,20 @@ function Sighting() {
         <div className="sighting-details-ctn">
           <div className="date-location-ctn">
             <div>Date:</div>
-            <div>{sighting.date}</div>
+            <div>{moment(sighting.date).format("d MMMM YYYY, h:mma")}</div>
             <div>Location:</div>
             <div>
               {sighting.locationDescription}, {sighting.cityTown},{" "}
               {sighting.country}
             </div>
-            <div>Category:</div>
+            <div>Category/Intensity:</div>
             <div>
               {sighting.categories &&
                 sighting.categories.map((category) => (
-                  <div key={category.id}>{category.name}</div>
+                  <div key={category.id} className="category-intensity">
+                    <span className="category">{category.name}</span>
+                    <span>{category.sighting_categories.intensity}</span>
+                  </div>
                 ))}
             </div>
           </div>
@@ -167,7 +171,9 @@ function Sighting() {
     return comments.map((comment) => (
       <li key={comment.id} className="comments-list-ctn">
         <div className="comment-ctn">
-          <div className="comment-date">Posted on {comment.createdAt}</div>
+          <div className="comment-date">
+            Posted on {moment(comment.createdAt).format("d MMMM YYYY, h:mma")}
+          </div>
           <div className="comment-row">
             <div className="comment-content">{comment.content}</div>
             <button
