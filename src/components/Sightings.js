@@ -20,7 +20,13 @@ export const Sightings = () => {
 		<div>
 			{
 				sighting.map((sight) => {
-					return (sighting.length !== 0 ? <div><p>{sight.date}</p> <p>{sight.location}</p><p>{sight.notes}</p><br />
+					return (sighting.length !== 0 ? <div>
+						<div>
+							<button>Edit</button>
+							<button>Delete</button>
+						</div>
+
+						<p>{sight.date}</p> <p>{sight.location}</p><p>{sight.notes}</p><br />
 						<hr /></div> : null)
 				})
 			}

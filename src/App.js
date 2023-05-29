@@ -1,6 +1,6 @@
 // import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { Home } from './components/Home';
 import { Sightings } from './components/Sightings';
 import { NewSighting } from './components/NewSighting';
@@ -11,6 +11,7 @@ import "./App.css";
 import axios from 'axios';
 
 const App = () => {
+  const { id } = useParams();
   // const [sighting, setSighting] = useState([]);
   // const [sightingIndex, setSightingIndex] = useState();
 
@@ -44,7 +45,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/sightings" element={<Sightings />} />
           <Route path="/newsighting" element={<NewSighting />} />
-          <Route path="/sightings/:sightingId" element={<EditSighting />} />
+          <Route path="/editsighting" element={<EditSighting />} />
 
 
 
