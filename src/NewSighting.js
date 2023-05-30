@@ -59,7 +59,7 @@ const NewSighting = () => {
           categories: selectedCategories,
         });
         if (res.status === 200) {
-          //navigate(`../sightings/${res.data.id}`);
+          navigate(`../sightings/${res.data.id}`);
         }
       })
       .catch((err) => {

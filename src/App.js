@@ -20,7 +20,15 @@ const App = () => {
         <div key={sighting.id}>
           <Link to={`sightings/${sighting.id}`}>Sighting {sighting.id}</Link>
           <div>{sighting.date}</div>
-          <div>{sighting.location}</div>
+          <div>
+            <i>{sighting.location}</i>
+          </div>
+          <div>
+            {sighting.categories.map((category) => {
+              return <span>• {category.name} </span>;
+            })}
+          </div>
+          <br />
         </div>
       );
     });
