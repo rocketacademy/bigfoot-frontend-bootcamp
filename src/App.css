@@ -1,19 +1,321 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
 .App {
-  text-align: center;
+  color: #11224d;
+  font-size: calc(10px + 2vmin);
+  min-height: 100vh;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
+.home-ctn {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 20px;
+}
+
+.home-header {
+  margin-bottom: 50px;
+}
+
+.sightings-ctn {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-ctn {
+  padding: 0 10px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.filtered-sightings-ctn {
+  width: 100%;
+  height: 100%;
+}
+
+.sightings-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #11224d;
+  margin: 5px;
+  padding: 5px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.sightings-list:hover {
+  cursor: pointer;
+  color: #f98125;
+}
+
+.sighting-ctn {
+  width: 100%;
+  text-align: justify;
+}
+
+.sighting-header,
+.comment-form-header,
+.comments-header {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sighting-body {
+  width: 60%;
+  margin: 0 auto;
+  color: #11224d;
+  font-size: 20px;
+}
+
+.sighting-details-ctn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.date-location-ctn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notes-ctn {
+  border: 1px solid lightgrey;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.comment-form-ctn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.navbar-ctn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  padding: 20px;
+}
+
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  border: 1px solid #11224d;
+  color: #11224d;
+  padding: 5px;
+}
+
+.nav-link:hover {
+  cursor: pointer;
+  border: 1px solid #f98125;
+  color: #f98125;
+}
+
+.filter-header,
+.new-sighting-header {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.search-form,
+.sighting-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.search-input {
+  font-size: 14px;
+  background: transparent;
+  border: 1px solid #11224d;
+  color: #11224d;
+  padding: 10px;
+  width: 200px;
+  height: 50px;
+}
+
+.new-sighting-header p {
+  margin-top: 10px;
+}
+
+.sighting-form {
+  padding-top: 20px;
+}
+
+.sighting-form label {
+  font-size: 24px;
+}
+
+.sighting-input {
+  font-size: 18px;
+  padding: 10px;
+  width: 500px;
+}
+
+.new-sighting-btn {
+  font-size: 18px;
+  border: 1px solid #11224d;
+  background: white;
+  padding: 10px;
+  width: 500px;
+}
+
+.new-sighting-btn:hover {
+  cursor: pointer;
+  background: #f98125;
   color: white;
+}
+
+.btn {
+  font-size: 18px;
+  background: white;
+  border: 1px solid #11224d;
+  padding: 10px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background: #f98125;
+  color: white;
+}
+
+.search-btn {
+  width: 200px;
+  height: 50px;
+}
+
+.icon-btn {
+  font-size: 18px;
+  background: white;
+  border: none;
+}
+
+.icon-btn:hover {
+  cursor: pointer;
+  color: #f98125;
+}
+
+.like-ctn {
+  font-size: 14px;
+  gap: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.comments {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.comments-list-ctn {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-between;
+  margin: 20px 0;
+  font-size: 18px;
+}
+
+.comment-ctn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-date {
+  font-size: 14px;
+}
+
+.comment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-comment-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.button-ctn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-ctn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  gap: 10px;
+}
+
+.category {
+  background: lightgray;
+  border-radius: 5%;
+  padding: 5px;
+}
+
+.category-intensity {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 14px;
+}
+
+.add-btn {
+  background: #fb3b1e;
+  color: white;
+}
+
+.remove-btn {
+  background: #86dc3d;
+}
+
+.date {
+  font-weight: bold;
 }
