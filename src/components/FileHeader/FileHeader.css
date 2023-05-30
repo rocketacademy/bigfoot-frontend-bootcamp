@@ -1,0 +1,55 @@
+.filters {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.filters button {
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  border: none;
+  border-radius: 3px 3px 0 0;
+  width: 60px;
+  height: 35px;
+  color: white;
+  font-weight: 700;
+  z-index: 0;
+  transition: 0.2s;
+}
+
+.filters button:hover {
+  translate: 0 -8px;
+  transform: rotate(-4deg);
+}
+
+.filters .spring {
+  background-color: rgb(24, 160, 98);
+  transform: rotate(3deg);
+}
+
+.filters .summer {
+  background-color: rgb(255, 174, 0);
+  translate: 0 -2px;
+  transform: rotate(-2deg);
+}
+
+.filters .fall {
+  background-color: rgb(228, 98, 18);
+  translate: -2px 0px;
+  transform: rotate(5deg);
+}
+
+.filters .winter {
+  background-color: rgb(35, 120, 255);
+  translate: -1px 0px;
+  transform: rotate(-1deg);
+}
+
+.filters .all {
+  translate: 0 -5px;
+  transform: rotate(-1deg);
+  background-color: rgb(55, 55, 55);
+}
