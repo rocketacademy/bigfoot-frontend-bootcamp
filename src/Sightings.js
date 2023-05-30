@@ -10,6 +10,9 @@ const Sightings = () => {
   const [singleSighting, setSingleSighting] = useState(null);
   const [comments, setComments] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([
+    { value: 1, label: "Rain" },
+  ]);
   useEffect(() => {
     console.log("Sighting Index: ", sightingIndex);
     const getSightingsDataAPI = async () => {
@@ -59,6 +62,11 @@ const Sightings = () => {
     // label is what we display
     label: category.name,
   }));
+
+  const handleSelectChange = (event) => {
+    setSelectedCategories(event.target.value);
+  };
+
   return (
     <div className="App">
       <div className="App-header">
@@ -73,7 +81,12 @@ const Sightings = () => {
             </div>
             <h3>Comments</h3>
             {comments}
-            <Select isMulti options={categoryOptions} />
+            <Select
+              isMulti
+              options={categoryOptions}
+              value={selectedCategories}
+              onChange={setSelectedCategories}
+            />
           </div>
         )}
       </div>
