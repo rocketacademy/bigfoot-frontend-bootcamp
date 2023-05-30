@@ -10,9 +10,6 @@ const Sightings = () => {
   const [singleSighting, setSingleSighting] = useState(null);
   const [comments, setComments] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([
-    { value: 1, label: "Rain" },
-  ]);
   useEffect(() => {
     console.log("Sighting Index: ", sightingIndex);
     const getSightingsDataAPI = async () => {
@@ -56,16 +53,9 @@ const Sightings = () => {
     // Only run this effect on component mount
   }, []);
 
-  const categoryOptions = allCategories.map((category) => ({
-    // value is what we store
-    value: category.id,
-    // label is what we display
-    label: category.name,
-  }));
-
-  const handleSelectChange = (event) => {
-    setSelectedCategories(event.target.value);
-  };
+  const categoryDisplay = allCategories.map((category) => {
+    return <div>{category.name}</div>;
+  });
 
   return (
     <div className="App">
@@ -81,12 +71,8 @@ const Sightings = () => {
             </div>
             <h3>Comments</h3>
             {comments}
-            <Select
-              isMulti
-              options={categoryOptions}
-              value={selectedCategories}
-              onChange={setSelectedCategories}
-            />
+            <h3>Categories</h3>
+            {categoryDisplay}
           </div>
         )}
       </div>
