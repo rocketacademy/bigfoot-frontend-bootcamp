@@ -3,20 +3,36 @@ import { BACKEND_URL } from "./constants";
 import axios from "axios";
 import "./App.css";
 import { useParams } from "react-router-dom";
-import Select from "react-select";
 
 const Sightings = () => {
   const { sightingIndex } = useParams();
   const [singleSighting, setSingleSighting] = useState(null);
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const [allCategories, setAllCategories] = useState([]);
+
+  const getSightingsComment = async () => {
+    const sightingsComments = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingIndex}/comments`
+    );
+    const commentArray = (data) => {
+      const res = data.map((comment) => {
+        return (
+          <div key={comment.id} className="comment">
+            {comment.content}
+          </div>
+        );
+      });
+      return res;
+    };
+    setComments(commentArray(sightingsComments.data));
+  };
+
   useEffect(() => {
-    console.log("Sighting Index: ", sightingIndex);
     const getSightingsDataAPI = async () => {
       const sightingsEvent = await axios.get(
         `${BACKEND_URL}/sightings/${sightingIndex}`
       );
-      console.log("sightingsEvent: ", sightingsEvent);
       /* sightingsEvent has many keys like data, config, status etc..
          sightingsEvent.data = {
            success: true,
@@ -24,25 +40,9 @@ const Sightings = () => {
          }
       */
       const { data } = sightingsEvent;
-      console.log("data: ", data);
       setSingleSighting(data);
     };
-    const getSightingsComment = async () => {
-      const sightingsComments = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingIndex}/comments`
-      );
-      const commentArray = (data) => {
-        const res = data.map((comment) => {
-          return (
-            <div>
-              <div key={comment.id}>{comment.content}</div>
-            </div>
-          );
-        });
-        return res;
-      };
-      setComments(commentArray(sightingsComments.data));
-    };
+
     getSightingsDataAPI();
     getSightingsComment();
   }, []);
@@ -57,6 +57,24 @@ const Sightings = () => {
     return <div>{category.name}</div>;
   });
 
+  const handleNewComment = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${BACKEND_URL}/sightings/${sightingIndex}/comments`, {
+        content: newComment,
+      })
+      .then((res) => {
+        getSightingsComment();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="App">
       <div className="App-header">
@@ -70,7 +88,15 @@ const Sightings = () => {
               <p className="observed-text">{singleSighting.notes} </p>
             </div>
             <h3>Comments</h3>
-            {comments}
+            <div className="comment-container">{comments}</div>
+            <h3>Submit Comment</h3>
+            <form onSubmit={handleCommentSubmit}>
+              <div>
+                <div>My Comment: </div>
+                <textarea value={newComment} onChange={handleNewComment} />
+              </div>
+              <input type="submit" value="Submit" />
+            </form>
             <h3>Categories</h3>
             {categoryDisplay}
           </div>

@@ -27,3 +27,17 @@
   display: flex;
   justify-content: center;
 }
+
+.comment-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.comment {
+  padding: 1em;
+  outline: black 1px solid;
+  width: 60%;
+  margin-left: 20%;
+  margin-bottom: 1em;
+}

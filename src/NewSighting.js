@@ -52,8 +52,6 @@ const NewSighting = () => {
         notes: notes,
       })
       .then((res) => {
-        console.log("sightingId: ", res.data.id);
-        console.log("categories: ", selectedCategories);
         axios.post(`${BACKEND_URL}/categories/create`, {
           sightingId: res.data.id,
           categories: selectedCategories,
