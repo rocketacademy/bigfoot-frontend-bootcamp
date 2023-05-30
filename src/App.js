@@ -29,8 +29,12 @@ const App = () => {
   return (
     <div className="App">
       <div className="App-header">
-        <p>Home Page</p>
-        {sightings}
+        <h3>Home Page</h3>
+        <div>
+          <Link to="/new">Create New Sighting</Link>
+        </div>
+        <h3>Sightings List</h3>
+        <div>{sightings}</div>
       </div>
     </div>
   );
