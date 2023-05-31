@@ -41,6 +41,20 @@ function Post() {
           <strong>Location:</strong> {post.location ?? "NIL"}
         </Typography>
         <Typography variant="body1">
+          <strong>Categories:</strong>
+          <br />
+          {post.categories && post.categories?.length !== 0
+            ? post.categories?.map((category) => {
+                return (
+                  <Button variant="outlined" key={category.id} sx={{ m: 1 }}>
+                    {category.name}
+                  </Button>
+                );
+              })
+            : "NIL"}
+        </Typography>
+
+        <Typography variant="body1">
           <b>Description:</b>
         </Typography>
         <Typography variant="body1">{post.notes ?? "NIL"}</Typography>
