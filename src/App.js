@@ -1,20 +1,35 @@
-import React from "react";
-import logo from "./logo.png";
-import "./App.css";
+import React, { useEffect, useState } from "react";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
-}
+import "./App.css";
+import axios from "axios";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Post from "./pages/Post";
+import SightingsProvider from "./contexts/SightingsProvider";
+import CurrentPageProvider from "./contexts/CurrentPageProvider";
+import NewSighting from "./pages/NewSighting";
+
+const App = () => {
+  return (
+    <div className="App">
+      <SightingsProvider>
+        <CurrentPageProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/">
+                <Route index element={<Home />} />
+                <Route path="new" element={<NewSighting />} />
+                <Route path="sightings">
+                  <Route index path=":sightingId" element={<Post />} />
+                </Route>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </CurrentPageProvider>
+      </SightingsProvider>
+    </div>
+  );
+};
 
 export default App;
