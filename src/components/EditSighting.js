@@ -7,13 +7,14 @@ import axios from 'axios';
 
 import { BACKEND_URL } from '../constants';
 
+//PUT request
 export const EditSighting = () => {
-	const [date, setDate] = useState("");
-	const [location, setLocation] = useState("");
-	const [notes, setNotes] = useState("");
+	const [date, setDate] = useState(undefined);
+	const [location, setLocation] = useState(undefined);
+	const [notes, setNotes] = useState(undefined);
 	const [data, setData] = useState({});
 	const navigate = useNavigate();
-	const { id } = useParams()
+	const { sightingId } = useParams()
 
 	useEffect(() => {
 		axios.get(`${BACKEND_URL}/sightings/`)
@@ -24,7 +25,7 @@ export const EditSighting = () => {
 			.catch(err => {
 				console.log(err);
 			});
-	}, [id])
+	}, [sightingId])
 
 	const handleChange = (e) => {
 		switch (e.target.name) {
@@ -46,7 +47,8 @@ export const EditSighting = () => {
 		e.preventDefault();
 
 		//send request to post new sighting to backend
-		axios.put(`${BACKEND_URL}/sightings/editsighting/${id}`, {
+		axios.put(`${BACKEND_URL}/sightings/editsighting/${sightingId}`, {
+			//:sightingId
 			// id,
 			date,
 			location,
@@ -54,32 +56,32 @@ export const EditSighting = () => {
 		})
 			.then((res) => {
 				//Clear form state
-				setDate("");
-				setLocation("");
-				setNotes("");
+				setDate(undefined);
+				setLocation(undefined);
+				setNotes(undefined);
 
 				//Navigate to sighting-specific page after submitting form
-				navigate(`/sightings/${res.data.id}`);
+				navigate(`/sightings/${sightingId}`);
 			});
-
+		//${res.data.id}
 	};
 
 
 	return (
 		<Form onSubmit={handleSubmit}>
-			<Form.Group>
-				<Form.Label>Which sighting?</Form.Label>
+			{/* <Form.Group> */}
+			{/* <Form.Label>Which sighting?</Form.Label>
 				<Form.Control
 					//allow user to input local date and time
 					type="text"
 					name="id"
-					value={id}
+					// value={id}
 					onChange={handleChange}
 				/>
 				<Form.Text className="text-muted">
 					Which sighting needs amendments?
 				</Form.Text>
-			</Form.Group>
+			</Form.Group> */}
 			<Form.Group>
 				<Form.Label>Date and Time</Form.Label>
 				<Form.Control

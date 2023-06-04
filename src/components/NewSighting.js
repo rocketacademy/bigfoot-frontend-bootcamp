@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import { BACKEND_URL } from '../constants';
 
+//POST request
 export const NewSighting = () => {
 	const [date, setDate] = useState("");
 	const [location, setLocation] = useState("");
