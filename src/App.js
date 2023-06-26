@@ -3,44 +3,28 @@ import logo from "./logo.png";
 import "./App.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import List from "./Components/List";
 
 function App() {
-  const [year, setYear] = useState([]);
-  const [season, setSeason] = useState([]);
-  const [month, setMonth] = useState([]);
-  const [country, setCountry] = useState([]);
+  const [sightings, setSightings] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await axios.get("http://localhost:3000/sightings");
       console.log(data);
-
-      data.forEach((data) => {
-        setYear((y) => [...y, data.YEAR]);
-        setSeason((s) => [...s, data.SEASON]);
-        setMonth((m) => [...m, data.MONTH]);
-        setCountry((c) => [...c, data.COUNTY]);
-      });
+      setSightings(data);
     };
 
     fetchData();
   }, []);
 
-  const dataRendered = year.map((year, index) => (
-    <ul key={year + season + month + country + index}>
-      <li>Sighting {index + 1}</li>
-      <li>Year: {year}</li>
-      <li>Season: {season[index]}</li>
-      <li>Month: {month[index]}</li>
-      <li>Country: {country[index]}</li>
-    </ul>
-  ));
-
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        {dataRendered}
+        {sightings.map((sighting, index) => (
+          <List sighting={sighting} index={index} />
+        ))}
       </header>
     </div>
   );
