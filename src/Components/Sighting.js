@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../constants";
 
 export default function Sighting() {
   const { sightingsIndex } = useParams();
@@ -10,7 +11,7 @@ export default function Sighting() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get("http://localhost:3000/sightings");
+      const { data } = await axios.get(`${BACKEND_URL}/sightings`);
       console.log(data);
       setSightings(data);
     };
@@ -19,7 +20,7 @@ export default function Sighting() {
   }, []);
 
   const backToHomePage = () => {
-    navigate('/');
+    navigate("/");
   };
 
   let sighting = [];
