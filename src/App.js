@@ -12,7 +12,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <Routes>
           <Route index element={<List />} />
-          <Route path="/sightings/:sightingsIndex" element={<Sighting />} />
+          <Route path="/sightings/:sightingsId" element={<Sighting />} />
         </Routes>
       </header>
     </div>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constants";
 
 export default function Sighting() {
-  const { sightingsIndex } = useParams();
+  const { sightingsId } = useParams();
   const navigate = useNavigate();
   const [sightings, setSightings] = useState([]);
 
@@ -24,9 +24,9 @@ export default function Sighting() {
   };
 
   let sighting = [];
-  for (const key in sightings[sightingsIndex - 1]) {
+  for (const key in sightings[sightingsId - 1]) {
     sighting.push(
-      `${key}: ${sightings[sightingsIndex - 1][key]}`,
+      `${key}: ${sightings[sightingsId - 1][key]}`,
       <>
         <br />
         <br />
@@ -39,6 +39,7 @@ export default function Sighting() {
       <button onClick={backToHomePage}>Home</button>
       <br />
       <br />
+      {console.log(sighting)}
       {sightings && sightings.length > 0 && sighting}
     </div>
   );

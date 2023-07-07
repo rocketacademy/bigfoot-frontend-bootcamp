@@ -30,20 +30,18 @@ export default function List() {
 
       {isFiltered
         ? sightings
-            .filter((sighting) => sighting.YEAR === userInput)
+            .filter((sighting) => sighting.date.includes(userInput))
             .map((filteredSighting) => {
               const originalIndex = sightings.findIndex(
                 (s) => s === filteredSighting
               );
               return (
                 <ul key={originalIndex}>
-                  <Link to={`/sightings/${originalIndex + 1}`}>
-                    <li>Sighting {originalIndex + 1}</li>
+                  <Link to={`/sightings/${originalIndex+1}`}>
+                    <li>Sighting {originalIndex+1}</li>
                   </Link>
-                  <li>Year: {filteredSighting.YEAR}</li>
-                  <li>Season: {filteredSighting.SEASON}</li>
-                  <li>Month: {filteredSighting.MONTH}</li>
-                  <li>Country: {filteredSighting.COUNTY}</li>
+                  <li>Date: {filteredSighting.date}</li>
+                  <li>Location: {filteredSighting.location}</li>
                 </ul>
               );
             })
@@ -52,10 +50,8 @@ export default function List() {
               <Link to={`/sightings/${index + 1}`}>
                 <li>Sighting {index + 1}</li>
               </Link>
-              <li>Year: {sighting.YEAR}</li>
-              <li>Season: {sighting.SEASON}</li>
-              <li>Month: {sighting.MONTH}</li>
-              <li>Country: {sighting.COUNTY}</li>
+              <li>Date: {sighting.date}</li>
+              <li>Location: {sighting.location}</li>
             </ul>
           ))}
     </div>
