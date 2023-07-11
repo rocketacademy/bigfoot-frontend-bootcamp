@@ -4,6 +4,7 @@ import "./App.css";
 import List from "./Components/List";
 import Sighting from "./Components/Sighting";
 import { Routes, Route } from "react-router-dom";
+import Form from "./Components/Form";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route index element={<List />} />
           <Route path="/sightings/:sightingsId" element={<Sighting />} />
+          <Route path="/new" element={<Form />} />
         </Routes>
       </header>
     </div>

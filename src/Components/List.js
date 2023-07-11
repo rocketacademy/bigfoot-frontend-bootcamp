@@ -18,15 +18,23 @@ export default function List() {
     fetchData();
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsFiltered(true);
+  };
+
   return (
     <div>
-      <input
-        type="text"
-        value={userInput}
-        onChange={({ target }) => setUserInput(target.value)}
-        placeholder="Filter by year"
-        onMouseLeave={() => setIsFiltered(true)}
-      />
+      <Link to="/new">Click Here to Add New Sighting</Link>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={userInput}
+          onChange={({ target }) => setUserInput(target.value)}
+          placeholder="Filter by year"
+        />
+      </form>
 
       {isFiltered
         ? sightings
@@ -37,8 +45,8 @@ export default function List() {
               );
               return (
                 <ul key={originalIndex}>
-                  <Link to={`/sightings/${originalIndex+1}`}>
-                    <li>Sighting {originalIndex+1}</li>
+                  <Link to={`/sightings/${originalIndex + 1}`}>
+                    <li>Sighting {originalIndex + 1}</li>
                   </Link>
                   <li>Date: {filteredSighting.date}</li>
                   <li>Location: {filteredSighting.location}</li>
