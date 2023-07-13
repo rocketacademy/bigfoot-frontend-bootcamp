@@ -8,12 +8,36 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: #e0e1e2;
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(31, 30, 30);
+}
+
+.observed-text {
+  font-size: 0.5em;
+  width: 80%;
+}
+
+.observed-text-container {
+  display: flex;
+  justify-content: center;
+}
+
+.comment-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.comment {
+  padding: 1em;
+  outline: black 1px solid;
+  width: 60%;
+  margin-left: 20%;
+  margin-bottom: 1em;
 }
