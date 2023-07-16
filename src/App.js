@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import logo from "./logo.png";
 import "./App.css";
 import axios from "axios";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  Link,
+} from "react-router-dom";
+import SightingList from "./Components/SightingList.js";
+import SightingPage from "./Components/SightingPage.js";
 
 const App = () => {
   const [sightings, setSightings] = useState([]);
@@ -18,19 +26,20 @@ const App = () => {
     return;
   }, []);
 
-  const sightingList =
-    // render list of sighting
-    sightings.map((sighting, ind) => {
-      return <li key={ind}>{`${sighting.YEAR}, ${sighting.STATE}`}</li>;
-    });
-
   return (
     <div className="App">
-      {console.log(sightings)}
+      {/* {console.log(sightings)} */}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <br />
-        <ul className="sighting-list">{sightingList}</ul>
+        <Routes>
+          <Route path="/" element={<Link to="/sightings">Sightings</Link>} />
+          <Route
+            path="/sightings"
+            element={<SightingList sightings={sightings} />}
+          />
+          <Route path="sightings/:sightingIndex" element={<SightingPage />} />
+        </Routes>
       </header>
     </div>
   );
