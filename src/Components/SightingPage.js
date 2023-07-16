@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import { BACKEND_URL } from "../constants";
 
 const SightingPage = (props) => {
   const [selectedSighting, setSelectedSighting] = useState([]);
@@ -9,9 +10,7 @@ const SightingPage = (props) => {
   const navigate = useNavigate();
 
   const getSingleSightingData = async () => {
-    const data = await axios.get(
-      `http://localhost:3000/sightings/${sightingIndex}`
-    );
+    const data = await axios.get(`${BACKEND_URL}/sightings/${sightingIndex}`);
 
     setSelectedSighting(data.data);
   };
