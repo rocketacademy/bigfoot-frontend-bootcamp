@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import App from "./App";
+import TempPage from "./Temp";
 
 const sightingIndexes = Array.from(Array(100).keys()); // Array of values from 0 to 99
 
@@ -16,6 +17,7 @@ export default function Routing() {
           />
         ))}
       </Route>
+      <Route path="/year" element={<TempPage />} />
     </Routes>
   );
 }

@@ -9,16 +9,17 @@ class Home extends Component {
     super(props);
     this.state = {
       index: "",
+      year: "",
     };
   }
   shouldRender() {
     const { pathname } = window.location;
-    
+
     return pathname === "/" || pathname === "";
   }
   render() {
     const shouldRender = this.shouldRender();
-    console.log(shouldRender)
+    //console.log(shouldRender);
     const index = this.state.index;
     return (
       <div className="App">
@@ -41,6 +42,15 @@ class Home extends Component {
                 style={{ textDecoration: "none" }}
               >
                 Submit
+              </Link>
+              <h3>Or clicke here to filter by year:</h3>
+              {/* <label>Index:</label> */}
+              <Link
+                to={`/year`}
+                onClick={() => this.setState({ index: "" })} // Clear index state on submit
+                style={{ textDecoration: "none" }}
+              >
+                Filter
               </Link>
             </div>
           )}
