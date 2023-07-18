@@ -2,25 +2,32 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../constants";
+import { useSearchParams } from "react-router-dom";
 
 export default function List() {
   const [sightings, setSightings] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [isFiltered, setIsFiltered] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const year = searchParams.get("year");
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(`${BACKEND_URL}/sightings`);
+      const { data } = await axios.get(`${BACKEND_URL}/sightings`, {
+        params: { year: year },
+      });
       console.log(data);
       setSightings(data);
     };
 
     fetchData();
-  }, []);
+  }, [year]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsFiltered(true);
+    setSearchParams({ year: userInput });
   };
 
   return (
