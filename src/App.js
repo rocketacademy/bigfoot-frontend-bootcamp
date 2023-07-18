@@ -1,18 +1,28 @@
 import React from "react";
-import logo from "./logo.png";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
+import AllSightings from "./components/AllSightings";
+import SightingDetails from "./components/SightingDetails";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <header className="App-header">
+            <Routes>
+              <Route path="/" element={<AllSightings />}>
+                <Route
+                  path="/sightings/:reportNumber"
+                  element={<SightingDetails />}
+                />
+              </Route>{" "}
+              /
+            </Routes>
+          </header>
+        </div>
+      </BrowserRouter>
     );
   }
 }
