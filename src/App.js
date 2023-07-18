@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import logo from "./logo.png";
+import { Link } from "react-router-dom";
 import "./App.css";
+import { BACKEND_URL } from "./Constants";
 
-const INDEX = 2;
-const url = `http://localhost:3000/sightings/${INDEX}`;
+// const INDEX = 2;
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const url = `${BACKEND_URL}/sightings/${this.props.index}`;
     fetch(url) // Send GET request to '/sightings' endpoint
       .then((response) => response.json())
       .then((data) => {
@@ -26,25 +27,24 @@ class App extends Component {
   render() {
     const sightings = this.state.sightings;
 
-    console.log(sightings);
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          {sightings ? (
-            <div>
-              <p>
-                Year: {sightings.YEAR}+{sightings.SEASON}
-              </p>
+      <div>
+        {sightings ? (
+          <div>
+            <p>
+              Year: {sightings.YEAR} {sightings.SEASON}
+            </p>
 
-              <p>
-                Location: {sightings.STATE}+{sightings.COUNTY}
-              </p>
+            <p>
+              Location: {sightings.STATE} 
+            </p>
 
-              <p>Location Details: {sightings.LOCATION_DETAILS}</p>
-            </div>
-          ) : null}
-        </header>
+            <p>Location Details: {sightings.LOCATION_DETAILS}</p>
+          </div>
+        ) : null}
+        <Link to="/" style={{ textDecoration: "none" }} >
+              Back
+            </Link>
       </div>
     );
   }
