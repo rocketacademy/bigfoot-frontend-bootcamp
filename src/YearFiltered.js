@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import "./App.css";
 import { BACKEND_URL } from "./Constants";
 
-// const INDEX = 2;
-
 class YearFiltered extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +42,7 @@ class YearFiltered extends Component {
 
                 <p>Location: {sighting.STATE}</p>
 
-                <p>Location Details: {sighting.LOCATION_DETAILS}</p>
+                <p>Location Details:</p> {sighting.LOCATION_DETAILS ? <div>{sighting.LOCATION_DETAILS}</div> : <div>None provided</div>}
                 <br />
               </div>
             ))}

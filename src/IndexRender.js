@@ -38,7 +38,7 @@ class IndexRender extends Component {
               Location: {sightings.STATE} 
             </p>
 
-            <p>Location Details: {sightings.LOCATION_DETAILS}</p>
+            <p>Location Details: </p>{sightings.LOCATION_DETAILS ? <p>{sightings.LOCATION_DETAILS}</p> : <p>None provided</p>}
           </div>
         ) : null}
         <Link to="/" style={{ textDecoration: "none" }}>

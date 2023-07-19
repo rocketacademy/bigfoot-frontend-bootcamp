@@ -12,15 +12,15 @@ const yearList = [2000, 2016,2018];
 export default function Routing() {
   return (
     <Routes>
-      <Route path="/" element={<App />}>
+      <Route path="/" key="home" element={<App />} />
         {sightingIndexes.map((index) => (
           <Route
             key={index}
-            path={`${index}`}
+            path={`/${index}`}
             element={<IndexRender index={index} />}
           />
         ))}
-      </Route>
+      
       <Route path="/year" element={<YearSearch />} >
         {yearList.map((year) => (
           <Route
