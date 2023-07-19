@@ -43,14 +43,14 @@ class Home extends Component {
               >
                 Submit
               </Link>
-              <h3>Or clicke here to filter by year:</h3>
+              <h4>Or click here to filter by year:</h4>
               {/* <label>Index:</label> */}
               <Link
                 to={`/year`}
                 onClick={() => this.setState({ index: "" })} // Clear index state on submit
                 style={{ textDecoration: "none" }}
               >
-                Filter
+                Go
               </Link>
             </div>
           )}
