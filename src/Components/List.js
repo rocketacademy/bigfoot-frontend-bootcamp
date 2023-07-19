@@ -52,8 +52,8 @@ export default function List() {
               );
               return (
                 <ul key={originalIndex}>
-                  <Link to={`/sightings/${originalIndex + 1}`}>
-                    <li>Sighting {originalIndex + 1}</li>
+                  <Link to={`/sightings/${filteredSighting.id}`}>
+                    <li>Sighting {filteredSighting.id}</li>
                   </Link>
                   <li>Date: {filteredSighting.date}</li>
                   <li>Location: {filteredSighting.location}</li>
@@ -62,8 +62,8 @@ export default function List() {
             })
         : sightings.map((sighting, index) => (
             <ul key={index}>
-              <Link to={`/sightings/${index + 1}`}>
-                <li>Sighting {index + 1}</li>
+              <Link to={`/sightings/${sighting.id}`}>
+                <li>Sighting {sighting.id}</li>
               </Link>
               <li>Date: {sighting.date}</li>
               <li>Location: {sighting.location}</li>
