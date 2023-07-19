@@ -46,27 +46,39 @@ export default function List() {
       {isFiltered
         ? sightings
             .filter((sighting) => sighting.date.includes(userInput))
-            .map((filteredSighting) => {
-              const originalIndex = sightings.findIndex(
-                (s) => s === filteredSighting
-              );
-              return (
-                <ul key={originalIndex}>
-                  <Link to={`/sightings/${filteredSighting.id}`}>
-                    <li>Sighting {filteredSighting.id}</li>
-                  </Link>
-                  <li>Date: {filteredSighting.date}</li>
-                  <li>Location: {filteredSighting.location}</li>
-                </ul>
-              );
-            })
-        : sightings.map((sighting, index) => (
-            <ul key={index}>
+            .map((filteredSighting) => (
+              <ul key={filteredSighting.id}>
+                <Link to={`/sightings/${filteredSighting.id}`}>
+                  <li>Sighting {filteredSighting.id}</li>
+                </Link>
+                <li>Date: {filteredSighting.date}</li>
+                <li>Location: {filteredSighting.location}</li>
+                {filteredSighting.categories.length > 0 && (
+                  <li>
+                    Categories: {""}
+                    {filteredSighting.categories
+                      .map((category) => category.name)
+                      .join(", ")}
+                  </li>
+                )}
+              </ul>
+            ))
+        : sightings.map((sighting) => (
+            <ul key={sighting.id}>
               <Link to={`/sightings/${sighting.id}`}>
                 <li>Sighting {sighting.id}</li>
               </Link>
               <li>Date: {sighting.date}</li>
               <li>Location: {sighting.location}</li>
+
+              {sighting.categories.length > 0 && (
+                <li>
+                  Categories:{" "}
+                  {sighting.categories
+                    .map((category) => category.name)
+                    .join(", ")}
+                </li>
+              )}
             </ul>
           ))}
     </div>

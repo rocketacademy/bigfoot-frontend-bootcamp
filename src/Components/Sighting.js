@@ -10,19 +10,21 @@ import Button from "react-bootstrap/Button";
 export default function Sighting() {
   const { sightingId } = useParams();
   const navigate = useNavigate();
-  const [sightings, setSightings] = useState([]);
+  const [sighting, setSighting] = useState([]);
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(`${BACKEND_URL}/sightings`);
+      const { data } = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}`
+      );
       console.log(data);
-      setSightings(data);
+      setSighting(data);
     };
 
     fetchData();
-  }, []);
+  }, [sightingId]);
 
   // Only for fetching the initial comments data on load
   useEffect(() => {
@@ -42,11 +44,13 @@ export default function Sighting() {
     navigate("/");
   };
 
-  let sighting = [];
-  for (const key in sightings[sightingId - 1]) {
-    sighting.push(
+  let sightingRendered = [];
+  for (const key in sighting) {
+    sightingRendered.push(
       <div key={key}>
-        {`${key}: ${sightings[sightingId - 1][key]}`}
+        {key === "categories"
+          ? `${key}: ${sighting[key].map((category) => category.name)}`
+          : `${key}: ${sighting[key]}`}
         <br />
         <br />
       </div>
@@ -72,7 +76,7 @@ export default function Sighting() {
       <Button onClick={backToHomePage}>Home</Button>
       <br />
       <br />
-      {sightings && sightings.length > 0 && sighting}
+      {sighting && sightingRendered}
       <hr />
 
       <Form onSubmit={handleSubmit}>
