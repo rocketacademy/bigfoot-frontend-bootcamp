@@ -11,18 +11,23 @@ export default function Form() {
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
   const [options, setOptions] = useState([]);
-  const [userOption, setUserOption] = useState("");
+  const [userOptions, setUserOptions] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       const { data } = await axios.get(`${BACKEND_URL}/categories`);
+      console.log(data);
       setOptions(
-        data.map((option) => ({ value: option.name, label: option.name }))
+        data.map((option) => ({ value: option.id, label: option.name }))
       );
     };
 
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    console.log(userOptions);
+  }, [userOptions]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,15 +36,13 @@ export default function Form() {
       date: date,
       location: location,
       notes: notes,
-      weather: userOption,
+      categoryId: userOptions.map((option) => option.value),
     });
 
     console.log(data);
 
     navigate(`/sightings/${data.id}`);
   };
-
-  const handleOptions = () => {};
 
   return (
     <div>
@@ -68,11 +71,19 @@ export default function Form() {
         <br />
 
         <Select
-          makeAnimated
+          components={makeAnimated()}
           isMulti
           options={options}
-          value={userOption}
-          onChange={handleOptions}
+          value={userOptions}
+          // The react-select component has its own onChange prop, but it behaves differently from the vanilla HTML select element's onChange. In react-select, the onChange prop takes a function as its value and is triggered whenever the user selects or deselects an option, either for single or multi-select. The onChange function receives the selected option(s) or value(s) directly as its first argument.
+          onChange={(selectedOptions) => setUserOptions(selectedOptions)}
+          // Option property is for styling, ...defaultStyles is to retain any other default styles from the Select component
+          styles={{
+            option: (defaultStyles) => ({
+              ...defaultStyles,
+              color: "black",
+            }),
+          }}
         />
 
         <button type="submit">Submit</button>
