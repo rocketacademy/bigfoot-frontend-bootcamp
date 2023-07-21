@@ -24,7 +24,7 @@ class IndexRender extends Component {
   }
   render() {
     const sightings = this.state.sightings;
-
+    console.log(parseInt(sightings.YEAR))
     return (
       <div>
         <h2>Sighting index: {this.props.index}</h2>

@@ -20,7 +20,7 @@ class Home extends Component {
   
   render() {
     const shouldRender = this.shouldRender();
-    console.log(shouldRender);
+    //console.log(shouldRender);
     const index = this.state.index;
     return (
       <div className="App">

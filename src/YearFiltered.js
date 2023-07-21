@@ -29,9 +29,11 @@ class YearFiltered extends Component {
     return (
       <div>
         <Link to="/" style={{ textDecoration: "none" }}>
+          Home
+        </Link><Link to="/year" style={{ textDecoration: "none" }}>
           Back
         </Link>
-        <p>Sightings in year {this.props.year}</p>
+        <h2>Sightings in years {this.props.year}</h2>
         {sightings ? (
           <div>
             {sightings.map((sighting, index) => (
@@ -49,6 +51,8 @@ class YearFiltered extends Component {
           </div>
         ) : null}
         <Link to="/" style={{ textDecoration: "none" }}>
+          Home
+        </Link><Link to="/year" style={{ textDecoration: "none" }}>
           Back
         </Link>
       </div>
