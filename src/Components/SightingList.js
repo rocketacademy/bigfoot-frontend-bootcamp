@@ -1,12 +1,17 @@
 import { React, useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BACKEND_URL } from "../constants";
 
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Typography from "@mui/material/Typography";
+
+import { BACKEND_URL } from "../constants";
 
 const SightingList = () => {
   const navigate = useNavigate();
@@ -15,14 +20,15 @@ const SightingList = () => {
   const [seasonFilterInput, setSeasonFilterInput] = useState(0);
   const [yearSortInput, setYearSortInput] = useState(false);
   const [stateSortInput, setStateSortInput] = useState(false);
-
   const [sightings, setSightings] = useState([]);
 
   const getSightingData = async () => {
     const data = await axios.get(
-      `${BACKEND_URL}/sightings/filter/${yearFilterInput}/${monthFilterInput}/${seasonFilterInput}/sort/${
-        yearSortInput ? 1 : 0
-      }/${stateSortInput ? 1 : 0}`
+      `${BACKEND_URL}/sightings/filter/${
+        yearFilterInput ? yearFilterInput : 0
+      }/${monthFilterInput ? monthFilterInput : 0}/${
+        seasonFilterInput ? seasonFilterInput : 0
+      }/sort/${yearSortInput ? 1 : 0}/${stateSortInput ? 1 : 0}`
     );
 
     setSightings(data.data);
@@ -31,16 +37,48 @@ const SightingList = () => {
   useEffect(() => {
     getSightingData();
     return;
-  }, []);
+  }, [
+    yearFilterInput,
+    monthFilterInput,
+    seasonFilterInput,
+    yearSortInput,
+    stateSortInput,
+  ]);
 
   const sightingList =
-    // render list of sighting
+    // render list of sighting in cards
     sightings.map((sighting, ind) => {
       return (
         <li key={ind}>
-          <Link
-            to={`/sightings/${ind}`}
-          >{`${sighting.YEAR}, ${sighting.MONTH}, ${sighting.SEASON}, ${sighting.STATE}`}</Link>
+          <Card sx={{ minWidth: "40vw", margin: "3px" }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                {sighting.YEAR}, {sighting.MONTH}
+              </Typography>
+              <Typography variant="h5" component="div">
+                {sighting.STATE}
+              </Typography>
+              <Typography variant="h6">{sighting.SEASON}</Typography>
+              <Typography variant="body2">
+                {sighting.LOCATION_DETAILS
+                  ? sighting.LOCATION_DETAILS.substring(0, 20) + "..."
+                  : null}
+              </Typography>
+            </CardContent>
+
+            <CardActions>
+              <Button
+                size="small"
+                onClick={() => navigate(`/sightings/${sighting.id}`)}
+              >
+                Learn more
+              </Button>
+            </CardActions>
+          </Card>
         </li>
       );
     });
@@ -56,8 +94,7 @@ const SightingList = () => {
           onChange={(e) => {
             setStateFunc(e.target.value);
           }}
-          // placeholder="Year"
-        />{" "}
+        />
       </div>
     );
   };
@@ -81,28 +118,17 @@ const SightingList = () => {
   return (
     <div>
       {console.log(sightings)}
-      [Filter]
+      Filter
       {filterInput(yearFilterInput, setYearFilterInput, "Year")}
       {filterInput(monthFilterInput, setMonthFilterInput, "Month")}
       {filterInput(seasonFilterInput, setSeasonFilterInput, "Season")}
       <FormControl component="fieldset" variant="standard">
         <br />
-        [Sort] {sortInput(yearSortInput, setYearSortInput, "Year")}
+        Sort {sortInput(yearSortInput, setYearSortInput, "Year")}
         {sortInput(stateSortInput, setStateSortInput, "State")}
       </FormControl>
       <br />
-      <Button
-        type="submit"
-        variant="contained"
-        onClick={() => {
-          getSightingData();
-          // setYearFilterInput(0);
-          // setMonthFilterInput(0);
-          // setSeasonFilterInput(0);
-        }}
-      >
-        Get Data
-      </Button>
+      <br />
       <Button
         variant="contained"
         onClick={() => {
@@ -110,6 +136,21 @@ const SightingList = () => {
         }}
       >
         Back
+      </Button>
+      <br />
+      <br />
+      <Button
+        type="submit"
+        variant="outlined"
+        onClick={() => {
+          setYearFilterInput(0);
+          setMonthFilterInput(0);
+          setSeasonFilterInput(0);
+          setYearSortInput(false);
+          setStateSortInput(false);
+        }}
+      >
+        Reset Filter/Sort
       </Button>
       <ul className="sighting-list">{sightingList}</ul>
     </div>

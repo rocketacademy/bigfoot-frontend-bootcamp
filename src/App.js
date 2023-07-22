@@ -1,19 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import logo from "./logo.png";
 import "./App.css";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+
 import SightingList from "./Components/SightingList.js";
 import SightingPage from "./Components/SightingPage.js";
 
 const App = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="App">
-      {/* {console.log(sightings)} */}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <br />
+
         <Routes>
-          <Route path="/" element={<Link to="/sightings">Sightings</Link>} />
+          <Route
+            path="/"
+            element={
+              <Button
+                variant="contained"
+                onClick={() => {
+                  navigate("/sightings");
+                }}
+              >
+                Sightings
+              </Button>
+            }
+          />
           <Route path="sightings" element={<SightingList />} />
           <Route path="sightings/:sightingIndex" element={<SightingPage />} />
         </Routes>

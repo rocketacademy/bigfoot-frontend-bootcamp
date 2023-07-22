@@ -17,8 +17,7 @@ const SightingPage = (props) => {
 
   useEffect(() => {
     getSingleSightingData();
-    return;
-  }, []);
+  });
 
   const selectedSightingList = (
     // render list of sighting
