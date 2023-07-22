@@ -17,3 +17,46 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer.css */
+.footer-container {
+  background-color: #f2f2f2;
+  text-align: center;
+  margin: 0 auto;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Change to 'absolute' if you want it positioned relative to the parent */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.filter-helper {
+  height: 15vh;
+}
+
+.text-content {
+  display: flex;
+  height: 90vh;
+  flex-direction: column;
+  overflow: auto; /* Use 'auto' to add scrollbars when content overflows the container */
+}

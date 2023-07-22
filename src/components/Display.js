@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import BACKEND_URL from "./constant";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Display = () => {
   const [sightingIndex, setSightingIndex] = useState();
   const [sighting, setSighting] = useState();
-  const BACKEND_URL = "http://localhost:3000";
+  const history = useNavigate();
 
   useEffect(() => {
     // If there is a sightingIndex, retrieve the sighting data
@@ -25,12 +28,28 @@ const Display = () => {
     setSightingIndex(params.sightingIndex);
   }
 
+  const handleButtonClick = (text) => {
+    history(`/`);
+  };
+
   return (
-    <div>
-      {sighting && `${sighting.YEAR} ${sighting.SEASON} ${sighting.MONTH}`}
-      <h1>Observation:</h1>
-      <div>{sighting && `${sighting.OBSERVED}`}</div>
-      <Link to={"/"}>Home</Link>
+    <div className="text-content">
+      <h2>Observation:</h2>
+      <b>Date:</b>{" "}
+      {sighting && `${sighting.SEASON} ${sighting.MONTH} ${sighting.YEAR} `}
+      <br></br>
+      <b>Location:</b>{" "}
+      <div>
+        {sighting &&
+          `${sighting.STATE}: ${sighting.COUNTY}, ${sighting["NEAREST_TOWN"]}`}
+      </div>
+      <br></br>
+      <b>Loc. Details:</b>{" "}
+      <div>{sighting && `${sighting.LOCATION_DETAILS}`}</div>
+      <br></br>
+      <b>Description:</b> <div>{sighting && `${sighting.OBSERVED}`}</div>
+      <br></br>
+      <Button onClick={handleButtonClick}>Return to Page</Button>
     </div>
   );
 };
