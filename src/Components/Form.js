@@ -62,7 +62,7 @@ export default function Form() {
           onChange={({ target }) => setLocation(target.value)}
         />
         <br />
-        <input
+        <textarea
           type="text"
           value={notes}
           placeholder="Notes"

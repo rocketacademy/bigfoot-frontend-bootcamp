@@ -1,16 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constants";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export default function Sighting() {
+export default function Sighting({ sighting, setSighting }) {
   const { sightingId } = useParams();
   const navigate = useNavigate();
-  const [sighting, setSighting] = useState({});
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
 
@@ -76,6 +75,16 @@ export default function Sighting() {
       <Button onClick={backToHomePage}>Home</Button>
       <br />
       <br />
+      <Link
+        to={{
+          pathname: `/sightings/${sightingId}/edit`,
+          state: { sighting },
+        }}
+      >
+        Edit Sighting
+      </Link>
+      <br />
+
       {sighting && sightingRendered}
       <hr />
 
