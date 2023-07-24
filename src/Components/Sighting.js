@@ -10,7 +10,7 @@ import Button from "react-bootstrap/Button";
 export default function Sighting() {
   const { sightingId } = useParams();
   const navigate = useNavigate();
-  const [sighting, setSighting] = useState([]);
+  const [sighting, setSighting] = useState({});
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
 
