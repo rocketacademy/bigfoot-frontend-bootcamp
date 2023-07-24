@@ -22,6 +22,12 @@ class YearFiltered extends Component {
         console.error("Error:", error);
       });
   }
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: Scroll with smooth animation
+    });
+  };
   render() {
     const sightings = this.state.sightings;
     
@@ -29,10 +35,11 @@ class YearFiltered extends Component {
     return (
       <div>
         <Link to="/" style={{ textDecoration: "none" }}>
-          Home
+        <button className="back-button">Home</button>
         </Link><Link to="/year" style={{ textDecoration: "none" }}>
-          Back
+        <button className="back-button">Back</button>
         </Link>
+        <button className="top-button" onClick={this.scrollToTop}>Top</button>
         <h2>Sightings in years {this.props.year}</h2>
         {sightings ? (
           <div>
@@ -51,9 +58,9 @@ class YearFiltered extends Component {
           </div>
         ) : null}
         <Link to="/" style={{ textDecoration: "none" }}>
-          Home
+          <button className="back-button">Home</button>
         </Link><Link to="/year" style={{ textDecoration: "none" }}>
-          Back
+        <button className="back-button">Back</button>
         </Link>
       </div>
     );

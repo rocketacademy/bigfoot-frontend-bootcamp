@@ -57,11 +57,11 @@ class YearSearch extends Component {
               to={`/year/${selectedYear}`}
               style={{ textDecoration: "none" }}
             >
-              Search
+              <button className="search-button">Search</button>
             </Link>
             <br />
             <Link to="/" style={{ textDecoration: "none" }}>
-          Back
+          <button>Back</button>
         </Link>
           </div>
         )}

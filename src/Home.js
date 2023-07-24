@@ -42,7 +42,7 @@ class Home extends Component {
                 onClick={() => this.setState({ index: "" })} // Clear index state on submit
                 style={{ textDecoration: "none" }}
               >
-                Submit
+                <button className="search-button">Submit</button>
               </Link>
               <h4>Or click here to filter by year:</h4>
               {/* <label>Index:</label> */}
@@ -51,7 +51,7 @@ class Home extends Component {
                 onClick={() => this.setState({ index: "" })} // Clear index state on submit
                 style={{ textDecoration: "none" }}
               >
-                Go
+                <button className="search-button">Go</button>
               </Link>
             </div>
           )}

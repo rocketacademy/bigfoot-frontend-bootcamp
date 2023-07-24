@@ -17,3 +17,20 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.top-button{
+  position: fixed;
+  top: 85vh;
+  right: 7vw;
+  height: 70px;
+  width: 100px
+}
+
+.back-button{
+  margin: 5px;
+}
+
+.search-button{
+  height: 30px;
+  width: 70px;
+}

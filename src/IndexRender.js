@@ -42,7 +42,7 @@ class IndexRender extends Component {
           </div>
         ) : null}
         <Link to="/" style={{ textDecoration: "none" }}>
-          Back
+        <button className="back-button">Back</button>
         </Link>
       </div>
     );
