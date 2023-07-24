@@ -1,23 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BACKEND_URL } from "../constants";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SightingEditForm({ sighting, setSighting }) {
-  const { sightingId } = useParams();
+  const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [updatedSighting, setUpdatedSighting] = useState({});
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingId}`
-      );
-      setSighting(data);
-    };
-
-    fetchData();
-  });
 
   const handleUpdate = async (id) => {
     const { data } = await axios.put(`${BACKEND_URL}/sightings/${id}`, {
@@ -32,6 +21,7 @@ export default function SightingEditForm({ sighting, setSighting }) {
       notes: data.notes || sighting.notes,
     }));
     setEditMode(false);
+    navigate(`/sightings/${id}`);
   };
 
   return (
@@ -40,7 +30,7 @@ export default function SightingEditForm({ sighting, setSighting }) {
         {editMode ? "Cancel" : "Edit"}
       </button>
       <br />
-      
+
       {editMode ? (
         <div>
           <input

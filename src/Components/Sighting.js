@@ -75,14 +75,7 @@ export default function Sighting({ sighting, setSighting }) {
       <Button onClick={backToHomePage}>Home</Button>
       <br />
       <br />
-      <Link
-        to={{
-          pathname: `/sightings/${sightingId}/edit`,
-          state: { sighting },
-        }}
-      >
-        Edit Sighting
-      </Link>
+      <Link to={`/sightings/${sightingId}/edit`}>Edit Sighting</Link>
       <br />
 
       {sighting && sightingRendered}
