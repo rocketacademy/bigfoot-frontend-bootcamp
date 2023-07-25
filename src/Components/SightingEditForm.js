@@ -24,6 +24,31 @@ export default function SightingEditForm({ sighting, setSighting }) {
     navigate(`/sightings/${id}`);
   };
 
+  function getHTML5DateTimeStringFromDate(d) {
+    if (!(d instanceof Date)) {
+      d = new Date(d); // Try converting to Date object if it's not already
+    }
+
+    if (isNaN(d.getTime())) {
+      return ""; // Return an empty string for invalid dates
+    }
+
+    const dateString =
+      d.getFullYear().toString().padStart(4, "0") +
+      "-" +
+      (d.getMonth() + 1).toString().padStart(2, "0") +
+      "-" +
+      d.getDate().toString().padStart(2, "0");
+
+    const timeString =
+      d.getHours().toString().padStart(2, "0") +
+      ":" +
+      d.getMinutes().toString().padStart(2, "0");
+
+    // Combine the date and time strings with "T" in between
+    return `${dateString}T${timeString}`;
+  }
+
   return (
     <div>
       <button onClick={() => setEditMode(!editMode)}>
@@ -35,7 +60,9 @@ export default function SightingEditForm({ sighting, setSighting }) {
         <div>
           <input
             type="datetime-local"
-            value={updatedSighting.date || sighting.date}
+            value={getHTML5DateTimeStringFromDate(
+              updatedSighting.date || new Date(sighting.date)
+            )}
             onChange={({ target }) =>
               setUpdatedSighting((prev) => ({ ...prev, date: target.value }))
             }

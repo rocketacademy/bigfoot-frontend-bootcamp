@@ -60,9 +60,10 @@ export default function List() {
       {sightings.map((sighting) => (
         <ul key={sighting.id}>
           <Link to={`/sightings/${sighting.id}`}>
-            <li>Sighting {sighting.id}</li>
+            <li>Sighting {sighting.id}</li> 
           </Link>
-          <li>Date: {sighting.date}</li>
+          {/**(sighting.date).toLocaleString() alone won't work as typeof sighting.date === string. toLocalString() only works on date object */}
+          <li>Date: {new Date(sighting.date).toLocaleString()}</li>
           <li>Location: {sighting.location}</li>
 
           {sighting.categories.length > 0 && (
