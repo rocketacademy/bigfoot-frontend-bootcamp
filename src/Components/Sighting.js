@@ -49,6 +49,8 @@ export default function Sighting({ sighting, setSighting }) {
       <div key={key}>
         {key === "categories"
           ? `${key}: ${sighting[key].map((category) => category.name)}`
+          : key === "date"
+          ? `${key}: ${new Date(sighting[key]).toLocaleString()}`
           : `${key}: ${sighting[key]}`}
         <br />
         <br />

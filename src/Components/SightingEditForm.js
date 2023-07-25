@@ -92,7 +92,7 @@ export default function SightingEditForm({ sighting, setSighting }) {
       ) : (
         <>
           <p>id: {sighting && sighting.id}</p>
-          <p>date: {sighting && sighting.date}</p>
+          <p>date: {sighting && new Date(sighting.date).toLocaleString()}</p>
           <p>location: {sighting && sighting.location}</p>
           <p>notes: {sighting && sighting.notes}</p>
         </>
