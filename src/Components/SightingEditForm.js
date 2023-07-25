@@ -11,14 +11,20 @@ export default function SightingEditForm({ sighting, setSighting }) {
   const handleUpdate = async (id) => {
     const { data } = await axios.put(`${BACKEND_URL}/sightings/${id}`, {
       date: updatedSighting.date || sighting.date,
-      location: updatedSighting.location || sighting.location,
+      location_description:
+        updatedSighting.location_description || sighting.location_description,
       notes: updatedSighting.notes || sighting.notes,
+      city: updatedSighting.city || sighting.city,
+      country: updatedSighting.country || sighting.country,
     });
     setSighting((prev) => ({
       ...prev,
       date: data.date || sighting.date,
-      location: data.location || sighting.location,
+      location_description:
+        data.location_description || sighting.location_description,
       notes: data.notes || sighting.notes,
+      city: data.city || sighting.city,
+      country: data.country || sighting.country,
     }));
     setEditMode(false);
     navigate(`/sightings/${id}`);
@@ -70,11 +76,14 @@ export default function SightingEditForm({ sighting, setSighting }) {
           <br />
           <input
             type="text"
-            value={updatedSighting.location || sighting.location}
+            value={
+              updatedSighting.location_description ||
+              sighting.location_description
+            }
             onChange={({ target }) =>
               setUpdatedSighting((prev) => ({
                 ...prev,
-                location: target.value,
+                location_description: target.value,
               }))
             }
           />
@@ -87,14 +96,40 @@ export default function SightingEditForm({ sighting, setSighting }) {
             }
           />
           <br />
+          <input
+            type="text"
+            value={updatedSighting.city || sighting.city}
+            onChange={({ target }) =>
+              setUpdatedSighting((prev) => ({
+                ...prev,
+                city: target.value,
+              }))
+            }
+          />
+          <br />
+          <input
+            type="text"
+            value={updatedSighting.country || sighting.country}
+            onChange={({ target }) =>
+              setUpdatedSighting((prev) => ({
+                ...prev,
+                country: target.value,
+              }))
+            }
+          />
+          <br />
           <button onClick={() => handleUpdate(sighting.id)}>Update</button>
         </div>
       ) : (
         <>
           <p>id: {sighting && sighting.id}</p>
           <p>date: {sighting && new Date(sighting.date).toLocaleString()}</p>
-          <p>location: {sighting && sighting.location}</p>
+          <p>
+            location_description: {sighting && sighting.location_description}
+          </p>
           <p>notes: {sighting && sighting.notes}</p>
+          <p>city: {sighting && sighting.city}</p>
+          <p>country: {sighting && sighting.country}</p>
         </>
       )}
     </div>

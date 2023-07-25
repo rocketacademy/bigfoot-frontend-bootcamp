@@ -8,10 +8,12 @@ import makeAnimated from "react-select/animated";
 export default function Form() {
   const navigate = useNavigate();
   const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
+  const [locationDescription, setLocationDescription] = useState("");
   const [notes, setNotes] = useState("");
   const [options, setOptions] = useState([]);
   const [userOptions, setUserOptions] = useState([]);
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -33,10 +35,12 @@ export default function Form() {
     e.preventDefault();
 
     const { data } = await axios.post(`${BACKEND_URL}/sightings`, {
-      date: date,
-      location: location,
-      notes: notes,
+      date,
+      location_description: locationDescription,
+      notes,
       categoryId: userOptions.map((option) => option.value),
+      city,
+      country,
     });
 
     console.log(data);
@@ -57,9 +61,23 @@ export default function Form() {
         <br />
         <input
           type="text"
-          value={location}
-          placeholder="Location"
-          onChange={({ target }) => setLocation(target.value)}
+          value={locationDescription}
+          placeholder="Location Description"
+          onChange={({ target }) => setLocationDescription(target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          value={city}
+          placeholder="City"
+          onChange={({ target }) => setCity(target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          value={country}
+          placeholder="Country"
+          onChange={({ target }) => setCountry(target.value)}
         />
         <br />
         <textarea
@@ -85,7 +103,6 @@ export default function Form() {
             }),
           }}
         />
-
         <button type="submit">Submit</button>
       </form>
     </div>
