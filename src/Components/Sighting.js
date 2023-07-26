@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../constants";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import CommentEditForm from "./CommentEditForm";
 
 export default function Sighting({ sighting, setSighting }) {
   const { sightingId } = useParams();
@@ -25,7 +26,7 @@ export default function Sighting({ sighting, setSighting }) {
     fetchData();
   }, [sightingId]);
 
-  // Only for fetching the initial comments data on load
+  // Only for fetching the initial comments data on load & when comment is edited
   useEffect(() => {
     const fetchComments = async () => {
       const { data } = await axios.get(
@@ -37,7 +38,7 @@ export default function Sighting({ sighting, setSighting }) {
     };
 
     fetchComments();
-  }, [sightingId]);
+  }, [sightingId, comments]);
 
   const backToHomePage = () => {
     navigate("/");
@@ -49,7 +50,7 @@ export default function Sighting({ sighting, setSighting }) {
       <div key={key}>
         {key === "categories"
           ? `${key}: ${sighting[key].map((category) => category.name)}`
-          : key === "date"
+          : key === "date" || key === "createdAt" || key === "updatedAt"
           ? `${key}: ${new Date(sighting[key]).toLocaleString()}`
           : `${key}: ${sighting[key]}`}
         <br />
@@ -88,12 +89,12 @@ export default function Sighting({ sighting, setSighting }) {
           <Form.Label>Add a comment</Form.Label>
           <br />
           <Form.Control
+            as="textarea"
             type="text"
             value={commentInput}
             placeholder="Enter comment"
             onChange={({ target }) => setCommentInput(target.value)}
           />
-          <br />
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit
@@ -104,7 +105,14 @@ export default function Sighting({ sighting, setSighting }) {
       <ListGroup>
         {comments && comments.length > 0 ? (
           comments.map((comment) => (
-            <ListGroup.Item key={comment.id}>{comment.content}</ListGroup.Item>
+            <div key={comment.id}>
+              <ListGroup.Item>{comment.content}</ListGroup.Item>
+              <CommentEditForm
+                comment={comment}
+                comments={comments}
+                setComments={setComments}
+              />
+            </div>
           ))
         ) : (
           <p>Be the first to comment</p>

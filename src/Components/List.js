@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../constants";
 import { useSearchParams } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export default function List() {
   const [sightings, setSightings] = useState([]);
@@ -42,20 +43,20 @@ export default function List() {
         />
       </form>
 
-      <button
+      <Button
         onClick={() =>
           setSearchParams({ year: year === null ? "" : year, sort: "asc" })
         }
       >
         Sort by asc year
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() =>
           setSearchParams({ year: year === null ? "" : year, sort: "desc" })
         }
       >
-        Sort by dsc year
-      </button>
+        Sort by desc year
+      </Button>
 
       {sightings.map((sighting) => (
         <ul key={sighting.id}>

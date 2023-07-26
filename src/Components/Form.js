@@ -4,6 +4,7 @@ import { BACKEND_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import Button from "react-bootstrap/Button";
 
 export default function Form() {
   const navigate = useNavigate();
@@ -103,7 +104,7 @@ export default function Form() {
             }),
           }}
         />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </div>
   );

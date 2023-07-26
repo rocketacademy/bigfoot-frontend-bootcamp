@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { BACKEND_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/esm/Button";
 
 export default function SightingEditForm({ sighting, setSighting }) {
   const navigate = useNavigate();
@@ -55,11 +56,17 @@ export default function SightingEditForm({ sighting, setSighting }) {
     return `${dateString}T${timeString}`;
   }
 
+  const backToHomePage = () => {
+    navigate("/");
+  };
+
   return (
     <div>
-      <button onClick={() => setEditMode(!editMode)}>
+      <Button onClick={backToHomePage}>Home</Button>
+      <br />
+      <Button onClick={() => setEditMode(!editMode)}>
         {editMode ? "Cancel" : "Edit"}
-      </button>
+      </Button>
       <br />
 
       {editMode ? (
@@ -118,7 +125,7 @@ export default function SightingEditForm({ sighting, setSighting }) {
             }
           />
           <br />
-          <button onClick={() => handleUpdate(sighting.id)}>Update</button>
+          <Button onClick={() => handleUpdate(sighting.id)}>Update</Button>
         </div>
       ) : (
         <>
