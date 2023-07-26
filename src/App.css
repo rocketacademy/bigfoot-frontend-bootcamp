@@ -22,9 +22,43 @@
 }
 
 .home {
-  display: center;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 5rem;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem auto 0 auto;
+  padding: 2rem;
+}
+
+.outerContainer {
+  width: 20rem;
+}
+
+.innerContainer {
+  background-color: #ffffff65;
+  font-size: 0.8rem;
+  padding: 2rem;
+  border-radius: 20px;
+}
+
+.buttons {
+  padding: 0.6rem;
+  border-radius: 25px;
+  border: none;
+  background-color: #ea9898a9;
+  color: #fff;
+  cursor: pointer;
+}
+
+.buttons:hover {
+  background-color: #964040a9;
 }

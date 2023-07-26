@@ -10,11 +10,12 @@ import "./App.css";
 
 export default function App() {
   const { pathname } = useLocation();
-  const { sightingIndex } = useParams();
+  const { sightingId } = useParams();
+  // console.log(`sightingId`, sightingId);
 
   // ========== FOR TESTING ========== //
-  const location = useLocation();
-  console.log(location);
+  // const location = useLocation();
+  // console.log(location);
   // ========== END ========== //
 
   return (
@@ -33,9 +34,12 @@ export default function App() {
           <NavLink to="/sightings" style={{ textDecoration: "none" }}>
             ALL SIGHTINGS
           </NavLink>
+          <NavLink to="/new" style={{ textDecoration: "none" }}>
+            ADD SIGHTING
+          </NavLink>
         </div>
         {/* <Outlet/> use only within the parent route's component where you want the child routes to be rendered */}
-        <Outlet context={sightingIndex} />
+        <Outlet context={sightingId} />
         {pathname === "/" && (
           <div className="home">
             <h2>BIGFOOT EXERCISE</h2>
