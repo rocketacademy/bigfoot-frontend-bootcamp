@@ -13,6 +13,7 @@ export default function Sighting({ sighting, setSighting }) {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+  const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +40,18 @@ export default function Sighting({ sighting, setSighting }) {
 
     fetchComments();
   }, [sightingId, comments]);
+
+  useEffect(() => {
+    const fetchLikeCount = async () => {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}/likes`
+      );
+      console.log(data);
+      setLikeCount(data[0].likeCount);
+    };
+
+    fetchLikeCount();
+  }, [sightingId]);
 
   const backToHomePage = () => {
     navigate("/");
@@ -73,17 +86,27 @@ export default function Sighting({ sighting, setSighting }) {
     setCommentInput("");
   };
 
+  const handleLike = async () => {
+    const { data } = await axios.post(
+      `${BACKEND_URL}/sightings/${sightingId}/likes`
+    );
+    console.log(data);
+    setLikeCount(data.likeCount)
+  };
+
   return (
     <div>
       <Button onClick={backToHomePage}>Home</Button>
       <br />
+      <Button onClick={handleLike} variant="dark">
+        ❤️{likeCount}
+      </Button>
+
       <br />
       <Link to={`/sightings/${sightingId}/edit`}>Edit Sighting</Link>
       <br />
-
       {sighting && sightingRendered}
       <hr />
-
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Add a comment</Form.Label>
@@ -101,7 +124,6 @@ export default function Sighting({ sighting, setSighting }) {
         </Button>
       </Form>
       <hr />
-
       <ListGroup>
         {comments && comments.length > 0 ? (
           comments.map((comment) => (

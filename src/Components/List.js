@@ -66,7 +66,6 @@ export default function List() {
           {/**(sighting.date).toLocaleString() alone won't work as typeof sighting.date === string. toLocalString() only works on date object */}
           <li>Date: {new Date(sighting.date).toLocaleString()}</li>
           <li>Location Description: {sighting.location_description}</li>
-
           {sighting.categories.length > 0 && (
             <li>
               Categories:{" "}
