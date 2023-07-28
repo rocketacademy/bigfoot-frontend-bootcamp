@@ -29,23 +29,23 @@ export default function SightingEditForm({ sighting, setSighting }) {
   const handleUpdate = async (id) => {
     const { data } = await axios.put(`${BACKEND_URL}/sightings/${id}`, {
       date: updatedSighting.date || sighting.date,
-      location_description:
-        updatedSighting.location_description || sighting.location_description,
+      locationDescription:
+        updatedSighting.locationDescription || sighting.locationDescription,
       notes: updatedSighting.notes || sighting.notes,
       city: updatedSighting.city || sighting.city,
       country: updatedSighting.country || sighting.country,
-      categoryId: userOptions.map((option) => option.value),
+      categoryIds: userOptions.map((option) => option.value),
     });
 
     setSighting((prev) => ({
       ...prev,
       date: data.date || sighting.date,
-      location_description:
-        data.location_description || sighting.location_description,
+      locationDescription:
+        data.locationDescription || sighting.locationDescription,
       notes: data.notes || sighting.notes,
       city: data.city || sighting.city,
       country: data.country || sighting.country,
-      categoryId: data.map((option) => ({
+      categoryIds: data.map((option) => ({
         value: option.id,
         label: option.name,
       })),
@@ -106,7 +106,7 @@ export default function SightingEditForm({ sighting, setSighting }) {
       ]);
     }, 1000);
   };
-  
+
   return (
     <div>
       <Button onClick={backToHomePage}>Home</Button>
@@ -131,13 +131,13 @@ export default function SightingEditForm({ sighting, setSighting }) {
           <input
             type="text"
             value={
-              updatedSighting.location_description ||
-              sighting.location_description
+              updatedSighting.locationDescription ||
+              sighting.locationDescription
             }
             onChange={({ target }) =>
               setUpdatedSighting((prev) => ({
                 ...prev,
-                location_description: target.value,
+                locationDescription: target.value,
               }))
             }
           />
@@ -197,13 +197,13 @@ export default function SightingEditForm({ sighting, setSighting }) {
           <p>id: {sighting && sighting.id}</p>
           <p>date: {sighting && new Date(sighting.date).toLocaleString()}</p>
           <p>
-            location_description: {sighting && sighting.location_description}
+            locationDescription: {sighting && sighting.locationDescription}
           </p>
           <p>notes: {sighting && sighting.notes}</p>
           <p>city: {sighting && sighting.city}</p>
           <p>country: {sighting && sighting.country}</p>
           <p>
-            Categories:{" "}
+            categories:{" "}
             {sighting.categories.map((category) => category.name).join(", ")}
           </p>
         </>

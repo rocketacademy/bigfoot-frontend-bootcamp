@@ -61,8 +61,17 @@ export default function Sighting({ sighting, setSighting }) {
   for (const key in sighting) {
     sightingRendered.push(
       <div key={key}>
-        {key === "categories" 
-          ? `${key}: ${sighting[key].map((category) => category.name)}`
+        {key === "categories"
+          ? `Weather(s): ${sighting[key].map(
+              (category) =>
+                `${
+                  category.sightingCategories.intensity === 1
+                    ? "Sparse"
+                    : category.sightingCategories.intensity === 2
+                    ? "Light"
+                    : "Heavy"
+                } ${category.name}`
+            )}`
           : key === "date" || key === "createdAt" || key === "updatedAt"
           ? `${key}: ${new Date(sighting[key]).toLocaleString()}`
           : `${key}: ${sighting[key]}`}

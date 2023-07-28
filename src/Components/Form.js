@@ -17,6 +17,7 @@ export default function Form() {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [intensity, setIntensity] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -34,16 +35,21 @@ export default function Form() {
     console.log(userOptions);
   }, [userOptions]);
 
+  useEffect(() => {
+    console.log(intensity);
+  }, [intensity]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { data } = await axios.post(`${BACKEND_URL}/sightings`, {
       date,
-      location_description: locationDescription,
+      locationDescription,
       notes,
-      categoryId: userOptions.map((option) => option.value),
+      categoryIds: userOptions.map((option) => option.value),
       city,
       country,
+      intensityIds: intensity.map((i) => i),
     });
 
     console.log(data);
@@ -89,6 +95,7 @@ export default function Form() {
           type="datetime-local"
           value={date}
           onChange={({ target }) => setDate(target.value)}
+          required
         />
         <br />
         <input
@@ -96,6 +103,7 @@ export default function Form() {
           value={locationDescription}
           placeholder="Location Description"
           onChange={({ target }) => setLocationDescription(target.value)}
+          required
         />
         <br />
         <input
@@ -103,6 +111,7 @@ export default function Form() {
           value={city}
           placeholder="City"
           onChange={({ target }) => setCity(target.value)}
+          required
         />
         <br />
         <input
@@ -110,6 +119,7 @@ export default function Form() {
           value={country}
           placeholder="Country"
           onChange={({ target }) => setCountry(target.value)}
+          required
         />
         <br />
         <textarea
@@ -117,9 +127,11 @@ export default function Form() {
           value={notes}
           placeholder="Notes"
           onChange={({ target }) => setNotes(target.value)}
+          required
         />
         <br />
 
+        <label>Weather & Intensity (1 - sparse; 2 - light; 3- heavy)</label>
         <Creatable
           components={makeAnimated()}
           isMulti
@@ -139,7 +151,26 @@ export default function Form() {
           isLoading={isLoading}
           onChange={(newValue) => setUserOptions(newValue)}
           onCreateOption={handleCreate}
+          required
         />
+
+        {userOptions.map((userOption, index) => (
+          <div key={userOption.value}>
+            <label>{userOption.label}'s intensity</label>
+            <input
+              type="number"
+              value={intensity[index]}
+              onChange={({ target }) => {
+                const updatedIntensity = [...intensity];
+                updatedIntensity[index] = target.value;
+                setIntensity(updatedIntensity);
+              }}
+              min={1}
+              max={3}
+              required
+            />
+          </div>
+        ))}
         <Button type="submit">Submit</Button>
       </form>
     </div>

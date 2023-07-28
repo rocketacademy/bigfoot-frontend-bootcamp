@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../constants";
 import { useSearchParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
 
 export default function List() {
   const [sightings, setSightings] = useState([]);
@@ -48,31 +49,44 @@ export default function List() {
           setSearchParams({ year: year === null ? "" : year, sort: "asc" })
         }
       >
-        Sort by asc year
+        Sort by the earliest date
       </Button>
       <Button
         onClick={() =>
           setSearchParams({ year: year === null ? "" : year, sort: "desc" })
         }
       >
-        Sort by desc year
+        Sort by the latest date
       </Button>
+      <hr />
 
       {sightings.map((sighting) => (
-        <ul key={sighting.id}>
+        <Row key={sighting.id}>
           <Link to={`/sightings/${sighting.id}`}>
-            <li>Sighting {sighting.id}</li>
+            <p>Sighting {sighting.id}</p>
           </Link>
           {/**(sighting.date).toLocaleString() alone won't work as typeof sighting.date === string. toLocalString() only works on date object */}
-          <li>Date: {new Date(sighting.date).toLocaleString()}</li>
-          <li>Location Description: {sighting.location_description}</li>
+          <p>Date: {new Date(sighting.date).toLocaleString()}</p>
+          <p>Location Description: {sighting.locationDescription}</p>
           {sighting.categories.length > 0 && (
-            <li>
-              Categories:{" "}
-              {sighting.categories.map((category) => category.name).join(", ")}
-            </li>
+            <p>
+              Weather(s):{" "}
+              {sighting.categories
+                .map(
+                  (category) =>
+                    `${
+                      category.sightingCategories.intensity === 1
+                        ? "Sparse"
+                        : category.sightingCategories.intensity === 2
+                        ? "Light"
+                        : "Heavy"
+                    } ${category.name}`
+                )
+                .join(", ")}
+            </p>
           )}
-        </ul>
+          <hr />
+        </Row>
       ))}
     </div>
   );
