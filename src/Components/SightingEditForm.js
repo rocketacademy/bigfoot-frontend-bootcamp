@@ -1,13 +1,30 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
+import makeAnimated from "react-select/animated";
+import Creatable from "react-select/creatable";
 
 export default function SightingEditForm({ sighting, setSighting }) {
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [updatedSighting, setUpdatedSighting] = useState({});
+  const [options, setOptions] = useState([]);
+  const [userOptions, setUserOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data } = await axios.get(`${BACKEND_URL}/categories`);
+      console.log(data);
+      setOptions(
+        data.map((option) => ({ value: option.id, label: option.name }))
+      );
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleUpdate = async (id) => {
     const { data } = await axios.put(`${BACKEND_URL}/sightings/${id}`, {
@@ -17,7 +34,9 @@ export default function SightingEditForm({ sighting, setSighting }) {
       notes: updatedSighting.notes || sighting.notes,
       city: updatedSighting.city || sighting.city,
       country: updatedSighting.country || sighting.country,
+      categoryId: userOptions.map((option) => option.value),
     });
+
     setSighting((prev) => ({
       ...prev,
       date: data.date || sighting.date,
@@ -26,12 +45,16 @@ export default function SightingEditForm({ sighting, setSighting }) {
       notes: data.notes || sighting.notes,
       city: data.city || sighting.city,
       country: data.country || sighting.country,
+      categoryId: data.map((option) => ({
+        value: option.id,
+        label: option.name,
+      })),
     }));
     setEditMode(false);
     navigate(`/sightings/${id}`);
   };
 
-  function getHTML5DateTimeStringFromDate(d) {
+  const getHTML5DateTimeStringFromDate = (d) => {
     if (!(d instanceof Date)) {
       d = new Date(d); // Try converting to Date object if it's not already
     }
@@ -54,12 +77,36 @@ export default function SightingEditForm({ sighting, setSighting }) {
 
     // Combine the date and time strings with "T" in between
     return `${dateString}T${timeString}`;
-  }
+  };
 
   const backToHomePage = () => {
     navigate("/");
   };
 
+  const createOption = (label) => ({
+    label,
+    value: label.toLowerCase().replace(/\W/g, ""),
+  });
+
+  const handleCreate = (inputValue) => {
+    setIsLoading(true);
+    setTimeout(async () => {
+      const newOption = createOption(inputValue);
+      const { data } = await axios.post(`${BACKEND_URL}/categories`, {
+        name: newOption.value,
+      });
+      setIsLoading(false);
+      setOptions((prev) => [
+        ...prev,
+        { label: newOption.label, value: data.id },
+      ]);
+      setUserOptions((prev) => [
+        ...prev,
+        { label: newOption.label, value: data.id },
+      ]);
+    }, 1000);
+  };
+  
   return (
     <div>
       <Button onClick={backToHomePage}>Home</Button>
@@ -125,6 +172,24 @@ export default function SightingEditForm({ sighting, setSighting }) {
             }
           />
           <br />
+          <Creatable
+            components={makeAnimated()}
+            isMulti
+            options={options}
+            value={userOptions}
+            // onChange={(selectedOptions) => setUserOptions(selectedOptions)}
+            styles={{
+              option: (defaultStyles) => ({
+                ...defaultStyles,
+                color: "black",
+              }),
+            }}
+            isClearable
+            isDisabled={isLoading}
+            isLoading={isLoading}
+            onChange={(newValue) => setUserOptions(newValue)}
+            onCreateOption={handleCreate}
+          />
           <Button onClick={() => handleUpdate(sighting.id)}>Update</Button>
         </div>
       ) : (
@@ -137,6 +202,10 @@ export default function SightingEditForm({ sighting, setSighting }) {
           <p>notes: {sighting && sighting.notes}</p>
           <p>city: {sighting && sighting.city}</p>
           <p>country: {sighting && sighting.country}</p>
+          <p>
+            Categories:{" "}
+            {sighting.categories.map((category) => category.name).join(", ")}
+          </p>
         </>
       )}
     </div>

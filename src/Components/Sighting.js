@@ -61,7 +61,7 @@ export default function Sighting({ sighting, setSighting }) {
   for (const key in sighting) {
     sightingRendered.push(
       <div key={key}>
-        {key === "categories"
+        {key === "categories" 
           ? `${key}: ${sighting[key].map((category) => category.name)}`
           : key === "date" || key === "createdAt" || key === "updatedAt"
           ? `${key}: ${new Date(sighting[key]).toLocaleString()}`
@@ -91,7 +91,7 @@ export default function Sighting({ sighting, setSighting }) {
       `${BACKEND_URL}/sightings/${sightingId}/likes`
     );
     console.log(data);
-    setLikeCount(data.likeCount)
+    setLikeCount(data.likeCount);
   };
 
   return (

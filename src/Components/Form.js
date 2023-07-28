@@ -2,9 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
+// import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import Button from "react-bootstrap/Button";
+import Creatable from "react-select/creatable";
 
 export default function Form() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function Form() {
   const [userOptions, setUserOptions] = useState([]);
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -49,8 +51,37 @@ export default function Form() {
     navigate(`/sightings/${data.id}`);
   };
 
+  const backToHomePage = () => {
+    navigate("/");
+  };
+
+  const createOption = (label) => ({
+    label,
+    value: label.toLowerCase().replace(/\W/g, ""),
+  });
+
+  const handleCreate = (inputValue) => {
+    setIsLoading(true);
+    setTimeout(async () => {
+      const newOption = createOption(inputValue);
+      const { data } = await axios.post(`${BACKEND_URL}/categories`, {
+        name: newOption.value,
+      });
+      setIsLoading(false);
+      setOptions((prev) => [
+        ...prev,
+        { label: newOption.label, value: data.id },
+      ]);
+      setUserOptions((prev) => [
+        ...prev,
+        { label: newOption.label, value: data.id },
+      ]);
+    }, 1000);
+  };
+
   return (
     <div>
+      <Button onClick={backToHomePage}>Home</Button>
       <form onSubmit={handleSubmit}>
         <label>Add your sighting here:</label>
         <br />
@@ -89,13 +120,13 @@ export default function Form() {
         />
         <br />
 
-        <Select
+        <Creatable
           components={makeAnimated()}
           isMulti
           options={options}
           value={userOptions}
           // The react-select component has its own onChange prop, but it behaves differently from the vanilla HTML select element's onChange. In react-select, the onChange prop takes a function as its value and is triggered whenever the user selects or deselects an option, either for single or multi-select. The onChange function receives the selected option(s) or value(s) directly as its first argument.
-          onChange={(selectedOptions) => setUserOptions(selectedOptions)}
+          // onChange={(selectedOptions) => setUserOptions(selectedOptions)}
           // Option property is for styling, ...defaultStyles is to retain any other default styles from the Select component
           styles={{
             option: (defaultStyles) => ({
@@ -103,6 +134,11 @@ export default function Form() {
               color: "black",
             }),
           }}
+          isClearable
+          isDisabled={isLoading}
+          isLoading={isLoading}
+          onChange={(newValue) => setUserOptions(newValue)}
+          onCreateOption={handleCreate}
         />
         <Button type="submit">Submit</Button>
       </form>
