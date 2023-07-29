@@ -24,25 +24,23 @@ class IndexRender extends Component {
   }
   render() {
     const sightings = this.state.sightings;
-    console.log(parseInt(sightings.YEAR))
+
     return (
       <div>
-        <h2>Sighting index: {this.props.index}</h2>
+        <h2>Sighting index: {sightings.id}</h2>
         {sightings ? (
           <div>
-            <p>
-              Year: {sightings.YEAR} {sightings.SEASON}
-            </p>
+            <h4>Date and time: {sightings.date}</h4>
 
-            <p>
-              Location: {sightings.STATE} 
-            </p>
+            <h4>Location: </h4>
+            {sightings.location}
 
-            <p>Location Details: </p>{sightings.LOCATION_DETAILS ? <p>{sightings.LOCATION_DETAILS}</p> : <p>None provided</p>}
+            <h4>Details: </h4>
+            {sightings.notes ? <p>{sightings.notes}</p> : <p>None provided</p>}
           </div>
         ) : null}
         <Link to="/" style={{ textDecoration: "none" }}>
-        <button className="back-button">Back</button>
+          <button className="back-button">Back</button>
         </Link>
       </div>
     );
