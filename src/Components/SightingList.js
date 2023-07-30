@@ -23,13 +23,14 @@ const SightingList = () => {
   const [sightings, setSightings] = useState([]);
 
   const getSightingData = async () => {
-    const data = await axios.get(
-      `${BACKEND_URL}/sightings/filter/${
-        yearFilterInput ? yearFilterInput : 0
-      }/${monthFilterInput ? monthFilterInput : 0}/${
-        seasonFilterInput ? seasonFilterInput : 0
-      }/sort/${yearSortInput ? 1 : 0}/${stateSortInput ? 1 : 0}`
-    );
+    // const data = await axios.get(
+    //   `${BACKEND_URL}/sightings/filter/${
+    //     yearFilterInput ? yearFilterInput : 0
+    //   }/${monthFilterInput ? monthFilterInput : 0}/${
+    //     seasonFilterInput ? seasonFilterInput : 0
+    //   }/sort/${yearSortInput ? 1 : 0}/${stateSortInput ? 1 : 0}`
+    // );
+    const data = await axios.get(`${BACKEND_URL}`);
 
     setSightings(data.data);
   };
@@ -57,15 +58,19 @@ const SightingList = () => {
                 color="text.secondary"
                 gutterBottom
               >
-                {sighting.YEAR}, {sighting.MONTH}
+                {/* {sighting.YEAR}, {sighting.MONTH} */}
+                {sighting.date}
               </Typography>
               <Typography variant="h5" component="div">
-                {sighting.STATE}
+                {/* {sighting.STATE} */}
               </Typography>
               <Typography variant="h6">{sighting.SEASON}</Typography>
               <Typography variant="body2">
-                {sighting.LOCATION_DETAILS
+                {/* {sighting.LOCATION_DETAILS
                   ? sighting.LOCATION_DETAILS.substring(0, 20) + "..."
+                  : null} */}
+                {sighting.location
+                  ? sighting.location.substring(0, 20) + "..."
                   : null}
               </Typography>
             </CardContent>
@@ -132,7 +137,7 @@ const SightingList = () => {
       <Button
         variant="contained"
         onClick={() => {
-          navigate(-1);
+          navigate("/");
         }}
       >
         Back

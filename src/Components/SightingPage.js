@@ -6,11 +6,11 @@ import { BACKEND_URL } from "../constants";
 
 const SightingPage = (props) => {
   const [selectedSighting, setSelectedSighting] = useState([]);
-  let { sightingIndex } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
+  let { sightingId } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
   const navigate = useNavigate();
 
   const getSingleSightingData = async () => {
-    const data = await axios.get(`${BACKEND_URL}/sightings/${sightingIndex}`);
+    const data = await axios.get(`${BACKEND_URL}/${sightingId}`);
 
     setSelectedSighting(data.data);
   };
@@ -22,8 +22,11 @@ const SightingPage = (props) => {
   const selectedSightingList = (
     // render list of sighting
     <li>
-      {selectedSighting.YEAR}, {selectedSighting.STATE}
+      Date:
       <br />
+      {selectedSighting.date}
+      {/* {selectedSighting.YEAR}, {selectedSighting.STATE} */}
+      {/* <br />
       <br />
       Season: {selectedSighting.SEASON}
       <br />
@@ -38,7 +41,15 @@ const SightingPage = (props) => {
       Report Number: {selectedSighting.REPORT_NUMBER}
       <br />
       Report Class: {selectedSighting.REPORT_CLASS}
+      <br /> */}
       <br />
+      <br />
+      Location: <br />
+      {selectedSighting.location}
+      <br />
+      <br />
+      Notes: <br />
+      {selectedSighting.notes}
     </li>
   );
 
@@ -47,7 +58,7 @@ const SightingPage = (props) => {
       <Button
         variant="contained"
         onClick={() => {
-          navigate(-1);
+          navigate("/sightings");
         }}
       >
         {" "}
