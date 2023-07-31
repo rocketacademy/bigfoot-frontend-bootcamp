@@ -13,10 +13,10 @@ class App extends React.Component {
           <header className="App-header">
             <Routes>
               <Route path="/" element={<AllSightings />}>
-                <Route
+                {/* <Route
                   path="/sightings/:reportNumber"
                   element={<SightingDetails />}
-                />
+                /> */}
               </Route>{" "}
               /
             </Routes>

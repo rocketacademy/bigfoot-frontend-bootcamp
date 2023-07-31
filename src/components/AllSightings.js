@@ -8,22 +8,27 @@ export default function AllSightings() {
   const [sightings, setSightings] = useState(null);
   const [filteredSightings, setFilteredSightings] = useState(null);
   const [show, setShow] = useState(false);
+  const [refreshCounter, setRefreshCounter] = useState(0);
+
   const [beginYear, setBeginYear] = useState("");
   const [endYear, setEndYear] = useState("");
   const [season, setSeason] = useState("");
   const [state, setState] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   const years = Array.from({ length: 2023 - 1944 + 1 }, (_, i) => 1944 + i);
   const [selectedYear, setSelectedYear] = useState("");
   const [sortByOption, setSortByOption] = useState(null);
 
+  const sightingsURL = `${BACKEND_URL}/sightings`;
+
   function getSightings() {
     const fetchData = async () => {
       try {
-        const sighitngsURL = `${BACKEND_URL}/sightings`;
-        const response = await fetch(sighitngsURL);
+        console.log(sightingsURL);
+        const response = await fetch(sightingsURL);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -38,65 +43,109 @@ export default function AllSightings() {
     setSelectedYear("");
   }
 
-  const handleFilterByYear = (year) => {
-    const fetchData = async () => {
-      try {
-        let sightingsURL = `${BACKEND_URL}/sightings`;
+  useEffect(() => {
+    getSightings();
+  }, [refreshCounter]);
 
-        if (year) {
-          console.log(`Selected year: ${year}`);
-          setSelectedYear(year);
-          sightingsURL += `?year=${year}`;
-        }
+  // states and functions for Add Sighting
+  const [addShow, setAddShow] = useState(false);
+  const [date, setDate] = useState(null);
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [location_description, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
 
-        const response = await fetch(sightingsURL);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+  const addSighting = async () => {
+    try {
+      const response = await fetch(sightingsURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date,
+          city,
+          country,
+          location_description,
+          notes,
+        }),
+      });
 
-        const data = await response.json();
-        setSightings(data);
-      } catch (error) {
-        console.log("Error", error);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
 
-    setSortByOption(null);
-    fetchData();
+      setAddShow(false);
+      setRefreshCounter(refreshCounter + 1);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleSortBy = (option) => {
-    const fetchData = async () => {
-      try {
-        let sightingsURL = `${BACKEND_URL}/sightings`;
-        let params = new URLSearchParams();
+  useEffect(() => {
+    console.log(sightings);
+  }, [sightings]);
 
-        if (option) {
-          console.log(`Selected sort option: ${option}`);
-          setSortByOption(option);
-          params.append("sort", option);
-        }
+  // const handleFilterByYear = (year) => {
+  //   const fetchData = async () => {
+  //     try {
+  //       let sightingsURL = `${BACKEND_URL}/sightings`;
 
-        sightingsURL += `?${params.toString()}`;
+  //       if (year) {
+  //         console.log(`Selected year: ${year}`);
+  //         setSelectedYear(year);
+  //         sightingsURL += `?year=${year}`;
+  //       }
 
-        const response = await fetch(sightingsURL);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+  //       const response = await fetch(sightingsURL);
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
 
-        const data = await response.json();
-        setSightings(data);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    };
+  //       const data = await response.json();
+  //       setSightings(data);
+  //     } catch (error) {
+  //       console.log("Error", error);
+  //     }
+  //   };
 
-    setSelectedYear("");
-    fetchData();
-  };
+  //   setSortByOption(null);
+  //   fetchData();
+  // };
+
+  // const handleSortBy = (option) => {
+  //   const fetchData = async () => {
+  //     try {
+  //       let sightingsURL = `${BACKEND_URL}/sightings`;
+  //       let params = new URLSearchParams();
+
+  //       if (option) {
+  //         console.log(`Selected sort option: ${option}`);
+  //         setSortByOption(option);
+  //         params.append("sort", option);
+  //       }
+
+  //       sightingsURL += `?${params.toString()}`;
+
+  //       const response = await fetch(sightingsURL);
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+
+  //       const data = await response.json();
+  //       setSightings(data);
+  //     } catch (error) {
+  //       console.log("Error", error);
+  //     }
+  //   };
+
+  //   setSelectedYear("");
+  //   fetchData();
+  // };
 
   const handleClose = () => {
     setShow(false);
+    setAddShow(false);
     setModalShow(false);
   };
 
@@ -139,8 +188,12 @@ export default function AllSightings() {
           alignItems: "center",
         }}
       >
-        <Button variant="primary" onClick={() => getSightings()}>
+        {/* <Button variant="primary" onClick={() => getSightings()}>
           Get Sightings
+        </Button> */}
+
+        <Button variant="primary" onClick={() => setAddShow(true)}>
+          Add Sighting
         </Button>
 
         {/* <Button
@@ -152,7 +205,7 @@ export default function AllSightings() {
           Filter
         </Button> */}
 
-        <Dropdown
+        {/* <Dropdown
           onSelect={handleFilterByYear}
           style={{
             marginLeft: "10px",
@@ -172,9 +225,9 @@ export default function AllSightings() {
               </Dropdown.Item>
             ))}
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
 
-        <Dropdown
+        {/* <Dropdown
           onSelect={handleSortBy}
           style={{
             marginLeft: "10px",
@@ -205,7 +258,7 @@ export default function AllSightings() {
               Z to A by Season
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
       </div>
 
       {sightings ? (
@@ -265,14 +318,16 @@ export default function AllSightings() {
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        setSelectedReport(sighting.REPORT_NUMBER);
+                        setSelectedReport(sighting.id);
+                        setSelectedIndex(index);
                         setModalShow(true);
                       }}
                     >
                       <div className="card-body">
-                        <h5 className="card-title">{sighting.YEAR}</h5>
-                        <p className="card-text">{sighting.SEASON}</p>
-                        <p className="card-text">{sighting.STATE}</p>
+                        <h5 className="card-text">{`ID# ${
+                          sighting.id
+                        }; Date: ${sighting.date.slice(0, -14)}`}</h5>
+                        <h5 className="card-text">{`Location: ${sighting.location_description}`}</h5>
                       </div>
                     </div>
                   </div>
@@ -359,10 +414,71 @@ export default function AllSightings() {
         </Modal.Footer>
       </Modal>
 
+      <Modal
+        show={addShow}
+        onHide={handleClose}
+        style={{
+          maxHeight: "75vh",
+          // overflowY: "auto",
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)", // Add this line
+          overflow: "hidden",
+        }}
+      >
+        <h2>Add Sighting</h2>
+        <label>
+          Date:
+          <input
+            type="datetime-local"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </label>
+        <label>
+          City:
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+        </label>
+        <label>
+          Country:
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+        </label>
+        <label>
+          Location Description:
+          <input
+            type="text"
+            value={location_description}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </label>
+        <label>
+          Notes:
+          <input
+            type="text"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          />
+        </label>
+        <button onClick={() => setAddShow(false)}>Cancel</button>
+        <button onClick={addSighting}>Add</button>
+      </Modal>
+
       <SightingDetails
         show={modalShow}
         onHide={handleClose}
-        reportNumber={selectedReport}
+        id={selectedReport}
+        index={selectedIndex}
+        refreshCounter={refreshCounter}
+        setRefreshCounter={setRefreshCounter}
       />
     </div>
   );
