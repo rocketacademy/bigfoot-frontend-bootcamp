@@ -17,7 +17,7 @@ class Home extends Component {
 
     return pathname === "/" || pathname === "";
   }
-  
+
   render() {
     const shouldRender = this.shouldRender();
     //console.log(shouldRender);
@@ -44,10 +44,10 @@ class Home extends Component {
               >
                 <button className="search-button">Submit</button>
               </Link>
-              <h4>Or click here to filter by year:</h4>
+              <h4>Or click here to add a new sighting:</h4>
               {/* <label>Index:</label> */}
               <Link
-                to={`/year`}
+                to={`/new`}
                 onClick={() => this.setState({ index: "" })} // Clear index state on submit
                 style={{ textDecoration: "none" }}
               >

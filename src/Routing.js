@@ -5,6 +5,7 @@ import TempPage from "./Temp";
 import YearFiltered from "./YearFiltered";
 import YearSearch, { YEARLIST } from "./YearSearch";
 import IndexRender from "./IndexRender";
+import NewSighting from "./new_sighting/NewSighting";
 
 const sightingIndexes = Array.from(Array(100).keys()); // Array of values from 0 to 99
 
@@ -30,6 +31,7 @@ export default function Routing() {
           element={<YearFiltered year={year} />}
         />
       ))}
+      <Route path="/new" element={<NewSighting />} />
       {/* Temp Page Route */}
       <Route path="/*" element={<TempPage />} />
     </Routes>
