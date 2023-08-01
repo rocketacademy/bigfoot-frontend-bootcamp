@@ -9,13 +9,14 @@ import {
   Button,
 } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
+import { BACKEND_URL } from "./constants";
 
 const App = () => {
   const [sighting, setSightings] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/sightings")
+      .get(`${BACKEND_URL}/sightings/`)
       .then((response) => {
         setSightings(response.data);
         console.log(response);
@@ -28,6 +29,9 @@ const App = () => {
   return (
     <div>
       <h1>Reports of Sightings</h1>
+      <p>
+        Submit your own sighting <Link to="/new">here</Link>
+      </p>
       {sighting.map((sighting, id) => (
         <Card key={id} style={{ marginBottom: "10px" }}>
           <CardContent>
@@ -43,7 +47,7 @@ const App = () => {
             <Typography variant="body2" color="text.secondary">
               {sighting.notes}
             </Typography>
-            <Link to={`/sightings/${id}`} target="_blank" key={id}>
+            <Link to={`/sightings/${id + 1}`} target="_blank" key={id}>
               <CardActions>
                 <Button size="small">Read More</Button>
               </CardActions>
