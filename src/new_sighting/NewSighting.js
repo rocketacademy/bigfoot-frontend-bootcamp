@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { BACKEND_URL } from "../Constants";
 //import { Outlet } from "react-router-dom";
@@ -13,7 +13,7 @@ export default class NewSighting extends React.Component {
       index: "",
     };
   }
-
+  
   sendPostRequest() {
     const url = `${BACKEND_URL}/sightings`;
     const { sighting } = this.state;
@@ -41,11 +41,13 @@ export default class NewSighting extends React.Component {
             successMessage: "Successfully submitted the sighting!",
           });
         })
+        .then(() => useNavigate(`/`))
         .catch((error) => {
           console.error("Error:", error);
         });
     }
   }
+
   getCurrentDateTime() {
     const now = new Date();
     const year = now.getFullYear();
@@ -56,17 +58,22 @@ export default class NewSighting extends React.Component {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
+  
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.sendPostRequest();
+  };
   render() {
     const { sighting, successMessage } = this.state;
     const { location, notes } = sighting;
     const curr_date = this.getCurrentDateTime();
     return (
       <div>
-        <label for="sighting-time">
-          <h3>Please input sighting date:</h3>
-        </label>
-
-        <input
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="sighting-time">
+            <h3>Please input sighting date:</h3>
+          </label>
+          <input
           type="datetime-local"
           id="sighting-time"
           name="sighting-time"
@@ -78,35 +85,33 @@ export default class NewSighting extends React.Component {
               sighting: { ...this.state.sighting, date: e.target.value },
             })
           }
-        ></input>
-        <br />
-        <h3>Please input sighting location:</h3>
-        {/* <label>Index:</label> */}
-        <input
-          type="text"
-          value={location}
-          onChange={(e) =>
-            this.setState({
-              sighting: { ...this.state.sighting, location: e.target.value },
-            })
-          }
-          placeholder="Location Here"
-        />
-        <br />
-        <h3>Please notes of sighting details:</h3>
-        {/* <label>Index:</label> */}
-        <input
-          type="text"
-          value={notes}
-          onChange={(e) =>
-            this.setState({
-              sighting: { ...this.state.sighting, notes: e.target.value },
-            })
-          }
-          placeholder="Notes Here"
-        />
-        <br />
-        <button onClick={() => this.sendPostRequest()}>Submit</button>
+         />
+          <h3>Please input sighting location:</h3>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) =>
+              this.setState({
+                sighting: { ...this.state.sighting, location: e.target.value },
+              })
+            }
+            placeholder="Location Here"
+          />
+          <br />
+          <h3>Please notes of sighting details:</h3>
+          <input
+            type="text"
+            value={notes}
+            onChange={(e) =>
+              this.setState({
+                sighting: { ...this.state.sighting, notes: e.target.value },
+              })
+            }
+            placeholder="Notes Here"
+          />
+          <br />
+          <button type="submit">Submit</button>
+        </form>
         {successMessage && (
           <div className="success-message">{successMessage}</div>
         )}
