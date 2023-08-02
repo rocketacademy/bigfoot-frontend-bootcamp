@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 
 import { BACKEND_URL } from "../constants";
 
-const SightingPage = () => {
+const CreateSightingPage = () => {
   const [dateInput, setDateInput] = useState("");
   const [locationInput, setLocationInput] = useState("");
   const [notesInput, setNotesInput] = useState("");
@@ -80,4 +80,4 @@ const SightingPage = () => {
   );
 };
 
-export default SightingPage;
+export default CreateSightingPage;

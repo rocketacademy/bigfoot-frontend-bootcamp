@@ -63,6 +63,15 @@ const SightingPage = (props) => {
       >
         {" "}
         Back
+      </Button>{" "}
+      <Button
+        variant="contained"
+        onClick={() => {
+          navigate(`/sightings/${sightingId}/edit`);
+        }}
+      >
+        {" "}
+        Edit
       </Button>
       <ul className="sighting-list">{selectedSightingList}</ul>
     </div>
