@@ -11,3 +11,20 @@ export default function TempPage() {
     </div>
   );
 }
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+//   // send date, location, notes to backend
+//   axios
+//     .post(`${BACKEND_URL}/sightings`, {
+//       date,
+//       location,
+//       notes,
+//     })
+//     .then((res) => {
+//       //reset form
+//       setDate("");
+//       setLocation("");
+//       setNotes("");
+//     })
+//     .then(() => navigate(`/`));
+// };
