@@ -75,6 +75,12 @@ export default function SightingList() {
                 <strong>Date:</strong> {sighting.date}
               </div>
               <div>
+                <strong>Category:</strong>{" "}
+                {sighting.categories && sighting.categories.length > 0
+                  ? sighting.categories[0].name
+                  : "N/A"}
+              </div>
+              <div>
                 <strong>Location: </strong> {sighting.location}
               </div>
               <div
