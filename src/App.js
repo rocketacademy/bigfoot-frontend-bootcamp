@@ -8,6 +8,8 @@ import SightingList from "./Components/SightingList.js";
 import SightingPage from "./Components/SightingPage.js";
 import CreateSighting from "./Components/CreateSighting.js";
 import HomeNav from "./Components/HomeNav.js";
+import EditSightingPage from "./Components/EditSightingPage.js";
+import EditSightingForm from "./Components/EditSightingForm.js";
 
 const App = () => {
   // const navigate = useNavigate();
@@ -23,6 +25,10 @@ const App = () => {
           <Route path="sightings" element={<SightingList />} />
           <Route path="sightings/:sightingId" element={<SightingPage />} />
           <Route path="sightings/new" element={<CreateSighting />} />
+          <Route
+            path="sightings/:sightingId/edit"
+            element={<EditSightingPage />}
+          />
         </Routes>
       </header>
     </div>
