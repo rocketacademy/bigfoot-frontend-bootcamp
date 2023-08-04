@@ -9,10 +9,8 @@ import {
   Link,
   useParams,
 } from "react-router-dom";
-import NewSighting from "./NewSighting";
 
-
-const BACKEND_URL = "http://localhost:3000";
+const BACKEND_URL = "http://localhost:2999";
 
 const AllSightingsPage = () => {
   const [AllSightings, setAllSightings] = useState([]);
@@ -25,22 +23,21 @@ const AllSightingsPage = () => {
 
   return (
     <div>
-      {Array(2).fill(<br />)}
-      <Link to="sightings/new">Click here to Submit a NEW Sighting</Link>
-      {Array(2).fill(<br />)}
       {AllSightings.map((sighting, index) => (
-        <Link to={`/sightings/${index + 1}`} key={index+1}>
-          {Array(3).fill(<br />)}
+        <Link to={`/sightings/${index}`} key={index}>
           <Card bg="dark" border="info" text="light">
             <Card.Body>
               <Card.Title>
-                {`Sighting ID: ${sighting.id}`}
+                {`Sighting Report Number: ${sighting.REPORT_NUMBER}`}
               </Card.Title>
               <Card.Text className="small-text">
-                Date: {sighting.date}
+                Year: {sighting.YEAR}
               </Card.Text>
               <Card.Text className="small-text">
-                Location: {sighting.location}
+                Season: {sighting.SEASON}
+              </Card.Text>
+              <Card.Text className="small-text">
+                County: {sighting.COUNTY}
               </Card.Text>
             </Card.Body>
           </Card>
@@ -67,28 +64,35 @@ const Sighting = () => {
   return (
     <div>
       <Link to="/">Home</Link>
-      {Array(2).fill(<br />)}
-
+      <br />
+      <br />
       {SelSighting ? (
         <div className="div-container">
-          <center>
-            <Card bg="dark">
-              <Card.Body>
-                <Card.Title>
-                  {`ID: ${SelSighting.id}`}
-                </Card.Title>
-                <Card.Text className="small-text">
-                  Date: {SelSighting.date}
-                </Card.Text>
-                <Card.Text className="small-text">
-                  Location: {SelSighting.location}
-                </Card.Text>
-                <Card.Text className="small-text">
-                  Notes: {SelSighting.notes}
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </center>
+          <Card bg="dark">
+            <Card.Body>
+              <Card.Title>
+                {`${SelSighting.YEAR} ${SelSighting.SEASON}  Report: ${SelSighting.REPORT_NUMBER}`}
+              </Card.Title>
+              <Card.Text className="small-text">
+                Year: {SelSighting.YEAR}
+              </Card.Text>
+              <Card.Text className="small-text">
+                Season: {SelSighting.SEASON}
+              </Card.Text>
+              <Card.Text className="small-text">
+                County: {SelSighting.COUNTY}
+              </Card.Text>
+              <Card.Text className="small-text">
+                Location Details: {SelSighting.LOCATION_DETAILS}
+              </Card.Text>
+              <Card.Text className="small-text">
+                Observed: {SelSighting.OBSERVED}
+              </Card.Text>
+              <Card.Text className="small-text">
+                Other Witnesses: {SelSighting.OTHER_WITNESSES}
+              </Card.Text>
+            </Card.Body>
+          </Card>
         </div>
       ) : (
         <div>Loading...</div>
@@ -105,7 +109,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={<AllSightingsPage />} />
             <Route path="sightings/:sightingIndex" element={<Sighting />} />
-            <Route path="sightings/new" element={<NewSighting />} />
           </Routes>
         </BrowserRouter>
       </header>
