@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import EditSightingForm from "./EditSightingForm";
+import Button from "@mui/material/Button";
+
 import { BACKEND_URL } from "../constants";
 
 const EditSightingPage = () => {
   const [data, setData] = React.useState(null);
+  const navigate = useNavigate();
 
   let { sightingId } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
 
@@ -17,8 +20,10 @@ const EditSightingPage = () => {
 
     setData({
       date: data.data.date.substring(0, 16),
-      location: data.data.location,
+      location: data.data.location_discription,
       notes: data.data.notes,
+      city: data.data.city,
+      country: data.data.country,
     });
   };
 
@@ -28,10 +33,22 @@ const EditSightingPage = () => {
     return;
   }, []);
 
-  return data ? (
-    <EditSightingForm data={data} sightingId={sightingId} />
-  ) : (
-    "Loading"
+  return (
+    <div>
+      <Button
+        variant="contained"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        Back
+      </Button>
+      {data ? (
+        <EditSightingForm data={data} sightingId={sightingId} />
+      ) : (
+        "Loading"
+      )}
+    </div>
   );
 };
 

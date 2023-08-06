@@ -17,7 +17,8 @@ const SightingPage = (props) => {
 
   useEffect(() => {
     getSingleSightingData();
-  });
+    return;
+  }, []);
 
   const selectedSightingList = (
     // render list of sighting
@@ -44,12 +45,20 @@ const SightingPage = (props) => {
       <br /> */}
       <br />
       <br />
-      Location: <br />
-      {selectedSighting.location}
+      Location Discription: <br />
+      {selectedSighting.location_discription}
       <br />
       <br />
       Notes: <br />
       {selectedSighting.notes}
+      <br />
+      <br />
+      City: <br />
+      {selectedSighting.city}
+      <br />
+      <br />
+      Country: <br />
+      {selectedSighting.country}
     </li>
   );
 

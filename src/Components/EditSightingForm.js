@@ -1,4 +1,4 @@
-// To try: create comonent to preload data first then pass to this component
+// To do: Update form to work with city, country data
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,8 @@ const EditSightingForm = (props) => {
   const [date, setDate] = useState(props.data.date);
   const [location, setLocation] = useState(props.data.location);
   const [notes, setNotes] = useState(props.data.notes);
+  const [city, setCity] = useState(props.data.city);
+  const [country, setCountry] = useState(props.data.country);
   const navigate = useNavigate();
 
   const handleSightingSubmit = async (e) => {
@@ -19,8 +21,10 @@ const EditSightingForm = (props) => {
 
     const res = await axios.put(`${BACKEND_URL}/${props.sightingId}/edit`, {
       date: date,
-      location: location,
+      location_discription: location,
       notes: notes,
+      city: city,
+      country: country,
       id: props.sightingId,
     });
 
@@ -49,7 +53,7 @@ const EditSightingForm = (props) => {
         }}
       />
       <br />
-      Location:{" "}
+      Location Discription:{" "}
       <textarea
         type="text"
         rows="3"
@@ -70,6 +74,26 @@ const EditSightingForm = (props) => {
         value={notes}
         onChange={(e) => {
           setNotes(e.target.value);
+        }}
+      />
+      <br />
+      City:{" "}
+      <input
+        type="text"
+        name="notes"
+        value={city}
+        onChange={(e) => {
+          setCity(e.target.value);
+        }}
+      />
+      <br />
+      Country:{" "}
+      <input
+        type="text"
+        name="notes"
+        value={country}
+        onChange={(e) => {
+          setCountry(e.target.value);
         }}
       />
       <br />

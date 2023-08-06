@@ -9,6 +9,8 @@ const CreateSightingPage = () => {
   const [dateInput, setDateInput] = useState("");
   const [locationInput, setLocationInput] = useState("");
   const [notesInput, setNotesInput] = useState("");
+  const [cityInput, setCityInput] = useState("");
+  const [countryInput, setCountryInput] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,13 +23,21 @@ const CreateSightingPage = () => {
   const handleNotesInput = (e) => {
     setNotesInput(e.target.value);
   };
+  const handleCityInput = (e) => {
+    setCityInput(e.target.value);
+  };
+  const handleCountryInput = (e) => {
+    setCountryInput(e.target.value);
+  };
   const handleSightingSubmit = async (e) => {
     e.preventDefault();
 
     const res = await axios.post(`${BACKEND_URL}/new`, {
       date: dateInput,
-      location: locationInput,
+      location_discription: locationInput,
       notes: notesInput,
+      city: cityInput,
+      country: countryInput,
     });
 
     const sightingId = res.data;
@@ -72,6 +82,16 @@ const CreateSightingPage = () => {
           <br />
           Notes:{" "}
           <input type="text" value={notesInput} onChange={handleNotesInput} />
+          <br />
+          City:{" "}
+          <input type="text" value={cityInput} onChange={handleCityInput} />
+          <br />
+          Country:{" "}
+          <input
+            type="text"
+            value={countryInput}
+            onChange={handleCountryInput}
+          />
         </label>
         <br />
         <input type="submit" value="Submit" />
