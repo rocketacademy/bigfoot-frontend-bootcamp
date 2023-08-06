@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import ListGroup from "react-bootstrap/ListGroup";
+
 import { BACKEND_URL } from "../constants";
 
 const SightingPage = (props) => {
-  const [selectedSighting, setSelectedSighting] = useState([]);
+  const [selectedSighting, setSelectedSighting] = useState({});
+  const [comments, setComments] = useState([]);
   let { sightingId } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
   const navigate = useNavigate();
 
@@ -15,34 +18,25 @@ const SightingPage = (props) => {
     setSelectedSighting(data.data);
   };
 
+  const getComments = async () => {
+    const data = await axios.get(`${BACKEND_URL}/${sightingId}/comments`);
+
+    setComments(data.data);
+    // console.log(typeof data.data[0].createdAt);
+  };
+
   useEffect(() => {
     getSingleSightingData();
+    getComments();
     return;
   }, []);
 
   const selectedSightingList = (
-    // render list of sighting
+    // render list of sighting after selectedSighting is retrieved
     <li>
       Date:
       <br />
       {selectedSighting.date}
-      {/* {selectedSighting.YEAR}, {selectedSighting.STATE} */}
-      {/* <br />
-      <br />
-      Season: {selectedSighting.SEASON}
-      <br />
-      County: {selectedSighting.COUNTY}
-      <br />
-      Location Details: {selectedSighting.LOCATION_DETAILS}
-      <br />
-      Other Witnesses: {selectedSighting.OTHER_WITNESSES}
-      <br />
-      Time and Conditions: {selectedSighting.TIME_AND_CONDITIONS}
-      <br />
-      Report Number: {selectedSighting.REPORT_NUMBER}
-      <br />
-      Report Class: {selectedSighting.REPORT_CLASS}
-      <br /> */}
       <br />
       <br />
       Location Discription: <br />
@@ -61,6 +55,18 @@ const SightingPage = (props) => {
       {selectedSighting.country}
     </li>
   );
+
+  const dateStrTodateFormat = (dateStr) => {
+    const date = new Date(dateStr);
+    const iso = date.toLocaleString();
+    return iso;
+  };
+
+  const commentList = comments.map((comment, id) => (
+    <ListGroup.Item action key={id}>
+      {comment.content} - {dateStrTodateFormat(comment.createdAt)}
+    </ListGroup.Item>
+  ));
 
   return (
     <div>
@@ -83,6 +89,10 @@ const SightingPage = (props) => {
         Edit
       </Button>
       <ul className="sighting-list">{selectedSightingList}</ul>
+      <ListGroup>
+        <ListGroup.Item active>Comments</ListGroup.Item>
+        {commentList}
+      </ListGroup>
     </div>
   );
 };

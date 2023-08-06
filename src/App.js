@@ -3,17 +3,16 @@ import logo from "./logo.png";
 import "./App.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
 // import Button from "@mui/material/Button";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import SightingList from "./Components/SightingList.js";
 import SightingPage from "./Components/SightingPage.js";
 import CreateSighting from "./Components/CreateSighting.js";
 import HomeNav from "./Components/HomeNav.js";
 import EditSightingPage from "./Components/EditSightingPage.js";
-import EditSightingForm from "./Components/EditSightingForm.js";
 
 const App = () => {
   // const navigate = useNavigate();
-
   return (
     <div className="App">
       <header className="App-header">

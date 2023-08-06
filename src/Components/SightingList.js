@@ -122,7 +122,6 @@ const SightingList = () => {
 
   return (
     <div>
-      {console.log(sightings)}
       Filter
       {filterInput(yearFilterInput, setYearFilterInput, "Year")}
       {filterInput(monthFilterInput, setMonthFilterInput, "Month")}
