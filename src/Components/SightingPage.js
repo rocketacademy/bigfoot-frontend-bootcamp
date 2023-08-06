@@ -9,6 +9,7 @@ import { BACKEND_URL } from "../constants";
 const SightingPage = (props) => {
   const [selectedSighting, setSelectedSighting] = useState({});
   const [comments, setComments] = useState([]);
+  const [commentInput, setCommentInput] = useState("");
   let { sightingId } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
   const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ const SightingPage = (props) => {
   const getComments = async () => {
     const data = await axios.get(`${BACKEND_URL}/${sightingId}/comments`);
 
-    setComments(data.data);
+    setComments(data.data.reverse()); // reverse order of comments to show latest first
     // console.log(typeof data.data[0].createdAt);
   };
 
@@ -58,8 +59,16 @@ const SightingPage = (props) => {
 
   const dateStrTodateFormat = (dateStr) => {
     const date = new Date(dateStr);
-    const iso = date.toLocaleString();
-    return iso;
+    return date.toLocaleString("en-GB", {
+      hour12: true,
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
   };
 
   const commentList = comments.map((comment, id) => (
@@ -67,6 +76,17 @@ const SightingPage = (props) => {
       {comment.content} - {dateStrTodateFormat(comment.createdAt)}
     </ListGroup.Item>
   ));
+
+  const handleCommentFormSubmit = async (e) => {
+    e.preventDefault();
+
+    await axios.post(`${BACKEND_URL}/${sightingId}/comments`, {
+      content: commentInput,
+    });
+
+    getComments();
+    setCommentInput("");
+  };
 
   return (
     <div>
@@ -89,6 +109,17 @@ const SightingPage = (props) => {
         Edit
       </Button>
       <ul className="sighting-list">{selectedSightingList}</ul>
+      <br />
+      <form onSubmit={handleCommentFormSubmit}>
+        Enter comments:{" "}
+        <input
+          type="text"
+          value={commentInput}
+          onChange={(e) => setCommentInput(e.target.value)}
+        />
+        <br />
+        <br />
+      </form>
       <ListGroup>
         <ListGroup.Item active>Comments</ListGroup.Item>
         {commentList}
