@@ -7,11 +7,29 @@ import ListGroup from "react-bootstrap/ListGroup";
 import EditComment from "./EditComment";
 import { BACKEND_URL } from "../constants";
 
+// styling
+// heart likes
+import { styled } from "@mui/material/styles";
+import Rating from "@mui/material/Rating";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
+const StyledRating = styled(Rating)({
+  "& .MuiRating-iconFilled": {
+    color: "#ff6d75",
+  },
+  "& .MuiRating-iconHover": {
+    color: "#ff3d47",
+  },
+});
+
 const SightingPage = (props) => {
   const [selectedSighting, setSelectedSighting] = useState({});
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
   const [editCommentId, setEditCommentId] = useState(0);
+  const [likes, setLikes] = useState(null);
+
   let { sightingId } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
   const navigate = useNavigate();
 
@@ -28,9 +46,18 @@ const SightingPage = (props) => {
     // console.log(typeof data.data[0].createdAt);
   };
 
+  const getLikes = async () => {
+    const data = await axios.get(`${BACKEND_URL}/${sightingId}/likes`);
+
+    setLikes(data.data.length); // reverse order of comments to show latest first
+    // console.log(typeof data.data[0].createdAt);
+  };
+
   useEffect(() => {
     getSingleSightingData();
     getComments();
+    getLikes();
+
     return;
   }, []);
 
@@ -125,6 +152,12 @@ const SightingPage = (props) => {
     setCommentInput("");
   };
 
+  const handleLikeButtonClick = async (e) => {
+    // e.preventDefault();
+    await axios.post(`${BACKEND_URL}/${sightingId}/likes`);
+    getLikes();
+  };
+
   return (
     <div>
       <Button
@@ -146,6 +179,21 @@ const SightingPage = (props) => {
         Edit
       </Button>
       <ul className="sighting-list">{selectedSightingList}</ul>
+      <br />
+      Likes: {likes}{" "}
+      {/* like button
+       */}
+      <StyledRating
+        name="customized-color"
+        value={1}
+        max={1}
+        onChange={(e, newValue) => {
+          handleLikeButtonClick();
+        }}
+        icon={<FavoriteIcon fontSize="inherit" />}
+        emptyIcon={<FavoriteBorderIcon fontSize="inherit" color="secondary" />}
+      />
+      <br />
       <br />
       <form onSubmit={handleCommentFormSubmit}>
         Enter comments:{" "}
