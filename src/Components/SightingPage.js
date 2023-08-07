@@ -4,12 +4,14 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
+import EditComment from "./EditComment";
 import { BACKEND_URL } from "../constants";
 
 const SightingPage = (props) => {
   const [selectedSighting, setSelectedSighting] = useState({});
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+  const [editCommentId, setEditCommentId] = useState(0);
   let { sightingId } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
   const navigate = useNavigate();
 
@@ -72,9 +74,44 @@ const SightingPage = (props) => {
   };
 
   const commentList = comments.map((comment, id) => (
-    <ListGroup.Item action key={id}>
-      {comment.content} - {dateStrTodateFormat(comment.createdAt)}
-    </ListGroup.Item>
+    <div key={id}>
+      <ListGroup.Item action>
+        {/* {console.log(comment.id)} */}
+        {comment.id === editCommentId ? (
+          <EditComment
+            preloadComment={comment.content}
+            setEditCommentId={setEditCommentId}
+            sightingId={sightingId}
+            commentID={editCommentId}
+            getComments={getComments}
+          />
+        ) : (
+          comment.content
+        )}
+        <br />
+        Created: {dateStrTodateFormat(comment.createdAt)}
+        <br />
+        {comment.createdAt !== comment.updatedAt &&
+          "Edited: " + dateStrTodateFormat(comment.updatedAt)}
+      </ListGroup.Item>
+      <Button variant="contained" onClick={() => setEditCommentId(comment.id)}>
+        Edit
+      </Button>
+      <Button
+        variant="contained"
+        onClick={async () => {
+          await axios.delete(`${BACKEND_URL}/comments`, {
+            data: {
+              commentId: comment.id,
+            },
+          });
+
+          getComments();
+        }}
+      >
+        Delete
+      </Button>
+    </div>
   ));
 
   const handleCommentFormSubmit = async (e) => {
@@ -117,6 +154,7 @@ const SightingPage = (props) => {
           value={commentInput}
           onChange={(e) => setCommentInput(e.target.value)}
         />
+        <input type="submit" />
         <br />
         <br />
       </form>
