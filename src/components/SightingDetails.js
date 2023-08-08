@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import Select from "react-select";
+import { Button, Modal, ListGroup } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { BACKEND_URL } from "../constants";
 
@@ -9,6 +10,7 @@ export default function SightingDetails({
   id,
   refreshCounter,
   setRefreshCounter,
+  categories,
 }) {
   // const { reportNumber } = useParams();
   const [sighting, setSighting] = useState(null);
@@ -17,7 +19,12 @@ export default function SightingDetails({
   const [country, setCountry] = useState(null);
   const [newLocation, setNewLocation] = useState(null);
   const [newNotes, setNewNotes] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [content, setContent] = useState(null);
+  const [categoryIds, setCategoryIds] = useState(null);
+  const [displayedCategories, setDisplayedCategories] = useState(null);
 
+  // Get data for sighting id
   useEffect(() => {
     fetch(`${BACKEND_URL}/sightings/${id}`)
       .then((response) => response.json())
@@ -27,11 +34,37 @@ export default function SightingDetails({
         setNewDate(formattedDate);
         setCity(data.city);
         setCountry(data.country);
-        setNewLocation(data.location_description);
+        setNewLocation(data.locationDescription);
         setNewNotes(data.notes);
         console.log(JSON.stringify(data));
       });
   }, [id, refreshCounter]);
+
+  // Get comments for sighting id
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/sightings/${id}/comments`)
+      .then((response) => response.json())
+      .then((data) => {
+        setComments(data);
+        console.log(JSON.stringify(data));
+      });
+  }, [id, refreshCounter]);
+
+  // Get categories for sighting id
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/sightings/${id}/categories`)
+      .then((response) => response.json())
+      .then((data) => {
+        setDisplayedCategories(data);
+        console.log(JSON.stringify(data));
+      });
+  }, [id, refreshCounter]);
+
+  const handleSelectChange = (selectedOptions) => {
+    setDisplayedCategories(selectedOptions);
+    const selectedIds = selectedOptions.map((option) => option.value);
+    setCategoryIds(selectedIds);
+  };
 
   useEffect(() => {
     console.log(newDate);
@@ -41,10 +74,11 @@ export default function SightingDetails({
     console.log(`Fetching sighting with id number: ${id}`);
   }, [id]);
 
+  // Put request to update the sighting data
   const editSighting = async (id) => {
     try {
       const date = newDate;
-      const location_description = newLocation;
+      const locationDescription = newLocation;
       const notes = newNotes;
       const response = await fetch(`${BACKEND_URL}/sightings/${id}`, {
         method: "PUT",
@@ -55,12 +89,14 @@ export default function SightingDetails({
           date,
           city,
           country,
-          location_description,
+          locationDescription,
+          categoryIds,
           notes,
         }),
       });
 
       if (!response.ok) {
+        console.log(categoryIds);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
@@ -80,6 +116,30 @@ export default function SightingDetails({
   const handleOpeningOfEditModal = () => {
     onHide();
     setEditShow(true);
+  };
+
+  const addComment = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/sightings/${id}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      setRefreshCounter(refreshCounter + 1);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setContent(null);
   };
 
   return (
@@ -111,6 +171,19 @@ export default function SightingDetails({
             <div>
               <h3>{`Some notes on ID# ${sighting.id}`}</h3>
               <p>{sighting.notes}</p>
+            </div>
+          ) : null}
+          {/* <ListGroup>
+            {comments.map((item) => (
+              <ListGroup.Item key={item.id}>{item.content}</ListGroup.Item>
+            ))}
+          </ListGroup> */}
+          {displayedCategories !== null && displayedCategories.length > 0 ? (
+            <div>
+              Category tags:
+              {displayedCategories.map((item) => (
+                <li>{item.label}</li>
+              ))}
             </div>
           ) : null}
         </div>
@@ -190,6 +263,17 @@ export default function SightingDetails({
             onChange={(e) => setNewLocation(e.target.value)}
           />
         </label>
+
+        <label>
+          Category:
+          <Select
+            isMulti
+            options={categories}
+            value={displayedCategories}
+            onChange={handleSelectChange}
+          />
+        </label>
+
         <label>
           Notes:
           <input

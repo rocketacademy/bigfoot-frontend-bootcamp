@@ -1,6 +1,6 @@
 import { Button, Modal, Form, Dropdown } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import Select from "react-select";
 import SightingDetails from "./SightingDetails";
 import { BACKEND_URL } from "../constants";
 
@@ -16,13 +16,10 @@ export default function AllSightings() {
   const [state, setState] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(null);
-
-  const years = Array.from({ length: 2023 - 1944 + 1 }, (_, i) => 1944 + i);
-  const [selectedYear, setSelectedYear] = useState("");
-  const [sortByOption, setSortByOption] = useState(null);
+  const [categories, setCategories] = useState(null);
 
   const sightingsURL = `${BACKEND_URL}/sightings`;
+  const categoriesURL = `${BACKEND_URL}/category`;
 
   function getSightings() {
     const fetchData = async () => {
@@ -40,11 +37,40 @@ export default function AllSightings() {
     };
 
     fetchData();
-    setSelectedYear("");
   }
+
+  function getCategories() {
+    const fetchData = async () => {
+      try {
+        console.log(categoriesURL);
+        const response = await fetch(categoriesURL);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        const result = data.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+        console.log(result);
+        setCategories(result);
+      } catch (error) {
+        console.log("Error", error);
+      }
+    };
+
+    fetchData();
+  }
+
+  const handleSelectChange = (selectedOptions) => {
+    const selectedIds = selectedOptions.map((option) => option.value);
+    setCategoryIds(selectedIds);
+  };
 
   useEffect(() => {
     getSightings();
+    getCategories();
   }, [refreshCounter]);
 
   // states and functions for Add Sighting
@@ -52,7 +78,8 @@ export default function AllSightings() {
   const [date, setDate] = useState(null);
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
-  const [location_description, setLocation] = useState("");
+  const [locationDescription, setLocation] = useState("");
+  const [categoryIds, setCategoryIds] = useState("");
   const [notes, setNotes] = useState("");
 
   const addSighting = async () => {
@@ -66,7 +93,8 @@ export default function AllSightings() {
           date,
           city,
           country,
-          location_description,
+          locationDescription,
+          categoryIds,
           notes,
         }),
       });
@@ -188,77 +216,9 @@ export default function AllSightings() {
           alignItems: "center",
         }}
       >
-        {/* <Button variant="primary" onClick={() => getSightings()}>
-          Get Sightings
-        </Button> */}
-
         <Button variant="primary" onClick={() => setAddShow(true)}>
           Add Sighting
         </Button>
-
-        {/* <Button
-          variant="secondary"
-          onClick={() => handleShow()}
-          style={{ marginLeft: "10px" }}
-          disabled={!sightings}
-        >
-          Filter
-        </Button> */}
-
-        {/* <Dropdown
-          onSelect={handleFilterByYear}
-          style={{
-            marginLeft: "10px",
-          }}
-          disabled={!sightings}
-        >
-          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            {selectedYear || "Filter Year"}
-          </Dropdown.Toggle>
-          <Dropdown.Menu style={{ maxHeight: "25svh", overflowY: "auto" }}>
-            <Dropdown.Item onClick={() => setSelectedYear("")}>
-              Select All
-            </Dropdown.Item>
-            {years.map((year, index) => (
-              <Dropdown.Item key={index} eventKey={year}>
-                {year}
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown> */}
-
-        {/* <Dropdown
-          onSelect={handleSortBy}
-          style={{
-            marginLeft: "10px",
-          }}
-          disabled={!sightings}
-        >
-          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            {sortByOption || "Sort by"}
-          </Dropdown.Toggle>
-          <Dropdown.Menu style={{ maxHeight: "25svh", overflowY: "auto" }}>
-            <Dropdown.Item eventKey={"Default"}>Default</Dropdown.Item>
-            <Dropdown.Item eventKey={"Oldest sighting first"}>
-              Oldest sighting first
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"Newest sighting first"}>
-              Newest sighting first
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"A to Z by State"}>
-              A to Z by State
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"Z to A by State"}>
-              Z to A by State
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"A to Z by Season"}>
-              A to Z by Season
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"Z to A by Season"}>
-              Z to A by Season
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown> */}
       </div>
 
       {sightings ? (
@@ -268,72 +228,35 @@ export default function AllSightings() {
             margin: "2svh 0",
             height: "80svh",
             overflowY: "auto",
-            // border: "1px solid black",
             borderRadius: "10px",
           }}
         >
           <div className="row">
-            {
-              // filteredSightings
-              //   ? filteredSightings.map((filteredSightings, index) =>
-              //       filteredSightings.REPORT_NUMBER === null ? null : (
-              //         <div className="col-sm-3" key={index}>
-              //           {/* <Link to={`/sightings/${index}`}> */}
-              //           <div
-              //             className="card"
-              //             style={{
-              //               margin: "0.5rem",
-              //               minWidth: "200px",
-              //               cursor: "pointer",
-              //             }}
-              //             onClick={() => {
-              //               setSelectedReport(filteredSightings.REPORT_NUMBER);
-              //               setModalShow(true);
-              //             }}
-              //           >
-              //             <div className="card-body">
-              //               <h5 className="card-title">
-              //                 {filteredSightings.YEAR}
-              //               </h5>
-              //               <p className="card-text">
-              //                 {filteredSightings.SEASON}
-              //               </p>
-              //               <p className="card-text">{filteredSightings.STATE}</p>
-              //               {/* More rendering here as needed */}
-              //             </div>
-              //           </div>
-              //           {/* </Link> */}
-              //         </div>
-              //       )
-              //     )
-              //   :
-              sightings.map((sighting, index) =>
-                sighting.REPORT_NUMBER === null ? null : (
-                  <div className="col-sm-3" key={index}>
-                    <div
-                      className="card"
-                      style={{
-                        margin: "0.5rem",
-                        minWidth: "200px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        setSelectedReport(sighting.id);
-                        setSelectedIndex(index);
-                        setModalShow(true);
-                      }}
-                    >
-                      <div className="card-body">
-                        <h5 className="card-text">{`ID# ${
-                          sighting.id
-                        }; Date: ${sighting.date.slice(0, -14)}`}</h5>
-                        <h5 className="card-text">{`Location: ${sighting.location_description}`}</h5>
-                      </div>
+            {sightings.map((sighting, index) =>
+              sighting.REPORT_NUMBER === null ? null : (
+                <div className="col-sm-3" key={index}>
+                  <div
+                    className="card"
+                    style={{
+                      margin: "0.5rem",
+                      minWidth: "200px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setSelectedReport(sighting.id);
+                      setModalShow(true);
+                    }}
+                  >
+                    <div className="card-body">
+                      <h5 className="card-text">{`ID# ${
+                        sighting.id
+                      }; Date: ${sighting.date.slice(0, -14)}`}</h5>
+                      <h5 className="card-text">{`Location: ${sighting.locationDescription}`}</h5>
                     </div>
                   </div>
-                )
+                </div>
               )
-            }
+            )}
           </div>
         </div>
       ) : (
@@ -343,7 +266,6 @@ export default function AllSightings() {
             margin: "2svh 0",
             height: "80svh",
             overflowY: "auto",
-            // border: "1px solid black",
             borderRadius: "10px",
             padding: "10px",
           }}
@@ -419,7 +341,6 @@ export default function AllSightings() {
         onHide={handleClose}
         style={{
           maxHeight: "75vh",
-          // overflowY: "auto",
           position: "fixed",
           top: "50%",
           left: "50%",
@@ -452,14 +373,26 @@ export default function AllSightings() {
             onChange={(e) => setCountry(e.target.value)}
           />
         </label>
+
         <label>
           Location Description:
           <input
             type="text"
-            value={location_description}
+            value={locationDescription}
             onChange={(e) => setLocation(e.target.value)}
           />
         </label>
+
+        <label>
+          Category:
+          <Select
+            isMulti
+            options={categories}
+            // value={selectedCategories}
+            onChange={handleSelectChange}
+          />
+        </label>
+
         <label>
           Notes:
           <input
@@ -476,9 +409,11 @@ export default function AllSightings() {
         show={modalShow}
         onHide={handleClose}
         id={selectedReport}
-        index={selectedIndex}
         refreshCounter={refreshCounter}
         setRefreshCounter={setRefreshCounter}
+        categories={categories}
+        categoryIds={categoryIds}
+        setCategoryIds={setCategoryIds}
       />
     </div>
   );
