@@ -61,3 +61,11 @@ h1 {
   overflow: auto; /* Use 'auto' to add scrollbars when content overflows the container */
   margin: auto 10px;
 }
+
+.entry-form {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center; /* Vertical centering */
+  height: 90vh; /* Ensure the container covers the entire */
+  margin: auto 10px ;
+}

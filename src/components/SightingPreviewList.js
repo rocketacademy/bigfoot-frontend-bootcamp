@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import BACKEND_URL from "./constant";
 
 import ComboBox from "./Form";
-import SightingPreview from "../components/SightingPreview";
+// import SightingPreview from "../components/SightingPreview";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 
@@ -23,14 +23,14 @@ const SightingPreviewList = () => {
   }, []);
 
   //2. Mapping the sighting to sighting and index them via mapping; It creates custom links in a loop > each custom link (i.e. reprsented by Sighting Preview) is linked to a route that shows the full sighting
-  const sightingPreviews = sightings.map((sighting, index) => (
-    <Link to={`/sightings/${index}`} key={index}>
-      <SightingPreview data={sighting} />
-    </Link>
-  ));
+  // const sightingPreviews = sightings.map((sighting, index) => (
+  //   <Link to={`/sightings/${index}`} key={index}>
+  //     <SightingPreview data={sighting} />
+  //   </Link>
+  // ));
 
   const handleButtonClick = (text) => {
-    history(`/sightings/${text - 1}`);
+    history(`/sightings/${text}`);
   };
 
   // Usage
@@ -40,34 +40,38 @@ const SightingPreviewList = () => {
   const columns = [
     { field: "id", headerName: "id", width: 50 },
     {
-      field: "YEAR",
-      headerName: "Year",
-      width: 100,
-      type: "number",
+      field: "date",
+      headerName: "Date",
+      type: 'dateTime',
+      width: 150,
+      valueGetter: ({ value }) => value && new Date(value),
     },
     {
-      field: "SEASON",
-      headerName: "Season",
+      field: "location",
+      headerName: "Location",
       width: 150,
     },
     {
-      field: "MONTH",
-      headerName: "Month",
-      width: 110,
-    },
-    {
-      field: "COUNTY",
-      headerName: "Full name",
-      description:
-        "A county is a geographic region of a country used for administrative or other purposes in some modern nations.",
-      sortable: false,
-      width: 160,
-    },
-    {
-      field: "OBSERVED",
+      field: "notes",
       headerName: "Observations",
       sortable: false,
       width: 300,
+    },
+    {
+      field: "createdAt",
+      headerName: "Created Date",
+      sortable: false,
+      type: 'dateTime',
+      valueGetter: ({ value }) => value && new Date(value),
+      width: 150,
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated Date",
+      sortable: false,
+      type: 'dateTime',
+      valueGetter: ({ value }) => value && new Date(value),
+      width: 150,
     },
     {
       field: "action",

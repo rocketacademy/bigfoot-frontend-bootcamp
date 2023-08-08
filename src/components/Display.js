@@ -32,11 +32,13 @@ const Display = () => {
     history(`/`);
   };
 
+  //Convertion input into
+
   return (
     <div className="text-content">
       <h2>Observation:</h2>
       <b>Date:</b>{" "}
-      {sighting && `${sighting.SEASON} ${sighting.MONTH} ${sighting.YEAR} `}
+      {sighting && `${sighting.date} `}
       <br></br>
       <b>Location:</b>{" "}
       <div>
@@ -45,9 +47,9 @@ const Display = () => {
       </div>
       <br></br>
       <b>Loc. Details:</b>{" "}
-      <div>{sighting && `${sighting.LOCATION_DETAILS}`}</div>
+      <div>{sighting && `${sighting.location}`}</div>
       <br></br>
-      <b>Description:</b> <div>{sighting && `${sighting.OBSERVED}`}</div>
+      <b>Description:</b> <div>{sighting && `${sighting.notes}`}</div>
       <br></br>
       <Button onClick={handleButtonClick}>Return to Page</Button>
     </div>
