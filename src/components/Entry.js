@@ -4,11 +4,12 @@ import axios from 'axios';
 import BACKEND_URL from './constant';
 import { useNavigate } from "react-router-dom";
 
+
 function Entry() {
   const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
+  const [date, setDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
   const navigate = useNavigate();
 
   const handleNameChange = (event) => {
@@ -20,11 +21,11 @@ function Entry() {
   };
 
   const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
+    setNotes(event.target.value);
   };
 
   const handleDateChange = (event) => {
-    setSelectedDate(event.target.value);
+    setDate(event.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -38,16 +39,15 @@ function Entry() {
     // Send request to create new sighting in backend
     axios
       .post(`${BACKEND_URL}/sightings`, {
-        selectedDate,
+        date,
         location,
-        description,
-        timestamp: getCurrentDateTime(),
+        notes,
       })
       .then((res) => {
         // Clear form state
-        setSelectedDate("");
+        setDate("");
         setLocation("");
-        setDescription("");
+        setNotes("");
 
         // Navigate to sighting-specific page after submitting form
         navigate(`/sightings/${res.data.id}`);
@@ -96,7 +96,7 @@ function Entry() {
                     fullWidth
                     multiline
                     rows={4}
-                    value={description}
+                    value={notes}
                     onChange={handleDescriptionChange}
                   />
                 </Grid>
@@ -105,7 +105,7 @@ function Entry() {
                     label="Select a Date"
                     type="datetime-local"
                     fullWidth
-                    value={selectedDate}
+                    value={date}
                     onChange={handleDateChange}
                     InputLabelProps={{
                       shrink: true,
