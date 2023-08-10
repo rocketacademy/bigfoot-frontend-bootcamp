@@ -6,6 +6,8 @@ import YearFiltered from "./YearFiltered";
 import YearSearch, { YEARLIST } from "./YearSearch";
 import IndexRender from "./IndexRender";
 import NewSighting from "./new_sighting/NewSighting";
+import CommentRender from "./comments/CommentsRender";
+import NewComment from "./comments/NewComment";
 
 const sightingIndexes = Array.from(Array(100).keys()); // Array of values from 0 to 99
 
@@ -19,10 +21,16 @@ export default function Routing() {
           key={index}
           path={`/${index}`}
           element={<IndexRender index={index} />}
-        />
+        >
+          <Route path="comments" element={<CommentRender index={index}/>} />
+            <Route path="comments/add" element={<NewComment index={index}/>} />
+            
+        </Route>
       ))}
       {/* Year Search Route */}
-      <Route path="/year/*" element={<YearSearch />} />{" "}
+      <Route path="/year/*" element={<YearSearch />} >
+        
+        </Route>{" "}
       {/* Updated path with "*" */}
       {YEARLIST.map((year) => (
         <Route

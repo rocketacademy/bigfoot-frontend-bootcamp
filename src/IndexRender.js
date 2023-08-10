@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { BACKEND_URL } from "./Constants";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 class IndexRender extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class IndexRender extends Component {
   }
   render() {
     const sightings = this.state.sightings;
-
+    //const index = this.props.index;
     return (
       <div>
         <h2>Sighting index: {sightings.id}</h2>
@@ -39,9 +39,20 @@ class IndexRender extends Component {
             {sightings.notes ? <p>{sightings.notes}</p> : <p>None provided</p>}
           </div>
         ) : null}
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <button className="back-button">Back</button>
+        <Link to="comments" style={{ textDecoration: "none" }}>
+          <button className="back-button">View comments</button>
         </Link>
+        <Link to="comments/add" style={{ textDecoration: "none" }}>
+          <button className="back-button">Add comment</button>
+        </Link>
+        <Link to="" style={{ textDecoration: "none" }}>
+          <button className="back-button">Hide comments</button>
+        </Link>
+        <Outlet />
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <button className="back-button">Home</button>
+        </Link>
+        
       </div>
     );
   }

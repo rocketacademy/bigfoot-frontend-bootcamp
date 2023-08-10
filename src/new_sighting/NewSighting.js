@@ -92,7 +92,7 @@ export default function NewSighting() {
         />
 
         <br />
-        <h3>Please notes of sighting details:</h3>
+        <h3>Please insert notes of sighting details:</h3>
         <input
           type="text"
           value={sighting.notes}
@@ -107,7 +107,7 @@ export default function NewSighting() {
       )}
       <br />
       <Link to="/" style={{ textDecoration: "none" }}>
-        <button>Back</button>
+        <button>Home</button>
       </Link>
     </div>
   );
