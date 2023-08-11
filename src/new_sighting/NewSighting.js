@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Select from "react-select";
+import axios from "axios";
 import "../App.css";
 import { BACKEND_URL } from "../Constants";
 
@@ -10,6 +11,8 @@ export default function NewSighting() {
     location: "",
     notes: "No details provided.",
   });
+  const [selectedCategories, setSelectedCategories] = useState([]); // For selected categories
+  const [allCategories, setAllCategories] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
@@ -66,6 +69,31 @@ export default function NewSighting() {
 
   const curr_date = getCurrentDateTime();
 
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/categories`).then((response) => {
+      setAllCategories(response.data);
+      console.log(response.data);
+    });
+  }, []);
+
+  const categoryOptions = allCategories.map((category) => ({
+    // value is what we store
+    value: category.id,
+    // label is what we display
+    label: category.category_name,
+  }));
+
+  function handleSelectChange(selectedOptions) {
+    setSelectedCategories(selectedOptions);
+  }
+
+  const selectFieldStyles = {
+    option: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -100,11 +128,20 @@ export default function NewSighting() {
           placeholder="Notes Here"
         />
         <br />
+        <h3>Please select all applicable categories:</h3>
+        <Select
+          isMulti
+          styles={selectFieldStyles}
+          options={categoryOptions}
+          value={selectedCategories}
+          onChange={handleSelectChange}
+        />
         <button type="submit">Submit</button>
       </form>
       {successMessage && (
         <div className="success-message">{successMessage}</div>
       )}
+
       <br />
       <Link to="/" style={{ textDecoration: "none" }}>
         <button>Home</button>

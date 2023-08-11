@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from "./logo.png";
 import "./App.css";
 import Routing from "./Routing";
 import { Link } from "react-router-dom";
@@ -25,7 +24,6 @@ class Home extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           {shouldRender && (
             <div>
               <h3>Please input sightings index (0-99):</h3>
