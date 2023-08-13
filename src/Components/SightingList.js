@@ -23,14 +23,7 @@ const SightingList = () => {
   const [sightings, setSightings] = useState([]);
 
   const getSightingData = async () => {
-    // const data = await axios.get(
-    //   `${BACKEND_URL}/sightings/filter/${
-    //     yearFilterInput ? yearFilterInput : 0
-    //   }/${monthFilterInput ? monthFilterInput : 0}/${
-    //     seasonFilterInput ? seasonFilterInput : 0
-    //   }/sort/${yearSortInput ? 1 : 0}/${stateSortInput ? 1 : 0}`
-    // );
-    const data = await axios.get(`${BACKEND_URL}`);
+    const data = await axios.get(`${BACKEND_URL}/sightings`);
 
     setSightings(data.data);
   };

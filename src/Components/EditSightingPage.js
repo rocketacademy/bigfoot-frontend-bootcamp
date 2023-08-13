@@ -15,8 +15,7 @@ const EditSightingPage = () => {
   const getSingleSightingData = async () => {
     // console.log("get data");
 
-    // console.log(`${BACKEND_URL}/${sightingId}`);
-    const data = await axios.get(`${BACKEND_URL}/${sightingId}`);
+    const data = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
 
     setData({
       date: data.data.date.substring(0, 16),

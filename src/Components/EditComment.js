@@ -9,7 +9,7 @@ const EditComment = (props) => {
   const handleEditCommentSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.put(`${BACKEND_URL}/comments`, {
+    await axios.put(`${BACKEND_URL}/sightings/comments`, {
       content: commentInput,
       commentId: props.commentID,
     });

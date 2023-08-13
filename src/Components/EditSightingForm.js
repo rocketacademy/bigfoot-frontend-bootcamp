@@ -19,14 +19,17 @@ const EditSightingForm = (props) => {
   const handleSightingSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await axios.put(`${BACKEND_URL}/${props.sightingId}/edit`, {
-      date: date,
-      location_discription: location,
-      notes: notes,
-      city: city,
-      country: country,
-      id: props.sightingId,
-    });
+    const res = await axios.put(
+      `${BACKEND_URL}/sightings/${props.sightingId}/edit`,
+      {
+        date: date,
+        location_discription: location,
+        notes: notes,
+        city: city,
+        country: country,
+        id: props.sightingId,
+      }
+    );
 
     const sightingId = res.data;
 

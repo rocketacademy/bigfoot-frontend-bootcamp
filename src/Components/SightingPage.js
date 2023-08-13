@@ -34,20 +34,24 @@ const SightingPage = (props) => {
   const navigate = useNavigate();
 
   const getSingleSightingData = async () => {
-    const data = await axios.get(`${BACKEND_URL}/${sightingId}`);
+    const data = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
 
     setSelectedSighting(data.data);
   };
 
   const getComments = async () => {
-    const data = await axios.get(`${BACKEND_URL}/${sightingId}/comments`);
+    const data = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingId}/comments`
+    );
 
     setComments(data.data.reverse()); // reverse order of comments to show latest first
     // console.log(typeof data.data[0].createdAt);
   };
 
   const getLikes = async () => {
-    const data = await axios.get(`${BACKEND_URL}/${sightingId}/likes`);
+    const data = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingId}/likes`
+    );
 
     setLikes(data.data.length); // reverse order of comments to show latest first
     // console.log(typeof data.data[0].createdAt);
@@ -127,7 +131,7 @@ const SightingPage = (props) => {
       <Button
         variant="contained"
         onClick={async () => {
-          await axios.delete(`${BACKEND_URL}/comments`, {
+          await axios.delete(`${BACKEND_URL}/sightings/comments`, {
             data: {
               commentId: comment.id,
             },
@@ -144,7 +148,7 @@ const SightingPage = (props) => {
   const handleCommentFormSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post(`${BACKEND_URL}/${sightingId}/comments`, {
+    await axios.post(`${BACKEND_URL}/sightings/${sightingId}/comments`, {
       content: commentInput,
     });
 
@@ -154,7 +158,7 @@ const SightingPage = (props) => {
 
   const handleLikeButtonClick = async (e) => {
     // e.preventDefault();
-    await axios.post(`${BACKEND_URL}/${sightingId}/likes`);
+    await axios.post(`${BACKEND_URL}/sightings/${sightingId}/likes`);
     getLikes();
   };
 
@@ -163,7 +167,7 @@ const SightingPage = (props) => {
       <Button
         variant="contained"
         onClick={() => {
-          navigate("/sightings");
+          navigate(-1);
         }}
       >
         {" "}

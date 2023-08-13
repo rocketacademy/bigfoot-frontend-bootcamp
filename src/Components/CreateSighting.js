@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import Select from "react-select";
 
 import { BACKEND_URL } from "../constants";
 
@@ -15,17 +16,48 @@ const CreateSightingPage = () => {
   const [notesInput, setNotesInput] = useState("");
   const [cityInput, setCityInput] = useState("");
   const [countryInput, setCountryInput] = useState("");
+  const [allCategories, setAllCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getCategoriesData();
+    return;
+  }, []);
+
+  const getCategoriesData = async () => {
+    const res = await axios.get(`${BACKEND_URL}/categories`);
+    setAllCategories(res.data);
+  };
+
+  const categoryOptions = allCategories.map((category) => ({
+    // value is what we store
+    value: category.id,
+    // label is what we display
+    label: category.name,
+  }));
+
+  // Make text black in Select field
+  const selectFieldStyles = {
+    option: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
 
   const handleSightingSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await axios.post(`${BACKEND_URL}/new`, {
-      date: dateInput,
-      location_discription: locationInput,
-      notes: notesInput,
-      city: cityInput,
-      country: countryInput,
+    // Extract only category IDs to send to backend
+    const selectedCategoryIds = selectedCategories.map(({ value }) => value);
+
+    const res = await axios.post(`${BACKEND_URL}/sightings/new`, {
+      dateInput,
+      locationInput,
+      notesInput,
+      cityInput,
+      countryInput,
+      selectedCategoryIds,
     });
 
     const sightingId = res.data;
@@ -33,6 +65,7 @@ const CreateSightingPage = () => {
     setDateInput("");
     setLocationInput("");
     setNotesInput("");
+    setSelectedCategories([]);
 
     navigate(`/sightings/${sightingId}`);
   };
@@ -86,6 +119,17 @@ const CreateSightingPage = () => {
           type="text"
           value={countryInput}
           onChange={(e) => setCountryInput(e.target.value)}
+        />
+        <br />
+        Categories:{" "}
+        <Select
+          isMulti
+          styles={selectFieldStyles}
+          options={categoryOptions}
+          value={selectedCategories}
+          onChange={(categories) => {
+            setSelectedCategories(categories);
+          }}
         />
         <br />
         <input type="submit" value="Submit" />
