@@ -8,6 +8,8 @@ import EditComment from "./EditComment";
 import { BACKEND_URL } from "../constants";
 
 // styling
+import Chip from "@mui/joy/Chip";
+
 // heart likes
 import { styled } from "@mui/material/styles";
 import Rating from "@mui/material/Rating";
@@ -23,7 +25,7 @@ const StyledRating = styled(Rating)({
   },
 });
 
-const SightingPage = (props) => {
+const SightingPage = () => {
   const [selectedSighting, setSelectedSighting] = useState({});
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
@@ -35,7 +37,7 @@ const SightingPage = (props) => {
 
   const getSingleSightingData = async () => {
     const data = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
-
+    console.log(data);
     setSelectedSighting(data.data);
   };
 
@@ -65,6 +67,17 @@ const SightingPage = (props) => {
     return;
   }, []);
 
+  const categoryClickColor = (category) => {
+    if (category === "rain") {
+      return "primary";
+    } else if (category === "mountain") {
+      return "warning";
+    } else if (category === "sunny") {
+      return "danger";
+    }
+  };
+
+  // sighting details
   const selectedSightingList = (
     // render list of sighting after selectedSighting is retrieved
     <li>
@@ -87,6 +100,22 @@ const SightingPage = (props) => {
       <br />
       Country: <br />
       {selectedSighting.country}
+      <br />
+      <br />
+      {selectedSighting.categories && selectedSighting.categories.length > 0 ? (
+        <div>
+          Category:{" "}
+          {selectedSighting.categories.map((category, id) => (
+            <Chip
+              key={id}
+              color={categoryClickColor(category.name)}
+              variant="solid"
+            >
+              {category.name}
+            </Chip>
+          ))}
+        </div>
+      ) : null}
     </li>
   );
 
@@ -104,6 +133,7 @@ const SightingPage = (props) => {
     });
   };
 
+  //Comments
   const commentList = comments.map((comment, id) => (
     <div key={id}>
       <ListGroup.Item action>
@@ -182,6 +212,7 @@ const SightingPage = (props) => {
         {" "}
         Edit
       </Button>
+      {/* Sighting Details */}
       <ul className="sighting-list">{selectedSightingList}</ul>
       <br />
       Likes: {likes}{" "}

@@ -134,6 +134,8 @@ const CreateSightingPage = () => {
         <br />
         <input type="submit" value="Submit" />
       </form>
+      <br />
+      <br />
     </div>
   );
 };
