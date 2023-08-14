@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 import { BACKEND_URL } from "../constants";
 
@@ -18,6 +19,8 @@ const CreateSightingPage = () => {
   const [countryInput, setCountryInput] = useState("");
   const [allCategories, setAllCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +46,24 @@ const CreateSightingPage = () => {
       ...provided,
       color: "black",
     }),
+  };
+
+  const handleCreate = (categoryInput) => {
+    setIsLoading(true);
+    setTimeout(async () => {
+      // update model with created category
+      const res = await axios.post(`${BACKEND_URL}/categories`, {
+        name: categoryInput,
+      });
+      setIsLoading(false);
+      // update categories dropdown with created category
+      setAllCategories((prev) => [...prev, res.data]);
+      // update selected categories with created category
+      setSelectedCategories((prev) => [
+        ...prev,
+        { value: res.data.id, label: res.data.name },
+      ]);
+    }, 1000);
   };
 
   const handleSightingSubmit = async (e) => {
@@ -122,14 +143,18 @@ const CreateSightingPage = () => {
         />
         <br />
         Categories:{" "}
-        <Select
+        <CreatableSelect
           isMulti
+          isClearable
           styles={selectFieldStyles}
           options={categoryOptions}
           value={selectedCategories}
           onChange={(categories) => {
             setSelectedCategories(categories);
           }}
+          onCreateOption={handleCreate}
+          isDisabled={isLoading}
+          isLoading={isLoading}
         />
         <br />
         <input type="submit" value="Submit" />
