@@ -23,12 +23,17 @@ export default function NewSighting() {
     } else if (!sighting.date) {
       alert("Date cannot be empty");
     } else {
+      const selectedCategoryIds = selectedCategories.map((category) => category.value);
+      const requestData = {
+        ...sighting,
+        categoryIds: selectedCategoryIds,
+      };
       fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(sighting),
+        body: JSON.stringify(requestData),
       })
         .then((response) => {
           return response.json();
@@ -40,6 +45,7 @@ export default function NewSighting() {
             location: "",
             notes: "No details provided.",
           });
+          setSelectedCategories([]);
           setSuccessMessage("Successfully submitted the sighting!");
           // After successful submission, navigate to the SightingDetails page with the newly created sighting ID
           navigate(`/${data.id}`);
@@ -72,7 +78,6 @@ export default function NewSighting() {
   useEffect(() => {
     axios.get(`${BACKEND_URL}/categories`).then((response) => {
       setAllCategories(response.data);
-      console.log(response.data);
     });
   }, []);
 
@@ -97,6 +102,18 @@ export default function NewSighting() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <h3>Please select all applicable categories:</h3>
+        <Select
+          isMulti
+          styles={selectFieldStyles}
+          options={categoryOptions}
+          value={selectedCategories}
+          onChange={handleSelectChange}
+        />
+        <h3>Or add new catgeories here:</h3>
+        <Link to="/addCategory" style={{ textDecoration: "none" }}>
+          <button>Add category</button>
+        </Link>
         <label htmlFor="sighting-time">
           <h3>Please input sighting date:</h3>
         </label>
@@ -121,21 +138,15 @@ export default function NewSighting() {
 
         <br />
         <h3>Please insert notes of sighting details:</h3>
-        <input
-          type="text"
+        <textarea
           value={sighting.notes}
           onChange={(e) => setSighting({ ...sighting, notes: e.target.value })}
           placeholder="Notes Here"
+          rows={8} // You can adjust this value to fit the desired number of lines
+          style={{ width: "90%", resize: "vertical" }} // Optional styling for width and vertical resizing
         />
         <br />
-        <h3>Please select all applicable categories:</h3>
-        <Select
-          isMulti
-          styles={selectFieldStyles}
-          options={categoryOptions}
-          value={selectedCategories}
-          onChange={handleSelectChange}
-        />
+
         <button type="submit">Submit</button>
       </form>
       {successMessage && (

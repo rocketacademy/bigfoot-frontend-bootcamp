@@ -8,6 +8,7 @@ import IndexRender from "./IndexRender";
 import NewSighting from "./new_sighting/NewSighting";
 import CommentRender from "./comments/CommentsRender";
 import NewComment from "./comments/NewComment";
+import AddCategory from "./category/NewCategory";
 
 const sightingIndexes = Array.from(Array(100).keys()); // Array of values from 0 to 99
 
@@ -40,6 +41,7 @@ export default function Routing() {
         />
       ))}
       <Route path="/new" element={<NewSighting />} />
+      <Route path="/addCategory" element={<AddCategory />} />
       {/* Temp Page Route */}
       <Route path="/*" element={<TempPage />} />
     </Routes>

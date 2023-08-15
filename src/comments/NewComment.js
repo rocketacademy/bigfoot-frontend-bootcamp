@@ -27,7 +27,7 @@ export default function NewComment(props) {
           return response.json();
         })
         .then((data) => {
-          console.log("Response Data:", data);
+          
           setComment({
             content: "",
           });
@@ -52,11 +52,12 @@ export default function NewComment(props) {
       <form onSubmit={handleSubmit}>
         <br />
         <h3>Please enter comment:</h3>
-        <input
-          type="text"
+        <textarea
           value={comment.content}
           onChange={(e) => setComment({ ...comment, content: e.target.value })}
-          placeholder="Comment Here"
+          placeholder="Notes Here"
+          rows={5} // You can adjust this value to fit the desired number of lines
+          style={{ width: "70%", resize: "vertical" }} // Optional styling for width and vertical resizing
         />
         <br />
         <button type="submit">Submit</button>
@@ -68,7 +69,6 @@ export default function NewComment(props) {
       <Link to={`/${index}/comments`} style={{ textDecoration: "none" }}>
         <button>Back</button>
       </Link>
-      
     </div>
   );
 }

@@ -34,7 +34,16 @@ class IndexRender extends Component {
 
             <h4>Location: </h4>
             {sightings.location}
-
+            <h4>Categories:</h4>
+            {sightings.categories && sightings.categories.length > 0 ? (
+            <ul>
+              {sightings.categories.map((category) => (
+                <li key={category.id}>{category.category_name}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No categories associated</p>
+          )}
             <h4>Details: </h4>
             {sightings.notes ? <p>{sightings.notes}</p> : <p>None provided</p>}
           </div>
