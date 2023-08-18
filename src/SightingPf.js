@@ -34,6 +34,18 @@ const SightingPf = () => {
   const sightingDetails = [];
   if (sighting) {
     for (const key in sighting) {
+      // Special logic for rendering categories
+      if (key === "Categories") {
+        // Only show categories label if there are any
+        if (sighting[key].length > 0) {
+          const categoryNames = sighting[key].map((category) => category.name);
+          sightingDetails.push(
+            <Card key={key}>{`${key}: ${categoryNames.join(", ")}`}</Card>
+          );
+        }
+        continue;
+      }
+      // Logic for rendering non-category fields
       sightingDetails.push(<Card key={key}>{`${key}: ${sighting[key]}`}</Card>);
     }
   }
@@ -75,8 +87,8 @@ const SightingPf = () => {
   return (
     <div>
       <Link to="/">Home</Link>
-      <Card bg="dark">
-        <Typography gutterBottom variant="h2">
+      <Card>
+        <Typography gutterBottom variant="h5">
           {sightingDetails}
         </Typography>
       </Card>
