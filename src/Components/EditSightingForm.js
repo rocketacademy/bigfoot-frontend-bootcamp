@@ -1,5 +1,3 @@
-// To do: Update form to work with city, country data
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,8 +5,6 @@ import axios from "axios";
 import { BACKEND_URL } from "../constants";
 
 const EditSightingForm = (props) => {
-  // console.log(props.data);
-
   const [date, setDate] = useState(props.data.date);
   const [location, setLocation] = useState(props.data.location);
   const [notes, setNotes] = useState(props.data.notes);
@@ -42,8 +38,6 @@ const EditSightingForm = (props) => {
 
   return (
     <form onSubmit={handleSightingSubmit}>
-      {/* {console.log(date)}
-      {console.log(props.data.date)} */}
       Date:{" "}
       <input
         type="datetime-local"

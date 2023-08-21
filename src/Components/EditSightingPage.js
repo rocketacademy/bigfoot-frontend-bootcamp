@@ -13,8 +13,6 @@ const EditSightingPage = () => {
   let { sightingId } = useParams(); // get selected sightingIndex from url params as this persist after user refreshes page
 
   const getSingleSightingData = async () => {
-    // console.log("get data");
-
     const data = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
 
     setData({

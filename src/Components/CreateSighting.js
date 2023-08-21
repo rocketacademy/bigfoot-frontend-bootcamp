@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 
 import { BACKEND_URL } from "../constants";

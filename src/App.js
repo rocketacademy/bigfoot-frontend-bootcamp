@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.png";
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 // import Button from "@mui/material/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -12,7 +12,6 @@ import HomeNav from "./Components/HomeNav.js";
 import EditSightingPage from "./Components/EditSightingPage.js";
 
 const App = () => {
-  // const navigate = useNavigate();
   return (
     <div className="App">
       <header className="App-header">

@@ -47,7 +47,6 @@ const SightingPage = () => {
     );
 
     setComments(data.data.reverse()); // reverse order of comments to show latest first
-    // console.log(typeof data.data[0].createdAt);
   };
 
   const getLikes = async () => {
@@ -137,7 +136,6 @@ const SightingPage = () => {
   const commentList = comments.map((comment, id) => (
     <div key={id}>
       <ListGroup.Item action>
-        {/* {console.log(comment.id)} */}
         {comment.id === editCommentId ? (
           <EditComment
             preloadComment={comment.content}
