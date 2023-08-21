@@ -17,3 +17,15 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.sighting-list {
+  /* border-style: solid;
+  border-width: 1px; */
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+  height: 500px;
+  overflow: scroll;
+  scrollbar-width: none;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
