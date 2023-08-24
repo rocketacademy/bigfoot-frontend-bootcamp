@@ -2,18 +2,35 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.small-text {
+  display: 'flex';
+  justify-content: 'center';
+  font-size: 12px;
+  word-wrap: break-word;
+}
+
+.div-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
+}
+
+a {
+  color: #d4e9ff; /* Set your desired link color */
+  text-decoration: none; /* Remove default underline (optional) */
+}
+
+a:visited {
+  color: #d4e9ff; /* Set the same color as the normal state */
 }
