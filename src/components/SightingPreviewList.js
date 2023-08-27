@@ -34,7 +34,7 @@ const SightingPreviewList = () => {
   };
 
   // Usage
-  const arrayOfObjectsWithIds = addIdsToObjectArray(sightings);
+  // const arrayOfObjectsWithId s = addIdsToObjectArray(sightings);
 
   // Establish column
   const columns = [
@@ -103,9 +103,12 @@ const SightingPreviewList = () => {
       <div className="content">
         <Box sx={{ height: "60vh", width: "100%" }}>
           <DataGrid
-            rows={arrayOfObjectsWithIds}
+            rows={sightings}
             columns={columns}
             initialState={{
+              sorting: {
+                sortModel: [{ field: 'id', sort: 'asc' }],
+              },
               pagination: {
                 paginationModel: {
                   pageSize: 30,

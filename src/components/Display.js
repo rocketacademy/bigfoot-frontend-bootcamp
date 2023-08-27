@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import BACKEND_URL from "./constant";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 const Display = () => {
   const [sightingIndex, setSightingIndex] = useState();
   const [sighting, setSighting] = useState();
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // If there is a sightingIndex, retrieve the sighting data
@@ -20,7 +21,7 @@ const Display = () => {
     });
 
     // Only run this effect on change to sightingIndex
-  });
+  }, [sightingIndex]);
 
   // Update sighting index in state if needed to trigger data retrieval
   const params = useParams();
@@ -29,7 +30,11 @@ const Display = () => {
   }
 
   const handleButtonClick = (text) => {
-    history(`/`);
+    navigate(`/`);
+  };
+
+  const handleEditClick = () => {
+    navigate(`${location.pathname}/edit`); 
   };
 
   //Convertion input into
@@ -51,7 +56,9 @@ const Display = () => {
       <br></br>
       <b>Description:</b> <div>{sighting && `${sighting.notes}`}</div>
       <br></br>
+      <Button onClick={handleEditClick}>Edit</Button>
       <Button onClick={handleButtonClick}>Return to Page</Button>
+      
     </div>
   );
 };
