@@ -48,7 +48,7 @@ const Display = () => {
       <b>Location:</b>{" "}
       <div>
         {sighting &&
-          `${sighting.STATE}: ${sighting.COUNTY}, ${sighting["NEAREST_TOWN"]}`}
+          `${sighting.country}, ${sighting.city}`}
       </div>
       <br></br>
       <b>Loc. Details:</b>{" "}

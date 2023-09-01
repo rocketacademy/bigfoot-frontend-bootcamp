@@ -10,6 +10,8 @@ function Edit() {
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [sightingIndex, setSightingIndex] = useState();
   const [sighting, setSighting] = useState();
   const navigate = useNavigate();
@@ -24,6 +26,8 @@ function Edit() {
       setDate(formatDate(response.data.date));
       setLocation(response.data.location);
       setNotes(response.data.notes);
+      setCity(response.data.city);
+      setCountry(response.data.country);
     });
 
     // Only run this effect on change to sightingIndex
@@ -65,6 +69,15 @@ function Edit() {
     setDate(event.target.value);
   };
   
+  const handleCityChange = (event) => {
+    setCity(event.target.value);
+  };
+  
+  const handleCountryChange = (event) => {
+    setCountry(event.target.value);
+  };
+  
+  
 
   const handleSubmit = async (e) => {
     // Prevent default form redirect on submission
@@ -80,12 +93,16 @@ function Edit() {
         date,
         location,
         notes,
+        city,
+        country,
       })
       .then((res) => {
         // Clear form state
         setDate("");
         setLocation("");
         setNotes("");
+        setCity("");
+        setCountry("");
 
         // Navigate to sighting-specific page after submitting form
         navigate(`/sightings/${sightingIndex}`);
@@ -121,6 +138,26 @@ function Edit() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    label="City"
+                    fullWidth
+                    multiline
+                    value={city}
+                    placeholder={sighting && `${sighting.city}`}
+                    onChange={handleCityChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Country"
+                    fullWidth
+                    multiline
+                    value={country}
+                    placeholder={sighting && `${sighting.country}`}
+                    onChange={handleCountryChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
                     label="Description"
                     fullWidth
                     multiline
@@ -130,6 +167,7 @@ function Edit() {
                     onChange={handleDescriptionChange}
                   />
                 </Grid>
+                
                 <Grid item xs={12}>
                   <TextField
                     label="Select a Date"
