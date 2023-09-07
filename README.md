@@ -13,3 +13,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+## Preview
+
+
+https://github.com/dexterch91/bigfoot-frontend-bootcamp/assets/62207671/d6d529f4-9045-4def-85af-60afffe179a4
+
