@@ -46,8 +46,9 @@ export function SightingsForm() {
     //navigates to SightingList
   return (
     <div>
-    <form method='post' id='sighting-filters'>
+    <form method='post' id='sighting-filters' className='flex flex-col bg-gray-300 border-black border-2'>
         <input
+        className = 'border-black border-2'
           placeholder="Year"
           type="text"
           name="year"
@@ -58,6 +59,8 @@ export function SightingsForm() {
           }}
         />
         <input
+        className = 'border-black border-2'
+        placeholder='Season'
           name="season"
           list="seasons"
           id="season"
@@ -74,6 +77,8 @@ export function SightingsForm() {
             <option value='Winter'></option>
         </datalist>
         <input
+        className = 'border-black border-2'
+        placeholder='Month'
           name="month"
           list="months"
           id="month"
@@ -98,6 +103,7 @@ export function SightingsForm() {
             <option value='December'></option>
         </datalist>  
         <input
+        className = 'border-black border-2'
           placeholder="Sort by"
           type="text"
           name="sortBy"
@@ -108,6 +114,8 @@ export function SightingsForm() {
           }}
         />
         <input
+        className = 'border-black border-2'
+        placeholder='Sort Order'
           name="sortOrder"
           list="sortOptions"
           id="sortOrder"

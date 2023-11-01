@@ -34,13 +34,13 @@ export function SightingList() {
   }, [])
 
   //render basic sighting info
-  const sightingsRows = sightings.map((ele, index) =>
-    <tr key={`sighting ${index}`} className='text-black bg-green-300'>
-      <td>{index}</td>
+  const sightingsRows = sightings.map((ele) =>
+    <tr key={`sighting ${ele.INDEX}`} className='text-black bg-green-300'>
+      <td>{ele.INDEX ? ele.INDEX : ''}</td>
       <td>{ele.YEAR ? ele.YEAR : '-'}</td>
       <td>{ele.SEASON ? ele.SEASON : '-'}</td>
       <td>{ele.MONTH ? ele.MONTH : '-'}</td>
-      <td><Link to={`/sightings/${index}`}> Link </Link></td>
+      <td><Link to={`/sightings/${ele.INDEX}`}> Link </Link></td>
     </tr>
   )
   return (
