@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import {Sighting} from './Routes/Sighting.js'
-import {SightingList} from './Routes/SightingList'
+import {SightingsForm} from './Routes/SightingsForm.js'
+import {SightingList, loader as sightingLoader} from './Routes/SightingList'
 import {
     createBrowserRouter,
     RouterProvider,
@@ -21,8 +22,13 @@ const router = createBrowserRouter([
                 element: <Sighting />
             },
             {
+                path: 'sightings',
+                element:<SightingList />,
+                //loader: sightingLoader, // doing this with loader first; later can consider using useEffect and useSearchParams
+            },
+            {
                 index:true,
-                element:<SightingList />
+                element:<SightingsForm />
             }, // index will be filterform; upon sending the request sightinglist will display; 
             // current difficulty is passing the filter info from sightingsform to sightinglist - by props? go study react router first
         ]

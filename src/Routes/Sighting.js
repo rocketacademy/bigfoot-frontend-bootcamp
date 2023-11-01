@@ -25,7 +25,7 @@ export function Sighting() {
     const {sightingIndex} = useParams()
     const [sightingInfo, setSightingInfo] = useState({})
 
-    useEffect(() => { //async returns a promise
+    useEffect(() => { //async returns a promise -- I should convert this to a loader function
         const getSightings = async () => {
           //query the backend(axios.get) and setSightings
           if (sightingIndex) {
