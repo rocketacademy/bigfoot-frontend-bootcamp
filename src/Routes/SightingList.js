@@ -1,33 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import {Link, useSearchParams, useLoaderData} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
 import {BACKEND_URL} from '../constants.js';
 
-export async function loader({ request }) {
-  const queryString = request.url.split('?')[1];
-  console.log(`${BACKEND_URL}/sightings`+queryString)
-  //actually consider parsing the url and using that value to query backend
-  //console.log(url.searchParams)
-  //const sightingsFilter = url.searchParams.get("somestuff"); // need some edits here
-
-  const sightings = []
-  //const sightings = await axios.get(`${BACKEND_URL}/sightings`) // need to setup the backend and adjust this later
-  return { sightings };
-}
+//Tweak the logic in the frontend to show only the date and location properties of each sighting on the homepage 
+//and date, location and notes properties of each sighting on sighting-specific pages
 
 export function SightingList() {
-  //const { sightings } = useLoaderData();
   const [sightings, setSightings] = useState([])
   let [searchParams, setSearchParams] = useSearchParams();
-  // console.log(searchParams.toString())
-  // for (const [key, value] of searchParams.entries()) {
-  //   console.log(`${key}, ${value}`);
-  // }
+
   useEffect(() => { //async returns a promise
     const searchString= searchParams.toString()
     const getSightings = async () => {
       //query the backend(axios.get) and setSightings
-      const response = await axios.get(`${BACKEND_URL}/sightings?`+searchString)
+      const response = await axios.get(`${BACKEND_URL}/sightings?`
+      //+searchString
+      )
       setSightings(response.data)
     }
     getSightings()
@@ -35,12 +24,12 @@ export function SightingList() {
 
   //render basic sighting info
   const sightingsRows = sightings.map((ele) =>
-    <tr key={`sighting ${ele.INDEX}`} className='text-black bg-green-300'>
-      <td>{ele.INDEX ? ele.INDEX : ''}</td>
-      <td>{ele.YEAR ? ele.YEAR : '-'}</td>
-      <td>{ele.SEASON ? ele.SEASON : '-'}</td>
-      <td>{ele.MONTH ? ele.MONTH : '-'}</td>
-      <td><Link to={`/sightings/${ele.INDEX}`}> Link </Link></td>
+    <tr key={`sighting ${ele.id}`} className='text-black bg-green-300'>
+      <td>{ele.id ? ele.id : ''}</td>
+      <td>{ele.year ? ele.year : '-'}</td>
+      <td>{ele.month ? ele.month : '-'}</td>
+      <td>{ele.location ? ele.location : '-'}</td>
+      <td><Link to={`/sightings/${ele.id}`}> Link </Link></td>
     </tr>
   )
   return (
@@ -50,8 +39,8 @@ export function SightingList() {
         <tr className='bg-blue-300'>
           <th>Index</th>
           <th>Year</th>
-          <th>Season</th>
           <th>Month</th>
+          <th>Location</th>
           <th>Details</th>
         </tr>
         {sightingsRows}

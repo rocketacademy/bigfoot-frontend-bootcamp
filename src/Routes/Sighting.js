@@ -5,31 +5,24 @@ import {Link} from 'react-router-dom';
 import { Routes, Route, useParams } from 'react-router-dom';
 import {BACKEND_URL} from '../constants.js';
 
-//retrieve individual sighting 
-// sighting structure: [
-//   {
-//     "YEAR": "Early 1990's",
-//     "SEASON": "Fall",
-//     "STATE": "Alaska",
-//     "COUNTY": "Valdez-Chitina-Whittier County",
-//     "LOCATION_DETAILS": "East side of Prince William Sound",
-//     "OBSERVED": "Ed L. was salmon fishing with a companion in Prince William Sound. After anchoring off shore, his companion took a small boat up a river to check on the state of the salmon run. As the day wore on toward evening and he didn't come back at the expected time, Ed scanned upriver and across the adjacent land with binoculars. There he saw a sasquatch walking across the tundra, with long, smooth steps and with dark hair flowing from its shoulders, bouncing behind \"like a cape\" at every step. The sasquatch paid no attention to the boat (distance about 1,000').",
-//     "OTHER_WITNESSES": "On a commercial fishing boat at anchor at the mouth of one of the rivers discharging into the bay.",
-//     "TIME_AND_CONDITIONS": "Early Fall, in the early 1990's.",
-//     "REPORT_NUMBER": "1261",
-//     "REPORT_CLASS": "Class A"
-//   },]
-
+// {
+//   "id": 1,
+//   "date": "1990-09-30T16:00:00.000Z",
+//   "location": "East side of Prince William Sound, Alaska, USA",
+//   "notes": "Ed L. was salmon fishing with a companion in Prince William Sound. After anchoring off shore, his companion took a small boat up a river to check on the state of the salmon run. As the day wore on toward evening and he didn't come back at the expected time, Ed scanned upriver and across the adjacent land with binoculars. There he saw a sasquatch walking across the tundra, with long, smooth steps and with dark hair flowing from its shoulders, bouncing behind \"like a cape\" at every step. The sasquatch paid no attention to the boat (distance about 1,000').",
+//   "createdAt": "2023-10-30T07:56:44.706Z",
+//   "updatedAt": "2023-10-30T07:56:44.706Z"
+// }
 
 export function Sighting() {
-    const {sightingIndex} = useParams()
+    const {id} = useParams()
     const [sightingInfo, setSightingInfo] = useState({})
 
     useEffect(() => { //async returns a promise -- I should convert this to a loader function
         const getSightings = async () => {
           //query the backend(axios.get) and setSightings
-          if (sightingIndex) {
-          const response = await axios.get(`${BACKEND_URL}/sightings/${sightingIndex}`)
+          if (id) {
+          const response = await axios.get(`${BACKEND_URL}/sightings/${id}`)
           setSightingInfo(response.data)
         }}
         getSightings()
@@ -37,9 +30,8 @@ export function Sighting() {
     
       //render basic sighting info
       const sightingData = sightingInfo ? Object.keys(sightingInfo).map((key) =>
-        <tr key={`${sightingIndex}-${key}`} className='text-black bg-green-300'>
+        <tr key={`sighting${id}-${key}`} className='text-black bg-green-300'>
           <td>{key}</td>
-          {console.log(key)}
           <td>{sightingInfo[key]}</td>
         </tr>
       ) : null
@@ -56,6 +48,7 @@ export function Sighting() {
         {sightingData}
       </tbody>
     </table>
+    <Link to={`edit`}> Edit </Link>
    </div>
   );
 }
