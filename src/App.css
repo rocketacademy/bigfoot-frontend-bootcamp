@@ -1,0 +1,17 @@
+tr {
+  text-align: left;
+}
+
+th {
+  text-align: center;
+  @apply pt-[1em] pb-[2em] px-2;
+}
+
+td {
+  vertical-align: top;
+  @apply py-[2em] px-2;
+}
+
+.tableheight {
+  height: inherit;
+}

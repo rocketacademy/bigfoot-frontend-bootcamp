@@ -7,6 +7,8 @@ import { Routes, Route } from "react-router-dom";
 // Import Pages
 import { HomePage } from "./Pages/HomePage";
 import { SightID } from "./Pages/SightID";
+
+// Import Components
 import { Information } from "./Components/Information";
 
 // Import Constants
@@ -17,7 +19,10 @@ export const App = () => {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="sightings/:sightingIndex" element={<SightID />}>
+        <Route
+          path="sightings/:sightingIndex"
+          element={<SightID backend_url={BACKEND_URL} />}
+        >
           <Route path="information" element={<Information />} />
         </Route>
       </Routes>

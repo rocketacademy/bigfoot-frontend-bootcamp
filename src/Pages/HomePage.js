@@ -2,6 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 
+// Import Components
+import { DataTable } from "../Components/DataTable";
+
 export const HomePage = () => {
   const [receivedData, setReceivedData] = useState(null);
   const [inputField, setInputField] = useState("");
@@ -14,17 +17,17 @@ export const HomePage = () => {
 
   const handleAPICall = async () => {
     console.log("onclick");
+    let information = await axios.get(`http://localhost:8080/`);
 
-    let information = await axios.get("http://localhost:8080/sightings");
-    console.log(information.data);
-    setReceivedData(information.data);
-    // console.log(receivedData);
+    // console.log(information.data);
+    setReceivedData(information.data.data);
   };
 
   return (
     <>
-      <div className="grid grid-cols-1 place-items-center h-[100vh] border">
-        <div className="flex flex-col w-[60%] h-[60%] border text-center gap-10 ">
+      {/* <div className="grid grid-cols-1 place-items-center h-[100vh] border"> */}
+      <div className="flex flex-row w-[100%] h-[100vh] justify-center py-[2em] gap-10 border border-red-600">
+        <div className="flex flex-col w-[30%] h-[60%] border text-center gap-10 ">
           <div className="h-[10em]">
             <h1 className="font-bold text-[1.5rem] py-2 text-sky-600">
               Get Bigfoot Data!
@@ -54,6 +57,15 @@ export const HomePage = () => {
           <div>
             <NavLink to="sightings/123">Go to Sightings</NavLink>
           </div>
+        </div>
+
+        {/* Table Column */}
+        <div className="flex flex-col w-[60%] h-[100%] border text-center gap-10 ">
+          {receivedData === null ? (
+            "no data received"
+          ) : (
+            <DataTable data={receivedData} />
+          )}
         </div>
       </div>
     </>
