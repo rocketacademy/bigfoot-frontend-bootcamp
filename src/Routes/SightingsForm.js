@@ -24,7 +24,7 @@ export function SightingsForm() {
   //handleSubmit function:
   //creates search params
   //navigates to SightingList
-  
+
   const handleSubmit = (e) => {
     //e.preventDefault();
     const params = [
@@ -40,7 +40,7 @@ export function SightingsForm() {
       sortOrder: 'Ascending'
     });
     navigate({
-      pathname: 'sightings',
+      pathname: '/sightings',
       search: `?${createSearchParams(params)}`
     })
   }

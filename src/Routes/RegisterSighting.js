@@ -6,12 +6,14 @@ import {BACKEND_URL} from '../constants.js';
 
 export function RegisterSighting() {
   const navigate = useNavigate();
-  const postData = useLoaderData(); // if this doesn't work try useParams
+  const postData = useLoaderData(); // if this doesn't work try useParams - also try const {date, location, etc} = postData
   const [formInfo, setFormInfo] = useState({
     //initialize with values from post;
     date: postData ? postData.data.date.toLocaleString().slice(0,-1) : null, // YYYY-MM-DDTHH:mm:ss.sssZ is stored but input box only accepts YYYY-MM-DDTHH:mm:ss.sss
-    location: postData ? postData.data.location : null,
+    locationDescription: postData ? postData.data.locationDescription : null,
     notes: postData ? postData.data.notes : null,
+    city: postData ? postData.data.city : null,
+    country: postData ? postData.data.country : null,
   });
   console.log(postData.data.date.toLocaleString().slice(0,-1))
   //useEffect to load post info... or loader?
@@ -40,6 +42,8 @@ export function RegisterSighting() {
           date: '',
           location: '',
           notes: '',
+          city: '',
+          country: '',
       });
       navigate(`../sightings/${newID}`)
   }
@@ -62,11 +66,33 @@ export function RegisterSighting() {
         />
         <input
           className='border-black border-2'
+          placeholder="City"
+          type="text"
+          name="city"
+          id="city"
+          value={formInfo.city}
+          onChange={(e) => {
+            formChange(e);
+          }}
+        />
+        <input
+          className='border-black border-2'
+          placeholder="Country"
+          type="text"
+          name="country"
+          id="country"
+          value={formInfo.country}
+          onChange={(e) => {
+            formChange(e);
+          }}
+        />
+        <input
+          className='border-black border-2'
           placeholder="Location"
           type="text"
           name="location"
-          id="location"
-          value={formInfo.location}
+          id="locationDescription"
+          value={formInfo.locationDescription}
           onChange={(e) => {
             formChange(e);
           }}

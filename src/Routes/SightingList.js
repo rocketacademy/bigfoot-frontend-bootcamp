@@ -14,8 +14,8 @@ export function SightingList() {
     const searchString= searchParams.toString()
     const getSightings = async () => {
       //query the backend(axios.get) and setSightings
-      const response = await axios.get(`${BACKEND_URL}/sightings?`
-      //+searchString
+      const response = await axios.get(`${BACKEND_URL}/sightings`
+      //?` +searchString
       )
       setSightings(response.data)
     }
@@ -26,9 +26,11 @@ export function SightingList() {
   const sightingsRows = sightings.map((ele) =>
     <tr key={`sighting ${ele.id}`} className='text-black bg-green-300'>
       <td>{ele.id ? ele.id : ''}</td>
-      <td>{ele.year ? ele.year : '-'}</td>
-      <td>{ele.month ? ele.month : '-'}</td>
-      <td>{ele.location ? ele.location : '-'}</td>
+      <td>{ele.date ? ele.date.slice(0,10) : '-'}</td>
+      <td>{ele.country ? ele.country : '-'}</td>
+      {/* <td>{ele.city ? ele.city : '-'}</td>
+      <td>{ele.locationDescription ? ele.locationDescription : '-'}</td>
+       */}
       <td><Link to={`/sightings/${ele.id}`}> Link </Link></td>
     </tr>
   )
@@ -38,9 +40,8 @@ export function SightingList() {
       <tbody>
         <tr className='bg-blue-300'>
           <th>Index</th>
-          <th>Year</th>
-          <th>Month</th>
-          <th>Location</th>
+          <th>Date</th>
+          <th>Country</th>
           <th>Details</th>
         </tr>
         {sightingsRows}
