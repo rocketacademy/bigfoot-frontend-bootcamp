@@ -13,9 +13,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   font-family: "Inter", sans-serif;
-  color: hsl(51, 87%, 70%);
-  background-color: hsl(0, 0%, 12%);
+  /* color: hsl(51, 87%, 70%);
+  background-color: hsl(0, 0%, 12%); */
 
+  color: hsl(0, 0%, 7%);
+  background-color: hsl(0, 0%, 95%);
   /* background: linear-gradient(0deg, hsl(251, 5%, 53%), hsl(251, 9%, 52%));
   background-attachment: fixed; */
 }

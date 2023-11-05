@@ -1,13 +1,15 @@
 import React from "react";
+import { NavLink, Link } from "react-router-dom";
+import { LinkWrapper } from "./LinkWrapper";
 
 export const DataTable = ({ data }) => {
-  console.log("data is: ", data);
+  // console.log("data is: ", data);
 
   return (
     <>
       <div className="h-[100%] overflow-y-auto">
-        <table className="w-full border-collapse border-2 border-red-800 bg-slate-800">
-          <thead className="border-b-2 border-slate-500">
+        <table className="w-full  rounded-[1em]  border-collapse bg-slate-400">
+          <thead className="border-b-[1px] border-slate-500 bg-">
             <tr className="pb-10">
               <th>Primary Key</th>
               <th>Location</th>
@@ -18,14 +20,30 @@ export const DataTable = ({ data }) => {
               {/* Add more header cells as needed */}
             </tr>
           </thead>
-          <tbody className="border border-indigo-800">
+          <tbody className="">
             {data.map((item, listindex) => (
-              <tr key={listindex}>
-                <td className="text-center">{item.id}</td>
-                <td>{item.location}</td>
-                <td>{item.notes}</td>
-                <td>{item.createdAt}</td>
-                <td>{item.updatedAt}</td>
+              <tr key={listindex} className="border">
+                <td className="text-center">
+                  <LinkWrapper sightingid={item.id}>{item.id}</LinkWrapper>
+                </td>
+                <td>
+                  <LinkWrapper sightingid={item.id}>
+                    {item.location}
+                  </LinkWrapper>
+                </td>
+                <td>
+                  <LinkWrapper sightingid={item.id}>{item.notes}</LinkWrapper>
+                </td>
+                <td>
+                  <LinkWrapper sightingid={item.id}>
+                    {item.createdAt}
+                  </LinkWrapper>
+                </td>
+                <td>
+                  <LinkWrapper sightingid={item.id}>
+                    {item.updatedAt}
+                  </LinkWrapper>
+                </td>
               </tr>
             ))}
           </tbody>

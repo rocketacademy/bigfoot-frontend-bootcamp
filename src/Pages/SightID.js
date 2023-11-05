@@ -1,47 +1,125 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, Outlet, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+
+// Import Components
+import { AnimatedMulti } from "../Components/CategorySelect.js";
+import { SimpleTable } from "../Components/SimpleTable.js";
+import { CommentTable } from "../Components/CommentTable.js";
 
 export const SightID = ({ backend_url }) => {
   const [sightingInfo, setSightingInfo] = useState(null);
-  const [dataState, setDataState] = useState(false);
+  const [categoriesInfo, setCategoriesInfo] = useState(null);
+  const [commentsInfo, setCommentsInfo] = useState(null);
+
   const params = useParams();
+  const navigate = useNavigate();
 
   const BACKEND_URL = backend_url;
   const sightingIndex = params.sightingIndex;
 
   useEffect(() => {
-    const callAPI = async () => {
-      console.log("initialised");
-      let information = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingIndex}`
-      );
-
-      setSightingInfo(information);
-      setDataState(true);
-      console.log("called");
-      console.log(sightingInfo);
-      console.log(sightingInfo.data.YEAR);
-    };
-
-    callAPI();
+    handleCallAPI();
   }, []);
+
+  // useEffect(() => {
+
+  // }, [categoriesInfo]);
+
+  // Handle Undefined Route
+  useEffect(() => {
+    console.log(params);
+    if (sightingIndex === "undefined") {
+      console.log("undefined detected");
+      navigate(-1);
+    }
+  }, []);
+
+  // GET PARTICULAR SIGHTING + ASSOCIATED INFORMATION
+  const handleCallAPI = async () => {
+    console.log("initialised");
+
+    // Get Sighting
+    let information = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingIndex}`
+    );
+
+    // Get Assigned Categories
+    let assignedCategories = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingIndex}/getCategories`
+    );
+
+    // Get Sighting's Comments
+    let allComments = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingIndex}/getAllComments`
+    );
+
+    setCategoriesInfo(assignedCategories.data);
+    setSightingInfo(information.data);
+    setCommentsInfo(allComments.data);
+  };
 
   return (
     <>
-      <div>Details about {sightingIndex}</div>
-      <div>
-        <NavLink to="/">Home</NavLink>
+      <div className="flex flex-row w-[100%] h-[100vh] justify-center py-[2em] gap-10 border border-red-600">
+        <div className="flex flex-col w-[80%] h-[60%] border text-center gap-10 ">
+          <div>Details about {sightingIndex}</div>
+
+          <div>
+            <NavLink to="/">
+              <button className="bg-orange-400 py-2 px-3 rounded-md text-slate-900 font-extrabold shadow-md scale-100 transition-all hover:bg-red-500 active:scale-90">
+                Home
+              </button>
+            </NavLink>
+          </div>
+
+          {/* Categories */}
+          <div>
+            {categoriesInfo != null && categoriesInfo.success === true && (
+              <AnimatedMulti
+                data={categoriesInfo.data}
+                sightingIndex={sightingIndex}
+              />
+            )}
+
+            {/* <AnimatedMulti /> */}
+          </div>
+          {/* <div className="border-red-400">
+            {sightingInfo.success === false
+              ? "no data received"
+              : "data received"}
+          </div> */}
+
+          <div>
+            {sightingInfo !== null ? (
+              <SimpleTable sightingData={sightingInfo.data} />
+            ) : null}
+          </div>
+
+          <button
+            onClick={() => {
+              console.log(categoriesInfo.data);
+            }}
+          >
+            hello
+          </button>
+
+          <div className="flex flex-row justify-center align-middle w-[100%]">
+            {commentsInfo !== null ? (
+              <CommentTable
+                commentsData={commentsInfo}
+                sightingIndex={sightingIndex}
+                BACKEND_URL={BACKEND_URL}
+              />
+            ) : null}
+          </div>
+        </div>
       </div>
-      <div className="border-red-400 border-2 w-[10em] h-[2em]">
-        {dataState === true ? sightingInfo.data.YEAR : "no data"}
-        {/* {sightingInfo !== null ? sightingInfo.data.YEAR : "no data"} */}
-        {/* sighting info: {sightingInfo.data} */}
-      </div>
-      <div>
+
+      {/* <div>
         <Link to="information">View Sightings</Link>
       </div>
-      <Outlet />
+      <Outlet /> */}
     </>
   );
 };
