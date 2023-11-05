@@ -8,12 +8,13 @@ export const DataTable = ({ data }) => {
   return (
     <>
       <div className="h-[100%] overflow-y-auto">
-        <table className="w-full  rounded-[1em]  border-collapse bg-slate-400">
-          <thead className="border-b-[1px] border-slate-500 bg-">
+        <table className="w-full rounded-[1em] border-collapse bg-slate-300">
+          <thead className="border-b-[2px] border-slate-400 ">
             <tr className="pb-10">
               <th>Primary Key</th>
               <th>Location</th>
               <th>Notes</th>
+              <th>Sighting Date</th>
               <th>Created At</th>
               <th>Updated At</th>
 
@@ -33,6 +34,9 @@ export const DataTable = ({ data }) => {
                 </td>
                 <td>
                   <LinkWrapper sightingid={item.id}>{item.notes}</LinkWrapper>
+                </td>
+                <td>
+                  <LinkWrapper sightingid={item.id}>{item.date}</LinkWrapper>
                 </td>
                 <td>
                   <LinkWrapper sightingid={item.id}>

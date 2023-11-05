@@ -61,14 +61,16 @@ export const SightID = ({ backend_url }) => {
 
   return (
     <>
-      <div className="flex flex-row w-[100%] h-[100vh] justify-center py-[2em] gap-10 border border-red-600">
-        <div className="flex flex-col w-[80%] h-[60%] border text-center gap-10 ">
-          <div>Details about {sightingIndex}</div>
+      <div className="flex flex-row w-[100%] h-[100vh] justify-center py-[2em] gap-10 ">
+        <div className="flex flex-col w-[80%] h-[60%]  text-center gap-10 ">
+          <div className="font-bold">
+            Details About Sighting {sightingIndex}
+          </div>
 
           <div>
             <NavLink to="/">
-              <button className="bg-orange-400 py-2 px-3 rounded-md text-slate-900 font-extrabold shadow-md scale-100 transition-all hover:bg-red-500 active:scale-90">
-                Home
+              <button className="bg-slate-400 py-2 px-3 rounded-md text-slate-900 font-extrabold shadow-md scale-100 transition-all hover:bg-slate-500 active:scale-90">
+                BACK TO HOME
               </button>
             </NavLink>
           </div>
@@ -96,13 +98,13 @@ export const SightID = ({ backend_url }) => {
             ) : null}
           </div>
 
-          <button
+          {/* <button
             onClick={() => {
-              console.log(categoriesInfo.data);
+              console.log(commentsInfo);
             }}
           >
             hello
-          </button>
+          </button> */}
 
           <div className="flex flex-row justify-center align-middle w-[100%]">
             {commentsInfo !== null ? (
