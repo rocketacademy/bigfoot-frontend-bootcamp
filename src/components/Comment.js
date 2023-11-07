@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import {BACKEND_URL} from '../constants.js';
 
 export function Comment({comment, index, setCommentInfo }){
-    console.log(comment)
-    console.log(index)
     const [isEditing, setIsEditing] = useState(false)
     const [newCommentText, setNewCommentText] = useState(null)
 

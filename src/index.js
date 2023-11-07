@@ -6,7 +6,7 @@ import axios from 'axios';
 import {Sighting} from './Routes/Sighting.js'
 import {SightingsForm} from './Routes/SightingsForm.js'
 import {RegisterSighting} from './Routes/RegisterSighting.js'
-import {SightingList, loader as sightingLoader} from './Routes/SightingList'
+import {SightingList} from './Routes/SightingList'
 import {
     createBrowserRouter,
     RouterProvider,
