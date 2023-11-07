@@ -22,7 +22,13 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'sightings/:id',
-                element: <Sighting />
+                element: <Sighting />,
+                // children: [
+                //     {
+                //         path:'sightings/:id/editcomment',
+                //         element:<EditComment />
+                //     }
+                // ]
             },
             {
                 path: 'sightings/:id/edit',

@@ -4,6 +4,8 @@ import { useState } from "react";
 import {Link} from 'react-router-dom';
 import { Routes, Route, useParams } from 'react-router-dom';
 import {BACKEND_URL} from '../constants.js';
+import {CommentWriter} from '../components/CommentWriter.js'
+import {Comment} from '../components/Comment.js'
 
 // {
 //   "id": 1,
@@ -16,24 +18,39 @@ import {BACKEND_URL} from '../constants.js';
 
 export function Sighting() {
     const {id} = useParams()
-    const [sightingInfo, setSightingInfo] = useState({})
+    const [sightingInfo, setSightingInfo] = useState(null)
+    const [commentInfo, setCommentInfo] = useState(null)
 
     useEffect(() => { //async returns a promise -- I should convert this to a loader function
-        const getSightings = async () => {
+        const getSightingAndComments = async () => {
           //query the backend(axios.get) and setSightings
           if (id) {
-          const response = await axios.get(`${BACKEND_URL}/sightings/${id}`)
-          setSightingInfo(response.data)
+          const [sighting, comments] = await Promise.all([
+            axios.get(`${BACKEND_URL}/sightings/${id}`),
+            axios.get(`${BACKEND_URL}/sightings/${id}/comments`)
+          ]) 
+          setSightingInfo(sighting.data)
+          setCommentInfo(comments.data.comments)
         }}
-        getSightings()
+        getSightingAndComments()
       }, [])
     
+    console.log(commentInfo)
       //render basic sighting info
       const sightingData = sightingInfo ? Object.keys(sightingInfo).map((key) =>
         <tr key={`sighting${id}-${key}`} className='text-black bg-green-300'>
           <td>{key}</td>
           <td>{sightingInfo[key]}</td>
         </tr>
+      ) : null
+      //render comments - to separate this out into its own component. It has an outlet to display the 
+      const commentData = commentInfo ? commentInfo.map((comment, index) =>
+      <Comment comment = {comment} index={index} setCommentInfo = {setCommentInfo}/>
+        // <tr key={`sighting${id}-${comment.id}`} className='text-black bg-green-300'>
+        //   <td>{comment.content}</td>
+        //   <td>Edit Link</td>
+        //   <td>Delete Link</td>
+        // </tr>
       ) : null
 
   return (
@@ -48,7 +65,18 @@ export function Sighting() {
         {sightingData}
       </tbody>
     </table>
-    <Link to={`edit`}> Edit </Link>
+    <Link to={`edit`}> Edit Sighting</Link>
+    <CommentWriter sightingId = {id} setCommentInfo={setCommentInfo}/>
+    <table>
+    <tbody>
+        <tr className='bg-yellow-300'>
+          <th>Comment</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        {commentData}
+      </tbody>
+    </table>
    </div>
   );
 }
