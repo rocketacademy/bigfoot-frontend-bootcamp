@@ -28,17 +28,16 @@ export function Sighting() {
           setSightingInfo(sighting.data)
           setCommentInfo(comments.data.comments)
           setLikeInfo(likes.data)
-          console.log(likes.data)
         }}
         getSightingAndComments()
       }, [])
     
-    console.log(commentInfo)
+      console.log(sightingInfo)
       //render basic sighting info
       const sightingData = sightingInfo ? Object.keys(sightingInfo).map((key) =>
         <tr key={`sighting${id}-${key}`} className='text-black bg-green-300'>
           <td>{key}</td>
-          <td>{sightingInfo[key]}</td>
+          <td>{key === 'categories' ? sightingInfo[key].map((category)=>category.name).toString() : sightingInfo[key]}</td>
         </tr>
       ) : null
       //render comments - to separate this out into its own component. It has an outlet to display the 

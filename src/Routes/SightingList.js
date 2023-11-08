@@ -24,10 +24,13 @@ export function SightingList() {
 
   //render basic sighting info
   const sightingsRows = sightings.map((ele) =>
+  
     <tr key={`sighting ${ele.id}`} className='text-black bg-green-300'>
+    {console.log(sightings)}
       <td>{ele.id ? ele.id : ''}</td>
       <td>{ele.date ? ele.date.slice(0,10) : '-'}</td>
       <td>{ele.country ? ele.country : '-'}</td>
+      <td>{ele.categories.map((category)=>category.name).toString()}</td>
       {/* <td>{ele.city ? ele.city : '-'}</td>
       <td>{ele.locationDescription ? ele.locationDescription : '-'}</td>
        */}
@@ -42,6 +45,7 @@ export function SightingList() {
           <th>Index</th>
           <th>Date</th>
           <th>Country</th>
+          <th>Categories</th>
           <th>Details</th>
         </tr>
         {sightingsRows}
