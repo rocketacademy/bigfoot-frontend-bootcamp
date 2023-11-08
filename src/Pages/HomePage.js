@@ -6,15 +6,13 @@ import { BACKEND_URL } from "../util/constants";
 // Import Components
 import { DataTable } from "../Components/DataTable";
 
+// Import Auth0
+import { useAuth0 } from "@auth0/auth0-react";
+
 export const HomePage = () => {
   const [receivedData, setReceivedData] = useState(null);
-  // const [inputField, setInputField] = useState("");
   const [textField, setTextField] = useState({});
-
-  // const handleChange = (ev) => {
-  //   ev.preventDefault();
-  //   setInputField(ev.target.value);
-  // };
+  const { loginWithRedirect } = useAuth0();
 
   const handleTextChange = (ev) => {
     let { name, value } = ev.target;
@@ -86,6 +84,15 @@ export const HomePage = () => {
           </div>
 
           <div>
+            <button
+              className="bg-teal-400 py-2 px-3 rounded-md text-slate-900 font-bold shadow-md scale-100 transition-all hover:bg-teal-500 hover:scale-105 active:scale-90"
+              onClick={() => loginWithRedirect()}
+            >
+              LOG IN TO ACCESS SIGHTINGS
+            </button>
+          </div>
+
+          <div>
             <form
               onSubmit={(ev) => {
                 ev.preventDefault();
@@ -106,6 +113,7 @@ export const HomePage = () => {
                 </button>
               </NavLink>
             </form>
+            <br />
           </div>
 
           {/* <button

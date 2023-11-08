@@ -2,8 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { EditCommentModal } from "./EditCommentModal";
+// import { useAuth0 } from "@auth0/auth0-react";
 
-export const CommentTable = ({ commentsData, sightingIndex, BACKEND_URL }) => {
+export const CommentTable = ({
+  commentsData,
+  sightingIndex,
+  BACKEND_URL,
+  accessToken,
+}) => {
   const [textField, setTextField] = useState({});
   const [storedComments, setStoredComments] = useState(null);
   const [modalState, setModalState] = useState(false);
@@ -51,6 +57,11 @@ export const CommentTable = ({ commentsData, sightingIndex, BACKEND_URL }) => {
         {
           content: textField.newComment,
           sighting_id: sightingIndex,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
 

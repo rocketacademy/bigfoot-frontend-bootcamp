@@ -7,6 +7,9 @@ import { AnimatedMulti } from "../Components/CategorySelect.js";
 import { SimpleTable } from "../Components/SimpleTable.js";
 import { CommentTable } from "../Components/CommentTable.js";
 
+// Import Auth0
+import { useAuth0 } from "@auth0/auth0-react";
+
 export const SightID = ({ backend_url }) => {
   const [sightingInfo, setSightingInfo] = useState(null);
   const [categoriesInfo, setCategoriesInfo] = useState(null);
@@ -18,13 +21,33 @@ export const SightID = ({ backend_url }) => {
   const BACKEND_URL = backend_url;
   const sightingIndex = params.sightingIndex;
 
+  // Import functions from Auth0
+  const {
+    logout,
+    user,
+    isAuthenticated,
+    getAccessTokenSilently,
+    loginWithRedirect,
+  } = useAuth0();
+
+  const [accessToken, setAccessToken] = useState("");
+
+  const verifyLogIn = async () => {
+    if (isAuthenticated) {
+      let token = await getAccessTokenSilently();
+      setAccessToken(token);
+    } else {
+      loginWithRedirect();
+    }
+  };
+
+  useEffect(() => {
+    verifyLogIn();
+  }, []);
+
   useEffect(() => {
     handleCallAPI();
   }, []);
-
-  // useEffect(() => {
-
-  // }, [categoriesInfo]);
 
   // Handle Undefined Route
   useEffect(() => {
@@ -64,15 +87,25 @@ export const SightID = ({ backend_url }) => {
       <div className="flex flex-row w-[100%] h-[100vh] justify-center py-[2em] gap-10 ">
         <div className="flex flex-col w-[80%] h-[60%]  text-center gap-10 ">
           <div className="font-bold">
-            Details About Sighting {sightingIndex}
+            {isAuthenticated && `Welcome, ${user.name}!`}
+            <br /> Details About Sighting {sightingIndex}
           </div>
 
-          <div>
+          <div className="flex flex-row gap-10 justify-center">
             <NavLink to="/">
               <button className="bg-slate-400 py-2 px-3 rounded-md text-slate-900 font-extrabold shadow-md scale-100 transition-all hover:bg-slate-500 active:scale-90">
-                BACK TO HOME
+                Home
               </button>
             </NavLink>
+
+            <button
+              className="bg-red-400 py-2 px-3 rounded-md text-slate-900 font-bold shadow-md scale-100 transition-all hover:bg-red-500 hover:scale-105 active:scale-90"
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+            >
+              Log Out
+            </button>
           </div>
 
           {/* Categories */}
@@ -112,6 +145,7 @@ export const SightID = ({ backend_url }) => {
                 commentsData={commentsInfo}
                 sightingIndex={sightingIndex}
                 BACKEND_URL={BACKEND_URL}
+                accessToken={accessToken}
               />
             ) : null}
           </div>
