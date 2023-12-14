@@ -3,8 +3,8 @@ import { Outlet, Link } from "react-router-dom";
 
 export default function SightingSearch() {
   const [input, setInput] = useState("");
-  const [filter, setFilter] = useState("");
-  const [sort, setSort] = useState("");
+  // const [filter, setFilter] = useState("");
+  // const [sort, setSort] = useState("");
   const [direction, setDirection] = useState("ascending");
 
   return (
@@ -13,7 +13,7 @@ export default function SightingSearch() {
       <Link to="/" className="home-button">
         <button>Go Home</button>
       </Link>
-      <select
+      {/* <select
         value={filter}
         onChange={(e) => {
           setSort("");
@@ -57,6 +57,13 @@ export default function SightingSearch() {
         `}
       >
         <button>Search by {filter ? filter : "index"}</button>
+      </Link> */}
+      <input
+        onChange={(e) => setInput(e.target.value)}
+        placeholder={`Search index`}
+      />
+      <Link to={`/sightingSearch/${input}`}>
+        <button>Search by index</button>
       </Link>
       <Outlet />
     </div>

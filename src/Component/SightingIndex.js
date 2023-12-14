@@ -17,7 +17,6 @@ export default function SightingIndex() {
     getOneData();
   }, [sightingIndex]);
 
-  console.log(data);
   const display = data ? (
     <div>
       <ul>
