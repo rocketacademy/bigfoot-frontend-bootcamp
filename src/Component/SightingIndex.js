@@ -22,10 +22,11 @@ export default function SightingIndex() {
       <ul>
         <li>Date: {data.date}</li>
         <li>Location: {data.location}</li>
+        <li>Note: {data.notes}</li>
       </ul>
     </div>
   ) : (
-    "No data in this index."
+    "No data in this id."
   );
 
   return (

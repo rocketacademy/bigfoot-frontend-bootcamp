@@ -5,7 +5,7 @@ export default function SightingSearch() {
   const [input, setInput] = useState("");
   // const [filter, setFilter] = useState("");
   // const [sort, setSort] = useState("");
-  const [direction, setDirection] = useState("ascending");
+  // const [direction, setDirection] = useState("ascending");
 
   return (
     <div className="App-header">
@@ -60,10 +60,10 @@ export default function SightingSearch() {
       </Link> */}
       <input
         onChange={(e) => setInput(e.target.value)}
-        placeholder={`Search index`}
+        placeholder={`Search id`}
       />
       <Link to={`/sightingSearch/${input}`}>
-        <button>Search by index</button>
+        <button>Search by id</button>
       </Link>
       <Outlet />
     </div>

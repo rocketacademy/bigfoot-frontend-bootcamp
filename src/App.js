@@ -12,6 +12,9 @@ export default function App() {
         <Link to="/sightingSearch">
           <button>Search Data</button>
         </Link>
+        <Link to="/new">
+          <button>Create new Data</button>
+        </Link>
       </header>
     </div>
   );
