@@ -5,7 +5,7 @@ import { BACKEND_URL } from "../constant";
 
 export default function SightingIndex() {
   const { sightingIndex } = useParams();
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const getOneData = async () => {
@@ -17,17 +17,21 @@ export default function SightingIndex() {
     getOneData();
   }, [sightingIndex]);
 
-  const display = Object.entries(data).map(([key, value]) => {
-    return (
-      <li key={key}>
-        {key}: {value}
-      </li>
-    );
-  });
+  console.log(data);
+  const display = data ? (
+    <div>
+      <ul>
+        <li>Date: {data.date}</li>
+        <li>Location: {data.location}</li>
+      </ul>
+    </div>
+  ) : (
+    "No data in this index."
+  );
 
   return (
     <div>
-      <ul>{display.length ? display : "No data in this index."}</ul>
+      <ul>{display}</ul>
     </div>
   );
 }

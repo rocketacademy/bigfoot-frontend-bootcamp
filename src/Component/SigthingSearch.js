@@ -21,9 +21,8 @@ export default function SightingSearch() {
         }}
       >
         <option value="">Index</option>
-        <option value="YEAR">Year</option>
-        <option value="SEASON">Season</option>
-        <option value="STATE">State</option>
+        <option value="date">Date</option>
+        <option value="location">location</option>
       </select>
       <input
         onChange={(e) => setInput(e.target.value)}
@@ -33,15 +32,15 @@ export default function SightingSearch() {
       <select
         value={sort}
         onChange={(e) => {
-          if (filter === "YEAR") {
+          if (filter === "date") {
             setFilter("");
           }
           setSort(e.target.value);
         }}
-        disabled={!filter || filter === "YEAR"}
+        disabled={!filter || filter === "date"}
       >
         <option value="">No need</option>
-        <option value="YEAR">Year</option>
+        <option value="date">Date</option>
       </select>
       <select
         value={direction}

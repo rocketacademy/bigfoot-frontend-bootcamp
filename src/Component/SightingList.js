@@ -16,14 +16,13 @@ export default function SightingList() {
 
   const display =
     data &&
-    data.map(({ YEAR, SEASON, STATE }, i) => {
+    data.map(({ date, location }, i) => {
       return (
         <div key={i}>
-          <ol>
-            <li>Year: {YEAR}</li>
-            <li>Season: {SEASON}</li>
-            <li>State: {STATE}</li>
-          </ol>
+          <ul>
+            <li>Date: {date}</li>
+            <li>Location: {location}</li>
+          </ul>
         </div>
       );
     });
