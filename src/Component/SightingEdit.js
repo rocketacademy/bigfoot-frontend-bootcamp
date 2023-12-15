@@ -6,7 +6,9 @@ import { BACKEND_URL } from "../constant";
 export default function SightingEdit() {
   const { sightingIndex } = useParams();
   const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [locationDescription, setLocation] = useState("");
   const [notes, setNotes] = useState("");
   const navi = useNavigate();
 
@@ -16,8 +18,10 @@ export default function SightingEdit() {
         `${BACKEND_URL}/sightings/${sightingIndex}`
       );
       setDate(newData.data.date.substring(0, 16));
-      setLocation(newData.data.location);
+      setLocation(newData.data.locationDescription);
       setNotes(newData.data.notes);
+      setCountry(newData.data.country);
+      setCity(newData.data.city);
     };
     getOneData();
   }, [sightingIndex]);
@@ -26,8 +30,10 @@ export default function SightingEdit() {
     e.preventDefault();
     const newData = {
       date: date,
-      location: location,
+      locationDescription: locationDescription,
       notes: notes,
+      city: city,
+      country: country,
     };
     await axios.put(`${BACKEND_URL}/sightings/${sightingIndex}`, newData);
     navi(`/sightingSearch/${sightingIndex}`);
@@ -42,9 +48,25 @@ export default function SightingEdit() {
           type="datetime-local"
           onChange={(e) => setDate(e.target.value)}
         />
+        <label>City</label>
+        <textarea
+          value={city}
+          onChange={(e) => {
+            setCity(e.target.value);
+          }}
+          className="note-input"
+        />
+        <label>Country</label>
+        <textarea
+          value={country}
+          onChange={(e) => {
+            setCountry(e.target.value);
+          }}
+          className="note-input"
+        />
         <label>Location</label>
         <textarea
-          value={location}
+          value={locationDescription}
           onChange={(e) => {
             setLocation(e.target.value);
           }}

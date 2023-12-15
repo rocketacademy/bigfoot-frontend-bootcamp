@@ -4,14 +4,22 @@ import { BACKEND_URL } from "../constant";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SightingCreate() {
-  const [dateTime, setDateTime] = useState("");
-  const [location, setLocation] = useState("");
-  const [note, setNote] = useState("");
+  const [date, setDate] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [locationDescription, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
   const navi = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newData = { date: dateTime, location: location, notes: note };
+    const newData = {
+      date: date,
+      locationDescription: locationDescription,
+      notes: notes,
+      city: city,
+      country: country,
+    };
 
     const res = await axios.post(`${BACKEND_URL}/sightings`, newData);
     navi(`/sightingSearch/${res.data.id}`);
@@ -26,23 +34,41 @@ export default function SightingCreate() {
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>Date and Time</label>
         <input
-          value={dateTime}
+          value={date}
           type="datetime-local"
-          onChange={(e) => setDateTime(e.target.value)}
+          onChange={(e) => setDate(e.target.value)}
+        />{" "}
+        <label>City</label>
+        <textarea
+          value={city}
+          onChange={(e) => {
+            setCity(e.target.value);
+          }}
+          className="note-input"
+        />
+        <label>Country</label>
+        <textarea
+          value={country}
+          onChange={(e) => {
+            setCountry(e.target.value);
+          }}
+          className="note-input"
         />
         <label>Location</label>
-        <input
-          value={location}
+        <textarea
+          value={locationDescription}
           onChange={(e) => {
             setLocation(e.target.value);
           }}
+          className="note-input"
         />
         <label>Note</label>
-        <input
-          value={note}
+        <textarea
+          value={notes}
           onChange={(e) => {
-            setNote(e.target.value);
+            setNotes(e.target.value);
           }}
+          className="note-input"
         />
         <input type="submit" />
       </form>

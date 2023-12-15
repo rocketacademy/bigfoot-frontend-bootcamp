@@ -21,7 +21,9 @@ export default function SightingIndex() {
     <div>
       <ul>
         <li>Date: {data.date}</li>
-        <li>Location: {data.location}</li>
+        <li>City: {data.city}</li>
+        <li>Country: {data.country}</li>
+        <li>Location: {data.locationDescription}</li>
         <li>Note: {data.notes}</li>
       </ul>
     </div>
