@@ -6,9 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SightingList from "./Component/SightingList";
 import SightingSearch from "./Component/SigthingSearch";
 import SightingIndex from "./Component/SightingIndex";
-import SightingFilter from "./Component/SightingFilter";
-import SightingSort from "./Component/SightingSort";
 import SightingCreate from "./Component/SightingCreate";
+import SightingEdit from "./Component/SightingEdit";
+// import SightingFilter from "./Component/SightingFilter";
+// import SightingSort from "./Component/SightingSort";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,6 +19,7 @@ root.render(
       <Route path="/sightingList" element={<SightingList />} />
       <Route path="/sightingSearch" element={<SightingSearch />}>
         <Route path=":sightingIndex" element={<SightingIndex />} />
+        <Route path=":sightingIndex/edit" element={<SightingEdit />} />
         {/* <Route path=":filter/:filterData" element={<SightingFilter />} />
         <Route
           path=":filter/:filterData/sort/:sort/:direction"

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { BACKEND_URL } from "../constant";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SightingCreate() {
   const [dateTime, setDateTime] = useState("");
@@ -20,6 +20,9 @@ export default function SightingCreate() {
   return (
     <div className="App-header">
       Create Sigthing Data
+      <Link to="/" className="home-button">
+        <button>Go Home</button>
+      </Link>
       <form onSubmit={(e) => handleSubmit(e)}>
         <label>Date and Time</label>
         <input

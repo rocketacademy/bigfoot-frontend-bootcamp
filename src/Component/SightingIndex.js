@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 
 export default function SightingIndex() {
@@ -30,8 +30,13 @@ export default function SightingIndex() {
   );
 
   return (
-    <div>
+    <div className="index-div">
       <ul>{display}</ul>
+      {data && (
+        <Link to={`/sightingSearch/${sightingIndex}/edit`}>
+          <button>Edit data</button>
+        </Link>
+      )}
     </div>
   );
 }
