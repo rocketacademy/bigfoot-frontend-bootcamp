@@ -6,25 +6,37 @@ import { BACKEND_URL } from "../constant";
 export default function SightingIdPage() {
   const { sightingId } = useParams();
   const [data, setData] = useState(null);
-  const [comments, setComments] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     const getOneData = async () => {
       const newData = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
       setData(newData.data);
     };
-    getOneData();
+    const getComments = async () => {
+      const newComments = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}/comments`
+      );
+      setComments(newComments.data);
+    };
+    Promise.all([getOneData(), getComments()]);
   }, [sightingId]);
 
-  useEffect(() => {
-    const getComments = async () => {
-      const newComment = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingId}/`
-      );
-    };
-  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newComment = { content: input };
+    await axios.post(
+      `${BACKEND_URL}/sightings/${sightingId}/comments`,
+      newComment
+    );
+    setComments((prev) => {
+      return [...prev, newComment];
+    });
+    setInput("");
+  };
 
-  const display = data ? (
+  const sightingDisplay = data ? (
     <div>
       <ul>
         <li>Date: {data.date}</li>
@@ -38,14 +50,26 @@ export default function SightingIdPage() {
     "No data in this id."
   );
 
+  const commentDisplay = comments.map((comment) => {
+    return <li key={comment.id}>{comment.content}</li>;
+  });
+
   return (
     <div className="index-div">
-      <ul>{display}</ul>
+      <ul>{sightingDisplay}</ul>
       {data && (
         <Link to={`/sightingSearch/${sightingId}/edit`}>
           <button>Edit data</button>
         </Link>
       )}
+      <div>
+        Comment:
+        <ul>{commentDisplay}</ul>
+        <form onSubmit={handleSubmit}>
+          <input value={input} onChange={(e) => setInput(e.target.value)} />
+          <input type="submit" />
+        </form>
+      </div>
     </div>
   );
 }
