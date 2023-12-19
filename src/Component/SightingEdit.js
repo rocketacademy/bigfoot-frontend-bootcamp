@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 
 export default function SightingEdit() {
-  const { sightingIndex } = useParams();
+  const { sightingId } = useParams();
   const [date, setDate] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
@@ -14,9 +14,7 @@ export default function SightingEdit() {
 
   useEffect(() => {
     const getOneData = async () => {
-      const newData = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingIndex}`
-      );
+      const newData = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
       setDate(newData.data.date.substring(0, 16));
       setLocation(newData.data.locationDescription);
       setNotes(newData.data.notes);
@@ -24,7 +22,7 @@ export default function SightingEdit() {
       setCity(newData.data.city);
     };
     getOneData();
-  }, [sightingIndex]);
+  }, [sightingId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,8 +33,8 @@ export default function SightingEdit() {
       city: city,
       country: country,
     };
-    await axios.put(`${BACKEND_URL}/sightings/${sightingIndex}`, newData);
-    navi(`/sightingSearch/${sightingIndex}`);
+    await axios.put(`${BACKEND_URL}/sightings/${sightingId}`, newData);
+    navi(`/sightingSearch/${sightingId}`);
   };
 
   return (
@@ -82,7 +80,7 @@ export default function SightingEdit() {
         />
         <input type="submit" />
       </form>
-      <Link to={`/sightingSearch/${sightingIndex}`}>
+      <Link to={`/sightingSearch/${sightingId}`}>
         <button>Cancel</button>
       </Link>
     </div>

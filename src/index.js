@@ -5,7 +5,7 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SightingList from "./Component/SightingList";
 import SightingSearch from "./Component/SigthingSearch";
-import SightingIndex from "./Component/SightingIndex";
+import SightingIdPage from "./Component/SightingIdPage";
 import SightingCreate from "./Component/SightingCreate";
 import SightingEdit from "./Component/SightingEdit";
 // import SightingFilter from "./Component/SightingFilter";
@@ -18,8 +18,8 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/sightingList" element={<SightingList />} />
       <Route path="/sightingSearch" element={<SightingSearch />}>
-        <Route path=":sightingIndex" element={<SightingIndex />} />
-        <Route path=":sightingIndex/edit" element={<SightingEdit />} />
+        <Route path=":sightingId" element={<SightingIdPage />} />
+        <Route path=":sightingId/edit" element={<SightingEdit />} />
         {/* <Route path=":filter/:filterData" element={<SightingFilter />} />
         <Route
           path=":filter/:filterData/sort/:sort/:direction"
@@ -29,6 +29,7 @@ root.render(
       </Route>
       <Route path="/new" element={<SightingCreate />} />
       <Route path="/*" element={<div className="App-header">404</div>} />
+      <Route path="/sightingSearch/Testing" element={<div>test</div>} />
     </Routes>
   </BrowserRouter>
 );
