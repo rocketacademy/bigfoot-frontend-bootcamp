@@ -10,11 +10,18 @@ export default function SightingIdPage() {
   const [input, setInput] = useState("");
   const [editComment, setEditComment] = useState(false);
   const [editCommentId, setEditCommentId] = useState(0);
+  const [likes, setLikes] = useState(0);
   const getComments = async () => {
     const newComments = await axios.get(
       `${BACKEND_URL}/sightings/${sightingId}/comments`
     );
     setComments(newComments.data);
+  };
+  const getLikes = async () => {
+    const newLikes = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingId}/likes`
+    );
+    setLikes(newLikes.data.count);
   };
 
   useEffect(() => {
@@ -22,7 +29,7 @@ export default function SightingIdPage() {
       const newData = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
       setData(newData.data);
     };
-    Promise.all([getOneData(), getComments()]);
+    Promise.all([getOneData(), getComments(), getLikes()]);
   }, [sightingId]);
 
   const handleSubmit = async (e) => {
@@ -55,6 +62,11 @@ export default function SightingIdPage() {
     getComments();
     setInput("");
     setEditComment(false);
+  };
+
+  const handleLike = async (e) => {
+    await axios.post(`${BACKEND_URL}/sightings/${sightingId}/like`);
+    getLikes();
   };
 
   const sightingDisplay = data ? (
@@ -90,16 +102,17 @@ export default function SightingIdPage() {
       </li>
     );
   });
-
   return (
     <div className="index-div">
       <ul>{sightingDisplay}</ul>
+      <button onClick={handleLike}>{likes}♡</button>
       {data && (
         <Link to={`/sightingSearch/${sightingId}/edit`}>
           <button>Edit data</button>
         </Link>
       )}
-      <div>
+
+      <div style={{ border: "3px solid white" }}>
         Comment:
         {!editComment ? (
           <div>
