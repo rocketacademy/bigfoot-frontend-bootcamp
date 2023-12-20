@@ -26,14 +26,26 @@ export default function SightingIdPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newComment = { content: input };
-    await axios.post(
+    const resComment = await axios.post(
       `${BACKEND_URL}/sightings/${sightingId}/comments`,
       newComment
     );
     setComments((prev) => {
-      return [...prev, newComment];
+      return [...prev, resComment.data];
     });
     setInput("");
+  };
+
+  const handleDelete = async (e) => {
+    const commentId = e.target.value;
+    console.log(commentId);
+    await axios.delete(
+      `${BACKEND_URL}/sightings/${sightingId}/comments/${commentId}`
+    );
+    const newComments = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingId}/comments`
+    );
+    setComments(newComments.data);
   };
 
   const sightingDisplay = data ? (
@@ -51,9 +63,15 @@ export default function SightingIdPage() {
   );
 
   const commentDisplay = comments.map((comment) => {
-    return <li key={comment.id}>{comment.content}</li>;
+    return (
+      <li key={comment.id}>
+        {comment.content}
+        <button value={comment.id} onClick={handleDelete}>
+          Delete
+        </button>
+      </li>
+    );
   });
-
   return (
     <div className="index-div">
       <ul>{sightingDisplay}</ul>
