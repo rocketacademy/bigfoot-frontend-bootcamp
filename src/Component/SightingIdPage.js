@@ -8,17 +8,19 @@ export default function SightingIdPage() {
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
   const [input, setInput] = useState("");
+  const [editComment, setEditComment] = useState(false);
+  const [editCommentId, setEditCommentId] = useState(0);
+  const getComments = async () => {
+    const newComments = await axios.get(
+      `${BACKEND_URL}/sightings/${sightingId}/comments`
+    );
+    setComments(newComments.data);
+  };
 
   useEffect(() => {
     const getOneData = async () => {
       const newData = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
       setData(newData.data);
-    };
-    const getComments = async () => {
-      const newComments = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingId}/comments`
-      );
-      setComments(newComments.data);
     };
     Promise.all([getOneData(), getComments()]);
   }, [sightingId]);
@@ -38,14 +40,21 @@ export default function SightingIdPage() {
 
   const handleDelete = async (e) => {
     const commentId = e.target.value;
-    console.log(commentId);
     await axios.delete(
       `${BACKEND_URL}/sightings/${sightingId}/comments/${commentId}`
     );
-    const newComments = await axios.get(
-      `${BACKEND_URL}/sightings/${sightingId}/comments`
+    getComments();
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    await axios.put(
+      `${BACKEND_URL}/sightings/${sightingId}/comments/${editCommentId}`,
+      { content: input }
     );
-    setComments(newComments.data);
+    getComments();
+    setInput("");
+    setEditComment(false);
   };
 
   const sightingDisplay = data ? (
@@ -69,9 +78,19 @@ export default function SightingIdPage() {
         <button value={comment.id} onClick={handleDelete}>
           Delete
         </button>
+        <button
+          onClick={() => {
+            setEditCommentId(comment.id);
+            setInput(comment.content);
+            setEditComment(true);
+          }}
+        >
+          Edit
+        </button>
       </li>
     );
   });
+
   return (
     <div className="index-div">
       <ul>{sightingDisplay}</ul>
@@ -82,11 +101,24 @@ export default function SightingIdPage() {
       )}
       <div>
         Comment:
-        <ul>{commentDisplay}</ul>
-        <form onSubmit={handleSubmit}>
-          <input value={input} onChange={(e) => setInput(e.target.value)} />
-          <input type="submit" />
-        </form>
+        {!editComment ? (
+          <div>
+            <ul>{commentDisplay}</ul>
+            <form onSubmit={handleSubmit}>
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Leave comment"
+              />
+              <input type="submit" />
+            </form>
+          </div>
+        ) : (
+          <form onSubmit={handleEdit}>
+            <input value={input} onChange={(e) => setInput(e.target.value)} />
+            <input type="submit" />
+          </form>
+        )}
       </div>
     </div>
   );
