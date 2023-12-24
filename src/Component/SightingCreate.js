@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { BACKEND_URL } from "../constant";
+import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SightingCreate() {
@@ -9,6 +10,7 @@ export default function SightingCreate() {
   const [city, setCity] = useState("");
   const [locationDescription, setLocation] = useState("");
   const [notes, setNotes] = useState("");
+  const [category, setCategory] = useState("rain");
   const navi = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,6 +27,13 @@ export default function SightingCreate() {
     navi(`/sightingSearch/${res.data.id}`);
   };
 
+  const options = [
+    { value: "rain", label: "Rain" },
+    { value: "mountain", label: "Mountain" },
+    { value: "woods", label: "Woods" },
+  ];
+
+  console.log(category);
   return (
     <div className="App-header">
       Create Sigthing Data
@@ -38,6 +47,13 @@ export default function SightingCreate() {
           type="datetime-local"
           onChange={(e) => setDate(e.target.value)}
         />{" "}
+        <label>Category</label>
+        <Select
+          options={options}
+          defaultValue={{ value: "rain", label: "Rain" }}
+          className="selection"
+          onChange={(option) => setCategory(option.value)}
+        />
         <label>City</label>
         <textarea
           value={city}

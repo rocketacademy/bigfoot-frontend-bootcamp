@@ -57,3 +57,8 @@ form {
   height: 30vh;
   text-wrap: wrap;
 }
+
+.selection {
+  color: #000000;
+  width: 300px;
+}
