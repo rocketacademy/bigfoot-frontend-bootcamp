@@ -16,20 +16,10 @@ export default function SightingIdPage() {
     const getOneData = async () => {
       const newData = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
       setData(newData.data);
+      setLikes(newData.data.likes.length);
+      setComments(newData.data.comments);
     };
-    const getLikes = async () => {
-      const newLikes = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingId}/likes`
-      );
-      setLikes(newLikes.data.count);
-    };
-    const getComments = async () => {
-      const newComments = await axios.get(
-        `${BACKEND_URL}/sightings/${sightingId}/comments`
-      );
-      setComments(newComments.data);
-    };
-    Promise.all([getOneData(), getComments(), getLikes()]);
+    getOneData();
   }, [sightingId]);
 
   const handleSubmit = async (e) => {
