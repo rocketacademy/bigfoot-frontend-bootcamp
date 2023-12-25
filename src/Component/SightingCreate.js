@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../constant";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,30 +10,33 @@ export default function SightingCreate() {
   const [city, setCity] = useState("");
   const [locationDescription, setLocation] = useState("");
   const [notes, setNotes] = useState("");
-  const [category, setCategory] = useState("rain");
+  const [category, setCategory] = useState([]);
+  const [allCategory, setAllCategory] = useState([]);
   const navi = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newData = {
+      category: category,
       date: date,
       locationDescription: locationDescription,
       notes: notes,
       city: city,
       country: country,
     };
-
     const res = await axios.post(`${BACKEND_URL}/sightings`, newData);
     navi(`/sightingSearch/${res.data.id}`);
   };
 
-  const options = [
-    { value: "rain", label: "Rain" },
-    { value: "mountain", label: "Mountain" },
-    { value: "woods", label: "Woods" },
-  ];
+  useEffect(async () => {
+    const categoriesData = await axios.get(`${BACKEND_URL}/categories`);
+    console.log(categoriesData);
+    const allCategoryData = categoriesData.data.map((categoryData) => {
+      return { label: categoryData.name, value: categoryData.id };
+    });
+    setAllCategory(allCategoryData);
+  }, []);
 
-  console.log(category);
   return (
     <div className="App-header">
       Create Sigthing Data
@@ -49,8 +52,9 @@ export default function SightingCreate() {
         />{" "}
         <label>Category</label>
         <Select
-          options={options}
-          defaultValue={{ value: "rain", label: "Rain" }}
+          isMulti
+          options={allCategory}
+          value={category}
           className="selection"
           onChange={(option) => setCategory(option.value)}
         />

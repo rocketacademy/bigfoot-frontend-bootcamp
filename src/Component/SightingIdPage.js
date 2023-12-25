@@ -11,23 +11,23 @@ export default function SightingIdPage() {
   const [editComment, setEditComment] = useState(false);
   const [editCommentId, setEditCommentId] = useState(0);
   const [likes, setLikes] = useState(0);
-  const getComments = async () => {
-    const newComments = await axios.get(
-      `${BACKEND_URL}/sightings/${sightingId}/comments`
-    );
-    setComments(newComments.data);
-  };
-  const getLikes = async () => {
-    const newLikes = await axios.get(
-      `${BACKEND_URL}/sightings/${sightingId}/likes`
-    );
-    setLikes(newLikes.data.count);
-  };
 
   useEffect(() => {
     const getOneData = async () => {
       const newData = await axios.get(`${BACKEND_URL}/sightings/${sightingId}`);
       setData(newData.data);
+    };
+    const getLikes = async () => {
+      const newLikes = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}/likes`
+      );
+      setLikes(newLikes.data.count);
+    };
+    const getComments = async () => {
+      const newComments = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}/comments`
+      );
+      setComments(newComments.data);
     };
     Promise.all([getOneData(), getComments(), getLikes()]);
   }, [sightingId]);
@@ -50,6 +50,12 @@ export default function SightingIdPage() {
     await axios.delete(
       `${BACKEND_URL}/sightings/${sightingId}/comments/${commentId}`
     );
+    const getComments = async () => {
+      const newComments = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}/comments`
+      );
+      setComments(newComments.data);
+    };
     getComments();
   };
 
@@ -59,6 +65,12 @@ export default function SightingIdPage() {
       `${BACKEND_URL}/sightings/${sightingId}/comments/${editCommentId}`,
       { content: input }
     );
+    const getComments = async () => {
+      const newComments = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}/comments`
+      );
+      setComments(newComments.data);
+    };
     getComments();
     setInput("");
     setEditComment(false);
@@ -66,6 +78,12 @@ export default function SightingIdPage() {
 
   const handleLike = async (e) => {
     await axios.post(`${BACKEND_URL}/sightings/${sightingId}/like`);
+    const getLikes = async () => {
+      const newLikes = await axios.get(
+        `${BACKEND_URL}/sightings/${sightingId}/likes`
+      );
+      setLikes(newLikes.data.count);
+    };
     getLikes();
   };
 
