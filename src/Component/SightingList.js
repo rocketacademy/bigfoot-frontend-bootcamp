@@ -16,10 +16,15 @@ export default function SightingList() {
 
   const display =
     data &&
-    data.map(({ date, locationDescription, city, country }, i) => {
+    data.map(({ date, locationDescription, city, country, categories }, i) => {
+      let categoriesList = "";
+      for (const category of categories) {
+        categoriesList += ` ${category.name}`;
+      }
       return (
         <div key={i}>
           <ul>
+            <li>Categories:{categoriesList}</li>
             <li>Date: {date}</li>
             <li>City:{city}</li>
             <li>country:{country}</li>
