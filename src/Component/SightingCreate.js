@@ -16,25 +16,30 @@ export default function SightingCreate() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const categoryId = category.map((option) => option.value);
+
     const newData = {
-      category: category,
+      category: categoryId,
       date: date,
       locationDescription: locationDescription,
       notes: notes,
       city: city,
       country: country,
     };
+    console.log(newData);
     const res = await axios.post(`${BACKEND_URL}/sightings`, newData);
     navi(`/sightingSearch/${res.data.id}`);
   };
 
-  useEffect(async () => {
-    const categoriesData = await axios.get(`${BACKEND_URL}/categories`);
-    console.log(categoriesData);
-    const allCategoryData = categoriesData.data.map((categoryData) => {
-      return { label: categoryData.name, value: categoryData.id };
-    });
-    setAllCategory(allCategoryData);
+  useEffect(() => {
+    const getCategories = async () => {
+      const categoriesData = await axios.get(`${BACKEND_URL}/categories`);
+      const allCategoryData = categoriesData.data.map((categoryData) => {
+        return { label: categoryData.name, value: categoryData.id };
+      });
+      setAllCategory(allCategoryData);
+    };
+    getCategories();
   }, []);
 
   return (
@@ -56,7 +61,7 @@ export default function SightingCreate() {
           options={allCategory}
           value={category}
           className="selection"
-          onChange={(option) => setCategory(option.value)}
+          onChange={(option) => setCategory(option)}
         />
         <label>City</label>
         <textarea
