@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../constant";
-import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
+import CreatableSelect from "react-select/creatable";
 
 export default function SightingCreate() {
   const [date, setDate] = useState("");
@@ -14,8 +14,26 @@ export default function SightingCreate() {
   const [allCategory, setAllCategory] = useState([]);
   const navi = useNavigate();
 
+  const handleNewOption = async (option) => {
+    const newOption = await axios.post(`${BACKEND_URL}/categories`, {
+      name: option,
+    });
+    const newOptionForFrontEnd = {
+      label: newOption.data.name,
+      value: newOption.data.id,
+    };
+    setAllCategory((prev) => {
+      return [...prev, newOptionForFrontEnd];
+    });
+    setCategory((prev) => {
+      return [...prev, newOptionForFrontEnd];
+    });
+  };
+  console.log(category);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const categoryId = category.map((option) => option.value);
 
     const newData = {
@@ -26,7 +44,6 @@ export default function SightingCreate() {
       city: city,
       country: country,
     };
-    console.log(newData);
     const res = await axios.post(`${BACKEND_URL}/sightings`, newData);
     navi(`/sightingSearch/${res.data.id}`);
   };
@@ -56,12 +73,13 @@ export default function SightingCreate() {
           onChange={(e) => setDate(e.target.value)}
         />{" "}
         <label>Category</label>
-        <Select
+        <CreatableSelect
           isMulti
           options={allCategory}
           value={category}
           className="selection"
           onChange={(option) => setCategory(option)}
+          onCreateOption={handleNewOption}
         />
         <label>City</label>
         <textarea
