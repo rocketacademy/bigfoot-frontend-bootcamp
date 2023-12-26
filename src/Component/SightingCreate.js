@@ -12,6 +12,7 @@ export default function SightingCreate() {
   const [notes, setNotes] = useState("");
   const [category, setCategory] = useState([]);
   const [allCategory, setAllCategory] = useState([]);
+  const [intensity, setIntensity] = useState("");
   const navi = useNavigate();
 
   const handleNewOption = async (option) => {
@@ -29,7 +30,6 @@ export default function SightingCreate() {
       return [...prev, newOptionForFrontEnd];
     });
   };
-  console.log(category);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +37,7 @@ export default function SightingCreate() {
     const categoryId = category.map((option) => option.value);
 
     const newData = {
+      intensity: intensity,
       category: categoryId,
       date: date,
       locationDescription: locationDescription,
@@ -81,6 +82,11 @@ export default function SightingCreate() {
           onChange={(option) => setCategory(option)}
           onCreateOption={handleNewOption}
         />
+        <label>Intensity</label>
+        <input
+          value={intensity}
+          onChange={(e) => setIntensity(e.target.value)}
+        ></input>
         <label>City</label>
         <textarea
           value={city}
