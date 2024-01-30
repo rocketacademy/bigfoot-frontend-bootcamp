@@ -1,20 +1,53 @@
 import React from "react";
-import logo from "./logo.png";
-import "./App.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
-}
+export const App = () => {
+  const [sightings, setSightings] = useState([]);
+
+  useEffect(() => {
+    const getSightings = async () => {
+      try {
+        const sightingsResults = await axios.get(
+          "http://localhost:3000/sightings"
+        );
+        console.log(sightingsResults.data);
+        setSightings(sightingsResults.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getSightings();
+  }, []);
+
+  return (
+    <div className="prose max-w-full p-12">
+      <h1 className="text-center">Big Foot Sighting</h1>
+      {sightings.length > 0 && (
+        <div className="overflow-x-auto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>YEAR</th>
+                <th>SEASON</th>
+                <th>MONTH</th>
+                <th>LINK</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sightings.map((sight, index) => (
+                <tr key={sight.REPORT_NUMBER + index}>
+                  <td>{sight.YEAR}</td>
+                  <td>{sight.SEASON}</td>
+                  <td>{sight.MONTH}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default App;
