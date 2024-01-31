@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import Card from "@mui/material/Card";
 export default function SightingsList() {
   const [sightings, setSightings] = useState();
 
@@ -18,19 +18,23 @@ export default function SightingsList() {
     fetchData();
   }, []);
 
-  const newSightings = (
-    <ol>
-      {sightings.map((sighting) =>
-        sighting.YEAR && sighting.SEASON && sighting.STATE ? (
-          <li>
-            <p>Year: {sighting.YEAR}</p>
-            <p> Season: {sighting.SEASON}</p>
-            <p> State: {sighting.STATE}</p>
-            {/* <p> Location: {sighting.LOCATION_DETAILS} </p> */}
-          </li>
-        ) : null
-      )}
-    </ol>
+  const newSightings = sightings.map((sighting, index) =>
+    sighting.YEAR && sighting.SEASON && sighting.STATE ? (
+      <Card sx={{ marginBottom: 3 }}>
+        <div key={index}>
+          <p>{index + 1}</p>
+          <p>Year: {sighting.YEAR}</p>
+          <p> Season: {sighting.SEASON}</p>
+          <p> State: {sighting.STATE}</p>
+        </div>
+      </Card>
+    ) : null
   );
-  return <div>{newSightings}</div>;
+
+  return (
+    <div>
+      <h1>Bigfoot sightings</h1>
+      {newSightings}
+    </div>
+  );
 }
