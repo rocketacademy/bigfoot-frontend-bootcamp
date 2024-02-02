@@ -2,8 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "@mui/material/Card";
+import { CardContent, Container } from "@mui/material";
+import { Link } from "react-router-dom";
+
 export default function SightingsList() {
-  const [sightings, setSightings] = useState();
+  const [sightings, setSightings] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,21 +22,38 @@ export default function SightingsList() {
   }, []);
 
   const newSightings = sightings.map((sighting, index) =>
-    sighting.YEAR && sighting.SEASON && sighting.STATE ? (
-      <Card sx={{ marginBottom: 3 }}>
-        <div key={index}>
-          <p>{index + 1}</p>
-          <p>Year: {sighting.YEAR}</p>
-          <p> Season: {sighting.SEASON}</p>
-          <p> State: {sighting.STATE}</p>
-        </div>
-      </Card>
+    sighting.YEAR && sighting.STATE ? (
+      <Link to={`/sightings/${index}`} key={index}>
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Card sx={{ marginBottom: 3, width: 300 }}>
+            <CardContent sx={{ display: "flex", justifyContent: "flex-start" }}>
+              <p>
+                {index + 1}. {sighting.STATE} {sighting.YEAR}
+              </p>
+            </CardContent>
+          </Card>
+        </Container>
+      </Link>
     ) : null
   );
 
   return (
     <div>
-      <h1>Bigfoot sightings</h1>
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 3,
+          marginBottom: 3,
+        }}
+      >
+        <h1>Bigfoot sightings</h1>
+      </Container>
       {newSightings}
     </div>
   );
