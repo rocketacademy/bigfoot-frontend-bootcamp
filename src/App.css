@@ -17,3 +17,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+H3 {
+  margin: 5px auto;
+}
