@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { BACKEND_URL } from "./constants";
 import "./App.css";
 
 const SightingInfo = () => {
@@ -8,12 +9,9 @@ const SightingInfo = () => {
 
   useEffect(() => {
     const getSpecificSightings = async () => {
-      const freshSightings = await fetch(
-        "http://localhost:3001/sightings/" + int,
-        {
-          method: "get",
-        }
-      );
+      const freshSightings = await fetch(BACKEND_URL + "/sightings/" + int, {
+        method: "get",
+      });
       const sightingsJson = await freshSightings.json();
       setSpecificSightings(sightingsJson);
     };
@@ -23,6 +21,9 @@ const SightingInfo = () => {
   return (
     <div className="App">
       <header className="App-header">
+        <Link to="/" className="top-left">
+          Back
+        </Link>
         <h1>Report Number: {specificSightings.REPORT_NUMBER}</h1>
         <h3>Report Class: {specificSightings.REPORT_CLASS}</h3>
         <h3>

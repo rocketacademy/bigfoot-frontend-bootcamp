@@ -8,7 +8,7 @@ const RoutesObject = () => {
   const routes = useRoutes([
     { path: "/", element: <App /> },
     {
-      path: ":int",
+      path: "sightings/:int",
       element: <SightingInfo />,
       children: [{ path: ":str", element: <SightingInfo /> }],
     },

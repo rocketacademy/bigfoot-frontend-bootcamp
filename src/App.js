@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./App.css";
+import { BACKEND_URL } from "./constants";
 
 const App = () => {
   const [sightings, setSightings] = useState([]);
@@ -7,7 +9,7 @@ const App = () => {
 
   useEffect(() => {
     const getSightings = async () => {
-      const freshSightings = await fetch("http://localhost:3001/sightings", {
+      const freshSightings = await fetch(BACKEND_URL + "/sightings", {
         method: "get",
       });
       const sightingsJson = await freshSightings.json();
@@ -21,9 +23,9 @@ const App = () => {
       const date = `${sighting.DATE} ${sighting.MONTH} ${sighting.YEAR}`;
       const reportNum = sighting.REPORT_NUMBER;
       return (
-        <a href={"http://localhost:3000/" + index} key={index}>
+        <Link to={"sightings/" + index} key={index}>
           Date: {date}, Report Number: {reportNum}
-        </a>
+        </Link>
       );
     });
 
