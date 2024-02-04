@@ -1,7 +1,6 @@
 import React from "react";
 import bigfoot from "./bigfoot.png";
 import "./App.css";
-// import SightingsList from "./Components/SightingsList";
 import { Button } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -18,7 +17,6 @@ class App extends React.Component {
   };
 
   linkStyle = {
-    // margin: "1rem",
     textDecoration: "none",
     color: "white",
   };
@@ -39,8 +37,6 @@ class App extends React.Component {
           >
             View sightings
           </Button>
-
-          {/* <SightingsList /> */}
         </header>
       </div>
     );
