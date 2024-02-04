@@ -5,6 +5,7 @@ import axios from "axios";
 import { Card, CardContent } from "@mui/material";
 import "./SightingPage.css";
 import GoBackButton from "./GoBackButton";
+import { BACKEND_URL } from "../constants.js";
 
 export default function SightingPage() {
   const { index } = useParams();
@@ -12,10 +13,7 @@ export default function SightingPage() {
   useEffect(() => {
     const fetchSightingData = async () => {
       try {
-        const data = await axios.get(
-          `http://localhost:3000/sightings/${index}`
-        );
-        console.log(data.data);
+        const data = await axios.get(`${BACKEND_URL}/sightings/${index}`);
         setSighting(data.data);
       } catch (error) {
         console.log(error);
@@ -41,7 +39,7 @@ export default function SightingPage() {
         </h4>
         <p>Season: {sighting.SEASON}</p>
         <p>
-          Date: {sighting.MONTH} {sighting.DATE}
+          Date: {sighting.MONTH} {sighting.DATE}{" "}
         </p>
         <p>County: {sighting.COUNTY}</p>
         <p>Location: {sighting.LOCATION_DETAILS}</p>

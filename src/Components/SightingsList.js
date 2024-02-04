@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import { CardContent, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 import GoBackButton from "./GoBackButton";
+import { BACKEND_URL } from "../constants.js";
 
 export default function SightingsList() {
   const [sightings, setSightings] = useState([]);
@@ -12,8 +13,7 @@ export default function SightingsList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await axios.get("http://localhost:3000/sightings");
-        console.log(data.data);
+        const data = await axios.get(`${BACKEND_URL}/sightings`);
         setSightings(data.data);
       } catch (error) {
         console.log(error);
