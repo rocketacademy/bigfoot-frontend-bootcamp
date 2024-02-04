@@ -4,6 +4,7 @@ import axios from "axios";
 import Card from "@mui/material/Card";
 import { CardContent, Container } from "@mui/material";
 import { Link } from "react-router-dom";
+import GoBackButton from "./GoBackButton";
 
 export default function SightingsList() {
   const [sightings, setSightings] = useState([]);
@@ -23,7 +24,7 @@ export default function SightingsList() {
 
   const newSightings = sightings.map((sighting, index) =>
     sighting.YEAR && sighting.STATE ? (
-      <Link to={`/sightings/${index}`} key={index}>
+      <Link to={`./${index}`} key={index}>
         <Container
           sx={{
             display: "flex",
@@ -44,6 +45,7 @@ export default function SightingsList() {
 
   return (
     <div>
+      <GoBackButton />
       <Container
         sx={{
           display: "flex",

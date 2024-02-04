@@ -2,8 +2,9 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import "./SightingPage.css";
+import GoBackButton from "./GoBackButton";
 
 export default function SightingPage() {
   const { index } = useParams();
@@ -50,5 +51,10 @@ export default function SightingPage() {
     </Card>
   ) : null;
 
-  return <div className="sighting-page">{newSighting}</div>;
+  return (
+    <div className="sighting-page">
+      <GoBackButton />
+      {newSighting}
+    </div>
+  );
 }
