@@ -1,20 +1,27 @@
 import React from "react";
-import logo from "./logo.png";
-import "./App.css";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { SightingResults } from "./Components/SightingResults";
+import { IndividualSighting } from "./Components/IndividualSighting";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
-    );
-  }
-}
+const SightingResultsWithParams = () => {
+  let { sightingIndex } = useParams();
+  console.log(sightingIndex);
+  return <IndividualSighting sightingIndex={sightingIndex} />;
+};
 
+export const App = () => {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SightingResults />} />
+          <Route
+            path="/sighting/:sightingIndex"
+            element={<SightingResultsWithParams />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+};
 export default App;
