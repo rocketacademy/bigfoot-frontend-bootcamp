@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent } from "@mui/material";
-import "./SightingPage.css";
 import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
 
