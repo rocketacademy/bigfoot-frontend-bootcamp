@@ -8,19 +8,22 @@ import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
 
 export default function SightingPage() {
-  const { index } = useParams();
+  const { REPORT_NUMBER } = useParams();
   const [sighting, setSighting] = useState();
   useEffect(() => {
     const fetchSightingData = async () => {
       try {
-        const data = await axios.get(`${BACKEND_URL}/sightings/${index}`);
+        const data = await axios.get(
+          `${BACKEND_URL}/sightings/${REPORT_NUMBER}`
+        );
         setSighting(data.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchSightingData();
-  }, [index]);
+  }, [REPORT_NUMBER]);
+
   const newSighting = sighting ? (
     <Card
       sx={{
