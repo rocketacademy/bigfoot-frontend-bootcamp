@@ -1,20 +1,24 @@
 import React from "react";
-import logo from "./logo.png";
 import "./App.css";
+import {Outlet, Link} from 'react-router-dom';
 
-class App extends React.Component {
-  render() {
+  const App = () => {
+
+    const Navbar = () =>{
+      return (
+          <div>
+              <Link to='newsighting'>Register New Sighting</Link>
+              <Link to='getsightings'>Retrieve Sightings</Link>
+          </div>
+      )
+  }
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
+      <div>
+      <Navbar />
+      <Outlet />
       </div>
     );
   }
-}
 
 export default App;
