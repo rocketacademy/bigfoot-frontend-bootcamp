@@ -26,3 +26,14 @@ body {
 .page-title {
   color: aliceblue;
 }
+
+.input {
+  line-height: 30px;
+  height: 30px;
+}
+
+.query {
+  color: aliceblue;
+  display: flex;
+  justify-content: center;
+}

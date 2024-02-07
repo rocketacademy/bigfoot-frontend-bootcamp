@@ -16,6 +16,9 @@ export default function SearchPage(props) {
 
   return (
     <div>
+      <p className="query">
+        Make your query either by year or by the name of a US state.{" "}
+      </p>
       <Container
         sx={{
           display: "flex",
@@ -25,8 +28,14 @@ export default function SearchPage(props) {
         }}
       >
         <form onSubmit={handleSubmit}>
-          <input type="search" name="search"></input>
-          <input type="submit" value="Search"></input>
+          <input
+            type="search"
+            name="search"
+            size="35"
+            className="input"
+            placeholder="Enter a year/state name"
+          ></input>
+          <input type="submit" value="Search" className="input"></input>
         </form>
       </Container>
     </div>
