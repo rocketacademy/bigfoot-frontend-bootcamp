@@ -3,28 +3,43 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "@mui/material/Card";
 import { CardContent, Container } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
+import SearchPage from "./SearchPage.js";
 
 export default function SightingsList() {
   const [sightings, setSightings] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const stateQuery = searchParams.get("state") || "";
+  const yearQuery = searchParams.get("year") || "";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await axios.get(`${BACKEND_URL}/sightings`);
-        setSightings(data.data);
+        const query = {};
+        if (stateQuery) {
+          query.state = stateQuery;
+        }
+        if (yearQuery) {
+          query.year = yearQuery;
+        }
+        const { data } = await axios.get(`${BACKEND_URL}/sightings`, {
+          params: query,
+        });
+        setSightings(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, []);
+  }, [stateQuery, yearQuery]);
+
+  console.log(sightings);
 
   const newSightings = sightings.map((sighting, index) =>
     sighting.YEAR && sighting.STATE ? (
-      <Link to={`./${index}`} key={index}>
+      <Link to={`./${sighting.REPORT_NUMBER}`} key={index}>
         <Container
           sx={{
             display: "flex",
@@ -54,8 +69,9 @@ export default function SightingsList() {
           marginBottom: 3,
         }}
       >
-        <h1>Bigfoot sightings</h1>
+        <h1 className="page-title">Bigfoot sightings</h1>
       </Container>
+      <SearchPage setSearchParams={setSearchParams} />
       {newSightings}
     </div>
   );
