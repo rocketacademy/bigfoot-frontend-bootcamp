@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../constants";
 
 const IndividualSighting = () => {
   const [sightings, setSightings] = useState([]);
   const { sightingId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (sightingId) {
@@ -27,6 +28,12 @@ const IndividualSighting = () => {
 
   return (
     <>
+      <div className="grid grid-cols-1 underline m-9">
+        <button type="submit" onClick={() => navigate(-1)}>
+          Go back
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 text-center">{details}</div>
     </>
   );
