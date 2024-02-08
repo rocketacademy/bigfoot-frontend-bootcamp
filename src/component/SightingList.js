@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../constants";
 
 const SightingList = () => {
   const [sightings, setSightings] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/sightings`).then((response) => {
@@ -35,9 +36,34 @@ const SightingList = () => {
           <div>
             <Link to="about">About</Link>
           </div>
-          <div>
-            <Link to="search">Search</Link>
+          <div className="mt-9">
+            <input
+              className="border border-lg p-2 rounded-lg mr-6"
+              type="text"
+              placeholder="Search for..."
+              id="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button
+              type="submit"
+              onClick={handleClick}
+              className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            >
+              Submit
+            </button>
           </div>
+
+          {/* <div>
+            <Link
+              to="filter"
+              state={{
+                data: sightings,
+              }}
+            >
+              Filter
+            </Link>
+          </div> */}
         </div>
         <Outlet />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 p-9 m-9">
