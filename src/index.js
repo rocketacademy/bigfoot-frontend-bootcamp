@@ -18,7 +18,6 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="sightings" element={<SightingList />}>
         <Route path="about" element={<About />} />
-        {/* <Route path="filter" element={<Filter />} /> */}
       </Route>
       <Route path="/sightings/:sightingId" element={<IndividualSighting />} />
       <Route path="*" element={<Error />} />
