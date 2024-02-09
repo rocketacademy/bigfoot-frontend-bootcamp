@@ -20,8 +20,8 @@ const SightingList = () => {
     return (
       <div className="underline">
         <Link to={`/sightings/${index}`}>
-          <div className="p-2">{`${YEAR ? YEAR : "No data"}, ${SEASON}, ${
-            MONTH ? MONTH : "No data"
+          <div className="p-2">{`${YEAR ? YEAR : ""}, ${SEASON}, ${
+            MONTH ? MONTH : ""
           }`}</div>
         </Link>
       </div>
@@ -41,7 +41,7 @@ const SightingList = () => {
             <input
               className="border border-lg p-2 rounded-lg mr-6"
               type="text"
-              placeholder="Search for..."
+              placeholder="Search for the year..."
               id="search"
               value={searchParams.get("year")}
               onChange={(e) => setSearchParams({ year: e.target.value })}
