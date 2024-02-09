@@ -6,7 +6,6 @@ import App from "./App";
 import Navbar from "./component/Navbar";
 import SightingList from "./component/SightingList";
 import About from "./component/About";
-import Filter from "./component/Filter";
 import IndividualSighting from "./component/IndividualSighting";
 import Error from "./component/Error";
 
