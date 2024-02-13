@@ -8,8 +8,14 @@ const SightingList = () => {
   const [sightings, setSightings] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const query = {
+    year: searchParams.get("year"),
+  };
+
+  console.log(query);
+
   useEffect(() => {
-    axios.get(`${BACKEND_URL}/sightings`).then((response) => {
+    axios.get(`${BACKEND_URL}/sightings?${query}`).then((response) => {
       const sightingData = response.data;
       setSightings(sightingData);
     });
@@ -43,7 +49,7 @@ const SightingList = () => {
               type="text"
               placeholder="Search for the year..."
               id="search"
-              value={searchParams.get("year")}
+              value={query.year}
               onChange={(e) => setSearchParams({ year: e.target.value })}
             />
           </div>
