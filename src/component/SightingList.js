@@ -8,18 +8,41 @@ const SightingList = () => {
   const [sightings, setSightings] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const query = {
-    year: searchParams.get("year"),
-  };
-
-  console.log(query);
+  // const [query, setQuery] = useState(searchParams.get("year") );
+  // console.log(query);
+  // const query = {
+  //   year: searchParams.get("year"),
+  // };
+  // useEffect(() => {
+  //   const obj = {
+  //     year: searchParams.get("year"),
+  //   };
+  //   if (searchParams) {
+  //     setQuery(obj);
+  //   }
+  // }, [searchParams]);
+  // console.log(searchParams.toString());
 
   useEffect(() => {
-    axios.get(`${BACKEND_URL}/sightings?${query}`).then((response) => {
+    axios.get(`${BACKEND_URL}/sightings`).then((response) => {
       const sightingData = response.data;
       setSightings(sightingData);
     });
   }, []);
+
+  useEffect(() => {
+    const obj = {};
+    if (searchParams) {
+      obj.year = searchParams.get("year");
+    }
+    console.log(obj);
+    axios.get(`${BACKEND_URL}/sightings`, { params: obj }).then((response) => {
+      console.log(`${BACKEND_URL}/sightings`, { params: obj });
+      const sightingData = response.data;
+      console.log(sightingData);
+      setSightings(sightingData);
+    });
+  }, [searchParams]);
 
   const sightingDetails = sightings.map((sighting, index) => {
     const { YEAR, SEASON, MONTH } = sighting;
@@ -49,7 +72,7 @@ const SightingList = () => {
               type="text"
               placeholder="Search for the year..."
               id="search"
-              value={query.year}
+              value={searchParams.get("year")}
               onChange={(e) => setSearchParams({ year: e.target.value })}
             />
           </div>
