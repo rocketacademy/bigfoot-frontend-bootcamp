@@ -19,12 +19,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const sightingsMap = sightings.map((sighting, index) => {
-      const date = `${sighting.DATE} ${sighting.MONTH} ${sighting.YEAR}`;
-      const reportNum = sighting.REPORT_NUMBER;
+    const sightingsMap = sightings.map((sighting) => {
+      const id = sighting.id;
+      const date = sighting.date;
+      const location = sighting.location;
       return (
-        <Link to={"sightings/" + index} key={index}>
-          Date: {date}, Report Number: {reportNum}
+        <Link to={"sightings/" + id} key={id}>
+          Date: {date}, Location: {location}
         </Link>
       );
     });
