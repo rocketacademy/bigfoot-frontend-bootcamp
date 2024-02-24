@@ -19,7 +19,7 @@ const NewSighting = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const addNewSighting = async () => {
-      const newSighting = await fetch(BACKEND_URL + "/sightings/", {
+      await fetch(BACKEND_URL + "/sightings/", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +28,6 @@ const NewSighting = () => {
       });
     };
     addNewSighting();
-    console.log(JSON.stringify(inputFields));
     //reset input fields
     setInputfields({
       date: "",
@@ -45,7 +44,7 @@ const NewSighting = () => {
         </Link>
         <h1>Write your new sighting below</h1>
         <form className="width-100 flex-center">
-          <label className="block">Date (MM-DD-YYY): </label>
+          <label className="block">Date (MM-DD-YYYY): </label>
           <input
             className="block"
             type="text"
