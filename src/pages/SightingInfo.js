@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { BACKEND_URL } from "./constants";
-import "./App.css";
+import { BACKEND_URL } from "../constants";
+import "../App.css";
 
 const SightingInfo = () => {
   const [specificSightings, setSpecificSightings] = useState({});

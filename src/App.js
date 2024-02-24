@@ -36,6 +36,9 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
+        <h1>Add your sighting below!</h1>
+        <Link to={"/new"}>Add new sighting</Link>
+        <h2>No verification needed, we trust you :)</h2>
         <h1>List of totally true bigfoot sightings!</h1>
         {sightingLinks}
       </header>

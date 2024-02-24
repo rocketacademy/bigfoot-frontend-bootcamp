@@ -2,7 +2,8 @@ import { useRoutes } from "react-router-dom";
 
 // Components
 import App from "./App";
-import SightingInfo from "./SightingInfo";
+import SightingInfo from "./pages/SightingInfo";
+import NewSighting from "./pages/NewSighting";
 
 const RoutesObject = () => {
   const routes = useRoutes([
@@ -10,7 +11,10 @@ const RoutesObject = () => {
     {
       path: "sightings/:int",
       element: <SightingInfo />,
-      children: [{ path: ":str", element: <SightingInfo /> }],
+    },
+    {
+      path: "/new",
+      element: <NewSighting />,
     },
   ]);
 
