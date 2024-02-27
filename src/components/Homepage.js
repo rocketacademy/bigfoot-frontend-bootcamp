@@ -22,23 +22,23 @@ export default function Homepage() {
 
   console.log(sightings);
 
-  const sightlingList = sightings.map((sighting, index) => {
+  const sightlingList = sightings.map((sighting) => {
     return (
-      <Card className="homepage-list" key={index}>
-        <Link to={`/sightings/${index}`} key={index}>
+      <Card className="homepage-list" key={sighting.id}>
+        <Link to={`/sightings/${sighting.id}`} key={sighting.id}>
           <CardContent>
-            <Typography variant="body2">
-              {sightings[index].STATE}, {sightings[index].COUNTY}
-            </Typography>
-            <Typography variant="body2">{sightings[index].YEAR}</Typography>
-            <Typography variant="caption">
-              {sightings[index].REPORT_CLASS}, {sightings[index].REPORT_NUMBER}
-            </Typography>
+            <Typography variant="body2">{sighting.location}</Typography>
+            <Typography variant="body2">{sighting.date}</Typography>
           </CardContent>
         </Link>
       </Card>
     );
   });
 
-  return <div className="page-layout">{sightlingList}</div>;
+  return (
+    <div className="page-layout">
+      <Link to={`/new`}>New</Link>
+      {sightlingList}
+    </div>
+  );
 }

@@ -8,15 +8,14 @@ import Typography from "@mui/material/Typography";
 import "../App.css";
 
 export default function SightingPage() {
-  const { index } = useParams();
+  const params = useParams();
+  const id = params.sightingId;
   const [sighting, setSighting] = useState();
 
   useEffect(() => {
     const takeSightings = async () => {
       try {
-        const sightingData = await axios.get(
-          `${BACKEND_URL}/sightings/${index}`
-        );
+        const sightingData = await axios.get(`${BACKEND_URL}/sightings/${id}`);
         const sightingInfo = sightingData.data;
         setSighting(sightingInfo);
       } catch (error) {
@@ -24,7 +23,7 @@ export default function SightingPage() {
       }
     };
     takeSightings();
-  }, [index]);
+  }, [id]);
 
   let sightingMoreInfo = null;
 
@@ -33,10 +32,9 @@ export default function SightingPage() {
       <div>
         <Card className="page-layout">
           <CardContent>
-            <Typography>
-              {sighting.COUNTY}, {sighting.STATE}
-            </Typography>
-            <Typography>{sighting.OBSERVED}</Typography>
+            <Typography>{sighting.location}</Typography>
+            <Typography>{sighting.date}</Typography>
+            <Typography>{sighting.notes}</Typography>
           </CardContent>
         </Card>
       </div>
@@ -46,7 +44,7 @@ export default function SightingPage() {
     <div className="App">
       <header className="App-header">
         <div>
-          <h3>Entry #{index}</h3>
+          <h3>Entry #{id}</h3>
         </div>
         <div className="page-layout">{sighting && sightingMoreInfo}</div>
       </header>
