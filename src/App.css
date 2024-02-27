@@ -49,3 +49,22 @@ h3 {
   width: 50%;
   height: 200px;
 }
+
+.comments-container {
+  background-color: darkred;
+  width: 95%;
+  padding: 10px;
+  text-align: left;
+}
+
+.comments-header {
+  margin-top: 0;
+}
+
+.border-bottom {
+  border-bottom: 1px solid;
+}
+
+.border-bottom-thick {
+  border-bottom: 2px solid;
+}
