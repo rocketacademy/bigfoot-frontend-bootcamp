@@ -10,27 +10,29 @@ const SightingInfo = () => {
   const [newCommentField, setNewCommentField] = useState("");
   const { int } = useParams();
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      const fetchedComments = await fetch(BACKEND_URL + "/comments/" + int, {
-        method: "get",
-      });
-      const fetchedCommentsJson = await fetchedComments.json();
-      setComments(fetchedCommentsJson);
-    };
-    fetchComments();
-  }, [int]);
+  const fetchComments = async () => {
+    const fetchedComments = await fetch(BACKEND_URL + "/comments/" + int, {
+      method: "get",
+    });
+    const fetchedCommentsJson = await fetchedComments.json();
+    setComments([...fetchedCommentsJson]);
+  };
+
+  const getSpecificSightings = async () => {
+    const freshSightings = await fetch(BACKEND_URL + "/sightings/" + int, {
+      method: "get",
+    });
+    const sightingsJson = await freshSightings.json();
+    setSpecificSightings(sightingsJson);
+  };
 
   useEffect(() => {
-    const getSpecificSightings = async () => {
-      const freshSightings = await fetch(BACKEND_URL + "/sightings/" + int, {
-        method: "get",
-      });
-      const sightingsJson = await freshSightings.json();
-      setSpecificSightings(sightingsJson);
-    };
+    fetchComments();
+  }, []);
+
+  useEffect(() => {
     getSpecificSightings();
-  }, [int]);
+  }, []);
 
   useEffect(() => {
     setCommentsDisplay(
@@ -48,8 +50,41 @@ const SightingInfo = () => {
 
   const handleSubmit = () => {
     console.log("submit");
+    const addNewComment = async () => {
+      await fetch(BACKEND_URL + "/comments/", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: newCommentField, sighting_id: int }),
+      });
+      //update comments display
+      await fetchComments();
+    };
+    addNewComment();
+    //reset input fields
     setNewCommentField("");
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const addNewSighting = async () => {
+  //     await fetch(BACKEND_URL + "/sightings/", {
+  //       method: "post",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(inputFields),
+  //     });
+  //   };
+  //   addNewSighting();
+  //   //reset input fields
+  //   setInputfields({
+  //     date: "",
+  //     location: "",
+  //     notes: "",
+  //   });
+  // };
 
   return (
     <div className="App">
