@@ -56,7 +56,7 @@ export default function NewPage() {
             onChange={(e) => setNotes(e.target.value)}
             label="Notes"
           ></TextField>
-          <Button onClick={handleAdd}>+ New Sightings</Button>
+          <Button onClick={handleAdd}>Submit</Button>
         </div>
       </header>
     </div>
