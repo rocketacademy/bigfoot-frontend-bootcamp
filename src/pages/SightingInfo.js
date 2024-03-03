@@ -49,7 +49,6 @@ const SightingInfo = () => {
   };
 
   const handleSubmit = () => {
-    console.log("submit");
     const addNewComment = async () => {
       await fetch(BACKEND_URL + "/comments/", {
         method: "post",
@@ -65,26 +64,6 @@ const SightingInfo = () => {
     //reset input fields
     setNewCommentField("");
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const addNewSighting = async () => {
-  //     await fetch(BACKEND_URL + "/sightings/", {
-  //       method: "post",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(inputFields),
-  //     });
-  //   };
-  //   addNewSighting();
-  //   //reset input fields
-  //   setInputfields({
-  //     date: "",
-  //     location: "",
-  //     notes: "",
-  //   });
-  // };
 
   return (
     <div className="App">

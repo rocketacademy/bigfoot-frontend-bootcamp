@@ -68,3 +68,11 @@ h3 {
 .border-bottom-thick {
   border-bottom: 2px solid;
 }
+
+.mb {
+  margin-bottom: 5px;
+}
+
+.select-input {
+  margin: 5px;
+}

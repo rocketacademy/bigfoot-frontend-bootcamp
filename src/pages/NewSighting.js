@@ -1,19 +1,52 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Select from "react-select";
 import { BACKEND_URL } from "../constants";
 import "../App.css";
 
 const NewSighting = () => {
+  const [categoryOptions, setCategoryOptions] = useState([]);
   const [inputFields, setInputfields] = useState({
     date: "",
     location: "",
     notes: "",
   });
+  const [selectFields, setSelectFields] = useState([]);
+
+  const fetchCategories = async () => {
+    const fetchedCategories = await fetch(BACKEND_URL + "/categories/", {
+      method: "get",
+    });
+    const fetchedCategoriesJson = await fetchedCategories.json();
+
+    const newCategoryOptions = fetchedCategoriesJson.map((response) => ({
+      value: response.categoryName,
+      label: response.categoryName,
+    }));
+
+    setCategoryOptions(newCategoryOptions);
+    console.log(categoryOptions);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  // Make text black in Select field
+  const selectFieldStyles = {
+    option: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
 
   const handleChange = (e, field) => {
-    let newFields = inputFields;
+    let newFields = { ...inputFields };
     newFields[field] = e.target.value;
-    setInputfields({ ...newFields });
+    setInputfields(newFields);
+  };
+  const handleSelectChange = (e) => {
+    setSelectFields(e);
   };
 
   const handleSubmit = (e) => {
@@ -34,6 +67,8 @@ const NewSighting = () => {
       location: "",
       notes: "",
     });
+    //reset select fields
+    setSelectFields([]);
   };
 
   return (
@@ -46,18 +81,27 @@ const NewSighting = () => {
         <form className="width-100 flex-center">
           <label className="block">Date (MM-DD-YYYY): </label>
           <input
-            className="block"
+            className="block mb"
             type="text"
             value={inputFields.date}
             onChange={(e) => handleChange(e, "date")}
           ></input>
           <label className="block">location: </label>
           <input
-            className="block"
+            className="block mb"
             type="text"
             value={inputFields.location}
             onChange={(e) => handleChange(e, "location")}
           ></input>
+          <label className="block">Categories: </label>
+          <Select
+            isMulti
+            className="select-input"
+            options={categoryOptions}
+            styles={selectFieldStyles}
+            value={selectFields}
+            onChange={(e) => handleSelectChange(e)}
+          ></Select>
           <label className="block">Notes: </label>
           <textarea
             className="block large-textbox"
