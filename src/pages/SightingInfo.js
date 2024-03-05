@@ -23,7 +23,11 @@ const SightingInfo = () => {
       method: "get",
     });
     const sightingsJson = await freshSightings.json();
-    setSpecificSightings(sightingsJson);
+    const formattedSighting = { ...sightingsJson };
+    formattedSighting.categories = formattedSighting.categories.map(
+      (obj) => obj.categoryName + ", "
+    );
+    setSpecificSightings(formattedSighting);
   };
 
   useEffect(() => {
@@ -74,6 +78,7 @@ const SightingInfo = () => {
         <h1>Report ID: {specificSightings.id}</h1>
         <h3>Date: {specificSightings.date}</h3>
         <h3>Location Details: {specificSightings.location}</h3>
+        <h3>Categories: {specificSightings.categories}</h3>
         <h2>Notes:</h2>
         <p>{specificSightings.notes}</p>
         <div className="comments-container">

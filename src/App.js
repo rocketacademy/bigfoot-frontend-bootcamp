@@ -23,10 +23,16 @@ const App = () => {
       const id = sighting.id;
       const date = sighting.date;
       const location = sighting.location;
+      const categories = sighting.categories;
       return (
-        <Link to={"sightings/" + id} key={id}>
-          Date: {date}, Location: {location}
-        </Link>
+        <div>
+          <Link to={"sightings/" + id} key={id}>
+            Date: {date}, Location: {location}
+          </Link>
+          {categories.map((obj) => (
+            <span>{" " + obj.categoryName}</span>
+          ))}
+        </div>
       );
     });
 

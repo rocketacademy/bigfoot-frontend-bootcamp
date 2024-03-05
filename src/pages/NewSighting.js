@@ -20,7 +20,7 @@ const NewSighting = () => {
     const fetchedCategoriesJson = await fetchedCategories.json();
 
     const newCategoryOptions = fetchedCategoriesJson.map((response) => ({
-      value: response.categoryName,
+      value: response.id,
       label: response.categoryName,
     }));
 
@@ -46,19 +46,24 @@ const NewSighting = () => {
     setInputfields(newFields);
   };
   const handleSelectChange = (e) => {
+    const categoriesArr = e.map((obj) => obj.value);
+    console.log(categoriesArr);
     setSelectFields(e);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const addNewSighting = async () => {
+      const categoriesArr = selectFields.map((obj) => obj.value);
       await fetch(BACKEND_URL + "/sightings/", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(inputFields),
-      });
+        body: JSON.stringify({ input: inputFields, categories: categoriesArr }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data));
     };
     addNewSighting();
     //reset input fields
