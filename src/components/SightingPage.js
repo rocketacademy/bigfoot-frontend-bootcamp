@@ -14,6 +14,7 @@ export default function SightingPage() {
   const [sighting, setSighting] = useState();
   const [comments, setComments] = useState();
   const [content, setContent] = useState(null);
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +23,10 @@ export default function SightingPage() {
         const sightingData = await axios.get(`${BACKEND_URL}/sightings/${id}`);
         console.log(id);
         const sightingInfo = sightingData.data;
+
         setSighting(sightingInfo);
+
+        setCategories(sightingInfo.categories);
 
         const commentData = await axios.get(
           `${BACKEND_URL}/sightings/${id}/comments`
@@ -36,6 +40,10 @@ export default function SightingPage() {
     takeSightings();
   }, [id]);
 
+  const categoriesList = categories.map((category) => (
+    <span>{category.name} </span>
+  ));
+
   let sightingMoreInfo = null;
   if (sighting) {
     sightingMoreInfo = (
@@ -45,6 +53,7 @@ export default function SightingPage() {
             <Typography>{sighting.location}</Typography>
             <Typography>{sighting.date}</Typography>
             <Typography>{sighting.notes}</Typography>
+            <Typography>Categories: {categoriesList}</Typography>
           </CardContent>
         </Card>
       </div>

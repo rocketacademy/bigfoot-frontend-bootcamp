@@ -15,20 +15,24 @@ export default function Homepage() {
       const sightingData = await axios.get(`${BACKEND_URL}/sightings`);
       const sightingInfo = sightingData.data;
       setSightings(sightingInfo);
-      console.log(sightings);
     };
     takeSightings();
   }, []);
 
-  console.log(sightings);
-
   const sightlingList = sightings.map((sighting) => {
+    //filter category
+    const categoriesList = sighting.categories;
+    const categoriesData = categoriesList.map((category, index) => (
+      <span key={index}>{category.name} </span>
+    ));
+
     return (
       <Card className="homepage-list" key={sighting.id}>
         <Link to={`/sightings/${sighting.id}`} key={sighting.id}>
           <CardContent>
             <Typography variant="body2">{sighting.location}</Typography>
             <Typography variant="body2">{sighting.date}</Typography>
+            <Typography>Categories: {categoriesData}</Typography>
           </CardContent>
         </Link>
       </Card>
