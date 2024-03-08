@@ -17,3 +17,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.page-layout {
+  width: 60vw;
+}
+
+.homepage-list {
+  margin-bottom: 10px;
+}
