@@ -10,6 +10,7 @@ export const SightingResults = () => {
     const getSightings = async () => {
       try {
         const sightingsResults = await axios.get(`${BACKEND_URL}/sightings/`);
+        console.log(sightingsResults.data);
         setSightings(sightingsResults.data);
       } catch (error) {
         console.error(error);
@@ -21,25 +22,34 @@ export const SightingResults = () => {
   return (
     <div className="prose max-w-full p-12">
       <h1 className="text-center">Big Foot Sighting</h1>
+      <Link to={`/new`}>
+        <button className="btn mb-10">New Sighting</button>
+      </Link>
       {sightings.length > 0 && (
         <div className="overflow-x-auto">
           <table className="table">
             <thead>
               <tr>
-                <th>YEAR</th>
-                <th>SEASON</th>
-                <th>MONTH</th>
+                <th>DATE</th>
+                <th>LOCATION</th>
+                <th>NOTES</th>
                 <th>LINK</th>
+                <th>CATEGORIES</th>
               </tr>
             </thead>
             <tbody>
-              {sightings.map((sight, index) => (
-                <tr key={sight.REPORT_NUMBER + index}>
-                  <td>{sight.YEAR}</td>
-                  <td>{sight.SEASON}</td>
-                  <td>{sight.MONTH}</td>
+              {sightings.map((sight) => (
+                <tr key={sight.id}>
+                  <td>{sight.date}</td>
+                  <td>{sight.location}</td>
+                  <td>{sight.notes}</td>
                   <td>
-                    <Link to={`/sighting/${index}`}>Details</Link>
+                    <Link to={`/sighting/${sight.id}`}>Details</Link>
+                  </td>
+                  <td>
+                    {sight.categories.map((category) => (
+                      <span key={category.id}>{category.name} </span>
+                    ))}
                   </td>
                 </tr>
               ))}
