@@ -102,6 +102,26 @@ const Sighting = () => {
     return <div>Loading...</div>;
   }
 
+  const Categories = ({ categories }) => {
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    useEffect(() => {
+      const fetchCategories = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/sightings/${sightingId}/`
+          );
+          console.log(res.data);
+          setSelectedCategories(
+            res.data.filter((category) => categories.includes(category.id))
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    });
+  };
+
   return (
     <div>
       {sighting && (
@@ -116,6 +136,12 @@ const Sighting = () => {
             Comment:{" "}
             {comments.map((comment, index) => (
               <p key={index}>{comment.content}</p>
+            ))}
+          </p>
+          <p>
+            Categories:{" "}
+            {sighting.categories.map((category, index) => (
+              <p key={index}>{category.name}</p>
             ))}
           </p>
         </div>
