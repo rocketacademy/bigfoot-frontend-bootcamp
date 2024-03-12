@@ -19,7 +19,7 @@ function App() {
         <Route path="/add-sighting" element={<AddSightings />}></Route>
         <Route path="/addpost" element={<AddPost />}></Route>
         <Route path="/" element={<Sightings />}></Route>
-        {/* <Route path="/posts" element={<Posts />}></Route> */}
+        <Route path="/posts" element={<Posts />}></Route>
       </Routes>
       <Toaster />
     </div>

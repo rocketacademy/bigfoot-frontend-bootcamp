@@ -19,10 +19,9 @@ const Navbar = () => {
                     </li>
                     <li>
                         <Link to="/add-sighting">Add Sighting</Link>
-                    </li>
-                    {/* <li>
+                    </li><li>
                         <Link to="/posts">Posts</Link>
-                    </li> */}
+                    </li>
                 </ul>
             </div>
         </nav>
