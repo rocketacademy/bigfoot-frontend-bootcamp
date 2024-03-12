@@ -17,3 +17,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+li {
+  list-style-type: none;
+}
