@@ -55,7 +55,19 @@ const AddSightings = () => {
             <h2>Sightings Form</h2>
             <form onSubmit={handleSubmit}>
                 {/* Add input fields for each property in the formData */}
-
+                {Object.keys(formData).map((key) => (
+                    <div key={key}>
+                        <label htmlFor={key}>{key}</label>
+                        <input
+                            type="text"
+                            id={key}
+                            name={key}
+                            value={formData[key]}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                ))}
+                <button type="submit">Submit Sighting</button>
             </form>
         </div>
     );
