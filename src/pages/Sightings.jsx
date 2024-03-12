@@ -44,7 +44,6 @@ const Sightings = () => {
                         <h3>{sighting?.NEAREST_ROAD}</h3>
                         <h3>{sighting?.NEAREST_TOWN}</h3>
                         <p>{sighting?.LOCATION_DETAILS}</p>
-                        {/* Add more details or styling as needed */}
                     </li>
                 ))}
             </ul>

@@ -29,11 +29,9 @@ const AddPost = () => {
                 desc: '',
             });
             navigate('/posts')
-            // alert('Post added successfully!');
-            // onPostAdded(response.data); // Notify parent component about the new post
+
         } catch (error) {
             console.error('Error adding post:', error);
-            // alert('Error adding post. Please check the console for details.');
         }
     };
 

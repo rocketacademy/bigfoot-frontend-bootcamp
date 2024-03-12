@@ -10,10 +10,7 @@ const Navbar = () => {
             <div className="navbar-container">
                 <div className="navbar-logo">Bigfoot App</div>
                 <ul className="navbar-links">
-                    {/* Add navigation links as needed */}
-                    {/* <li>
-                        <Link to="/">Home</Link>
-                    </li> */}
+
                     <li>
                         <Link to="/">Sightings</Link>
                     </li>

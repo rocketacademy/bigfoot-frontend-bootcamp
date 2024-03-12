@@ -6,16 +6,13 @@ import { toast } from 'react-hot-toast'
 
 const Posts = () => {
     const [posts, setPosts] = useState([]);
-    // const [likes, setLikes] = useState(0);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const handleCommentSubmit = async (id) => {
-        // e.preventDefault();
         setComments((prevComments) => [...prevComments, newComment]);
         console.log(newComment, id)
         try {
             const response = await axios.post(`/posts/:${id}/comment`, { comment: newComment });
-            // setPosts(response.data);
             console.log(response.data)
         } catch (error) {
             console.error('Error fetching:', error.message);
